@@ -11,7 +11,7 @@ angular.module('myApp.view2', ['ngRoute'])
 
 .controller('View2Ctrl', ["$http", function($http) {
     $http({
-        method: "POST",
+        method: "GET",
         url: "http://127.0.0.1:5000/todos",
         dataType: 'JSON',
         data:{

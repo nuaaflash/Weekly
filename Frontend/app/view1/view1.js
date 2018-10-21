@@ -12,9 +12,9 @@ angular.module('myApp.view1', ['ngRoute'])
 .controller('View1Ctrl', ["$http", function($http) {
     $http({
         method: "POST",
-        url: "http://127.0.0.1:5000/todos/todo1",
+        url: "http://127.0.0.1:5000/todos",
         dataType: 'JSON',
-        data:{}
+        data:{"task":"todo1"}
       }).
       success(function(data, status) {
        //$scope.status = status;
