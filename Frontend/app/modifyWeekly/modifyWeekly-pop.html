@@ -1,25 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body ng-app="myApp" ng-controller="modifyWeeklyCtrl">
-        <label>工号：
-            <input type="text" ng-model="$parent.worker_id"/>
-        </label>
-        <label>项目：
-            <input type="text" ng-model="$parent.job"/>
-        </label>
-        <label>具体内容：
-            <input type="text" ng-model="$parent.detail"/>
-        </label>
-        <label>完成情况：
-            <input type="checkbox" ng-checked="done" ng-click="doneInit()">
-        </label>
-        <label>总结反思：
-            <input type="text" ng-model="$parent.review"/>
-        </label>
-    </body>
+<div class="pop">
+    <label>工号：
+        <input type="text" ng-model="$parent.worker_id"/>
+    </label>
+    <label>项目：
+        <input type="text" ng-model="$parent.job"/>
+    </label>
+    <label>具体内容：
+        <input type="text" ng-model="$parent.detail"/>
+    </label>
+    <label>完成情况：
+        <input type="checkbox" ng-checked="done" ng-click="doneInit()">
+    </label>
+    <label>总结反思：
+        <input type="text" ng-model="$parent.review"/>
+    </label>
+    <label>提交：
+        <input type="button" ng-click="submit()"/>
+    </label>
+</div>
 
-</html>
