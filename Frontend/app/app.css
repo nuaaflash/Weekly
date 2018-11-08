@@ -1,32 +1,164 @@
 /* app css stylesheet */
 html,body{
-  height: 100%;
-  width: 100%;
-  background-color:#fff;
+    height: 100%;
+    width: 100%;
+    background-color: #f5f8fc;
+    overflow-x: hidden;
 }
 
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+.topbar {
+	width: 100%;
+	height: 65px;
+	background-color: #2a3245;
+	padding-top: 25px;
 }
 
-.menu:before {
-  content: "[";
+.topbartitle{
+	width: 132px;
+	height: 15px;
+	font-family: zcoolwenyiti;
+	font-size: 24px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 36px;
+	letter-spacing: 0px;
+	color: #ffffff;
+	margin-left: 41px;
 }
 
-.menu:after {
-  content: "]";
+.avatar{
+	width: 42px;
+	height: 38px;
+	float:right;
+	margin-right: 18px;
+	border-radius:50%;
+	background-color: #373f52;
 }
 
-.menu > li {
-  display: inline;
+.avatar-down{
+	width: 10px;
+	height: 8px;
+	margin-top: 16px;
+	float:right;
+	margin-right: 102px;
 }
 
-.menu > li + li:before {
-  content: "|";
-  padding-right: 0.3em;
+.user-status{
+	width: 15px;
+	height: 12px;
+	background-color: #5bea94;
+	border-radius:50%;
+	border: solid 8px #2a3245;
+	margin-top: 20px;
+	float:right;
+	margin-right: -56px;
+	z-index: 999;
+}
+
+.separator {
+	width: 2px;
+	height: 21px;
+	float:right;
+	margin-right: 39px;
+	margin-top: 2px;
+	background-color: #9e9eb9;
+}
+
+.border-btn {
+	width: 88px;
+	height: 28px;
+	border-radius: 14px;
+	border: solid 3px #ffffff;
+    background-color: #2a3245;
+    float:right;
+	child-align: middle;
+}
+
+.btn-text{
+	font-family: AdobeHeitiStd-Regular;
+	font-size: 12px;
+	color: #ffffff;
+	margin-right: 39px
+}
+
+.btn-icon {
+	width: 10px;
+	height: 8px;
+	margin-left: 17px;
+}
+
+.button {
+	width: 90px;
+	height: 28px;
+	background-color: #2a3245;
+	box-shadow: 0px 10px 15px 0px
+		rgba(86, 111, 140, 0.3);
+	border-radius: 14px;
+}
+
+.searchbar {
+	width: 100%;
+	height: 53px;
+	background-color: #ffffff;
+	box-shadow: 0px 2px 0px 0px
+		#e1e6eb;
+}
+
+.icon {
+	width: 17px;
+	height: 13px;
+	padding: 1%;
+}
+
+.searchtips{
+	width: 157px;
+	height: 13px;
+	font-family: AdobeHeitiStd-Regular;
+	font-size: 12px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 36px;
+	letter-spacing: 0px;
+	color: #c1c7d4;
+}
+
+.content{
+    overflow-x: hidden;
+	height: 624px;
+}
+
+.sidebar {
+    float:left;
+	width: 139px;
+	height: 624px;
+	background-color: #2a3245;
+}
+
+.sideButton{
+	width: 139px;
+	height: 63px;
+	background-color: #373f52;
+}
+
+.sideButtonLabel{
+    text-decoration:none;
+	width: 64px;
+	height: 14px;
+	font-family: zcoolwenyiti;
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 36px;
+	letter-spacing: 0px;
+    padding-top:30%;
+    margin-left: 20%;
+	color: #ffffff;
+}
+
+.base {
+    float:left;
+    width: auto;
+	background-color: #f5f8fc;
 }
 
 

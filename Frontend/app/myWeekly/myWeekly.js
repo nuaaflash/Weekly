@@ -1,26 +1,28 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute'])
+angular.module('myApp.myWeekly', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
-    templateUrl: 'view1/view1.html',
-    controller: 'View1Ctrl'
+  $routeProvider.when('/myWeekly', {
+    templateUrl: 'myWeekly/myWeekly.html',
+    controller: 'myWeeklyCtrl'
   });
 }])
 
-.controller('View1Ctrl', ["$http", function($http) {
+.controller('myWeeklyCtrl', ["$http", function($http) {
     $http({
-        method: "POST",
+        method: "GET",
         url: "http://127.0.0.1:5000/todos",
         dataType: 'JSON',
-        data:{"task":"todo1"}
+        data:{
+          }
       }).
       success(function(data, status) {
        //$scope.status = status;
         console.log(data);
       }).
       error(function(data, status) {
+          console.log(data);
        //$scope.data = data || "Request failed";
        //$scope.status = status;
      });

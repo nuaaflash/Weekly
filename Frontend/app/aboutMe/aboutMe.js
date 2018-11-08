@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('myApp.view3', ['ngRoute','angularFileUpload'])
+angular.module('myApp.aboutMe', ['ngRoute','angularFileUpload'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view3', {
-    templateUrl: 'view3/view3.html',
-    controller: 'View3Ctrl'
+  $routeProvider.when('/aboutMe', {
+    templateUrl: 'aboutMe/aboutMe.html',
+    controller: 'aboutMeCtrl'
   });
 }])
 
-.controller('View3Ctrl', ["FileUploader","$scope", function(FileUploader,$scope) {
+.controller('aboutMeCtrl', ["FileUploader","$scope", function(FileUploader,$scope) {
   var uploader = $scope.uploader = new FileUploader({
     url: 'C:\\123\\Weekly',
     queueLimit: 1,//文件个数
