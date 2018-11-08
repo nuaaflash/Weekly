@@ -3,7 +3,7 @@ html,body{
     height: 100%;
     width: 100%;
     background-color: #f5f8fc;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .topbar {
@@ -134,10 +134,34 @@ html,body{
 	background-color: #2a3245;
 }
 
+.sideButtonSelected{
+	width: 139px;
+	height: 48px;
+	background-color: #373f52;
+	padding-top: 16px;
+}
+
 .sideButton{
 	width: 139px;
-	height: 63px;
-	background-color: #373f52;
+	height: 48px;
+	background-color: #2a3245;
+	padding-top: 16px;
+}
+
+.sidebarIcon {
+	width: 13px;
+	height: 13px;
+	margin-left: 16px;
+}
+
+.sideButtonLabelSelected{
+    text-decoration:none;
+	width: 64px;
+	height: 14px;
+	font-family: zcoolwenyiti;
+	font-size: 16px;
+	color: #ffffff;
+	margin-left: 10px;
 }
 
 .sideButtonLabel{
@@ -146,19 +170,18 @@ html,body{
 	height: 14px;
 	font-family: zcoolwenyiti;
 	font-size: 16px;
-	font-weight: normal;
-	font-stretch: normal;
-	line-height: 36px;
-	letter-spacing: 0px;
-    padding-top:30%;
-    margin-left: 20%;
-	color: #ffffff;
+	color: #6a707d;
+	margin-left: 10px;
 }
 
 .base {
-    float:left;
-    width: auto;
+    width: 100%;
 	background-color: #f5f8fc;
+	z-index: -1;
+}
+
+.view{
+	float:left;
 }
 
 

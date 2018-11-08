@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="myWeekly/myWeekly.css">
-  <link rel="stylesheet" href="weeklyManager/weeklyManager.css">
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
@@ -32,11 +31,21 @@
   <div class="content">
     <div class="sidebar">
       <!-- 以#开头的情况下 url中有匹配的href则跳转到匹配的 没有则按url（含默认前缀和默认路由）加上href跳转 -->
-      <div class="sideButton"><a href="#?/weeklyManager" class="sideButtonLabel">周报管理</a></div>
-      <div class="sideButton"><a href="#?/myWeekly" class="sideButtonLabel">我的周报</a></div>
-      <div class="sideButton"><a href="#?/aboutMe" class="sideButtonLabel">个人中心</a></div>
+      <div class="sideButtonSelected">
+        <img src="images/manager.png" class="sidebarIcon">
+        <a href="#?/weeklyManager" class="sideButtonLabelSelected">周报管理</a>
+      </div>
+      <div class="sideButton">
+        <img src="images/mine.png" class="sidebarIcon">
+        <a href="#?/myWeekly" class="sideButtonLabel">我的周报</a>
+      </div>
+      <div class="sideButton">
+        <img src="images/aboutme.png" class="sidebarIcon">
+        <a href="#?/aboutMe" class="sideButtonLabel">个人中心</a>
+      </div>
     </div>
-    <div ng-view class="base"></div>
+    <div class="base"></div>
+    <div ng-view class="view"></div>
   </div>
 
   <!--[if lt IE 7]>

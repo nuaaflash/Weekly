@@ -24,8 +24,8 @@
 
 table{
     float:top;
-    margin-top: 32px;
-    margin-left: 32px;
+    margin-top: 64px;
+    margin-left: 64px;
 }
 
 table.popuptable{
@@ -65,6 +65,7 @@ td.popupcell{
 		rgba(86, 111, 140, 0.3);
 	border-radius: 14px;
     child-align: middle;
+    float: right;
 }
 
 .Lable{
@@ -83,18 +84,59 @@ div.buttons{
     float:top;
     width:100%;
     padding-top: 20px;
-    padding-left: 1000px;
 }
 
-.dltbtn{
-    left:30%;
+.pagetag{
+    width: 20px;
+	height: 22px;
+    border-radius: 5px;
+	background-color: #1596cf;
+    padding-left: 12px;
+    float: left;
 }
 
-.button {
-	width: 90px;
-	height: 28px;
-	background-color: #2a3245;
-	box-shadow: 0px 10px 15px 0px
-		rgba(86, 111, 140, 0.3);
-	border-radius: 14px;
+.pagelabel{
+	font-family: MicrosoftYaHei;
+	font-size: 14px;
+	color: #ffffff;
+}
+
+.lines-of-page{
+	width: 66px;
+	height: 22px;
+	background-color: #f0f0f0;
+	border: solid 1px #e6e6e6;
+
+    font-family: MicrosoftYaHei;
+	font-size: 14px;
+	color: #99928f;
+
+    float: left;
+    margin-left: 6px;
+
+    padding-left: 16px;
+}
+
+.this-page-line{
+	width: 169px;
+	height: 13px;
+	font-family: MicrosoftYaHei;
+	font-size: 12px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 16px;
+	letter-spacing: 0px;
+	color: #99928f;
+
+    float:left;
+    margin-left: 6px;
+
+    padding-left: 16px;
+}
+
+div.bottoms{
+    float:top;
+    width: 100%;
+    margin-top: 12px;
+    margin-left: 64px;
 }
