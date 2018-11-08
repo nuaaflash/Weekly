@@ -1,15 +1,15 @@
 'use strict';
 
-describe('myApp.view3 module', function() {
+describe('myApp.aboutMe module', function() {
 
-  beforeEach(module('myApp.view3'));
+  beforeEach(module('myApp.aboutMe'));
 
-  describe('view3 controller', function(){
+  describe('aboutMe controller', function(){
 
     it('should ....', inject(function($controller) {
       //spec body
-      var view3Ctrl = $controller('View3Ctrl');
-      expect(view3Ctrl).toBeDefined();
+      var aboutMeCtrl = $controller('aboutMeCtrl');
+      expect(aboutMeCtrl).toBeDefined();
     }));
 
   });

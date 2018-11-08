@@ -1,1 +1,90 @@
-<p>我的周报页面，施工中...</p>
+<div class="buttons">
+    <button  ng-click="add()" class="btn Lable"><img src="../images/add.png" class="Icon">增加</button>
+    <button  ng-click="dlt()" class="btn Lable"><img src="../images/export.png" class="Icon">导出</button>
+</div>
+<table>
+    <tr class="head">
+        <td>
+            <label>
+                <input type="checkbox" ng-click="qx()"/>
+            </label>
+        </td>
+        <td>序号</td>
+        <td>工号</td>
+        <td>项目</td>
+        <td>具体内容</td>
+        <td>完成情况</td>
+        <td>总结反思</td>
+        <td>操作</td>
+    </tr>
+    <tr class="content" ng-if="workers.length == 0">
+        <td></td><td></td><td></td><td></td>
+        <td>
+            <label>无数据</label>
+        </td>
+        <td></td><td></td><td></td>
+    </tr>
+    <tr class="content" ng-repeat="worker in workers">
+        <td>
+            <label>
+                <input type="checkbox" name="ck" ng-click="ck($index)">
+            </label>
+        </td>
+        <td ng-bind="$index+1"></td>
+        <td ng-bind="worker.worker_id"></td>
+        <td ng-bind="worker.job"></td>
+        <td ng-bind="worker.detail"></td>
+         <td>
+            <label>
+                <input type="checkbox" ng-checked="worker.done" ng-click="donef($index)">
+            </label>
+        </td>
+        <td ng-bind="worker.review"></td>
+        <td><input type="button" ng-click="dele($index)" value="删除"/></td>
+    </tr>
+</table>
+
+<div class="back" id="backgroud_popup"></div>
+
+<div class="pop" id="popup">
+<table class="popuptable">
+    <tr class="popupline">
+        <td class="popupcell">
+            <label>员工工号：
+                <input type="text" ng-model="worker_id"/>
+            </label>
+        </td>
+        <td class="popupcell">
+            <label>工作名称：
+                <input type="text" ng-model="job"/>
+            </label>
+        </td>
+    </tr>
+    <tr class="popupline">
+        <td class="popupcell">
+            <label>具体内容：
+                <textarea ng-model="detail"></textarea>
+            </label>
+        </td>
+        <td class="popupcell">
+            <label>完成情况：
+                <input type="checkbox" ng-checked="done" ng-click="doneInit()">
+            </label>
+        </td>
+    </tr>
+    <tr class="popupline">
+        <td class="popupcell">
+            <label>总结反思：
+                <textarea ng-model="review"></textarea>
+            </label>
+        </td>
+        <td class="popupcell">
+            <label>
+                <input type="button" value="提交" ng-click="submit()" />
+            </label>
+            <label>
+                <input type="button" value="关闭" ng-click="close()"/>
+            </label>
+        </td>
+    </tr>
+</table>
