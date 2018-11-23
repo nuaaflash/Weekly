@@ -1,4 +1,10 @@
 /* app css stylesheet */
+@font-face {
+    /* font-properties */
+    font-family: zcoolwenyiti;
+    src:url('font/webfont.ttf'),  
+}
+
 html,body{
     height: 100%;
     width: 100%;
