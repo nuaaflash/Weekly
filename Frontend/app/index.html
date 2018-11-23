@@ -17,7 +17,7 @@
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-  <div id="mainpage">
+  <div id="mainpage" ng-controller="mainPageCtrl">
       <div class="mainpage-background"></div>
       <div class="main-page-title">企业周报管理</div>
       <div class="main-page-title-en">Enterprise weekly management</div>
@@ -31,39 +31,36 @@
       </div>
       <div id="first-step" style="display: none;">
           <div class="main-page-lable first-label">用户名</div>
-          <input class="main-page-input first-input" ng-bind="user.username"></input>
+          <input class="main-page-input first-input"  type="text" ng-model="newusername"></input>
           <div class="main-page-lable second-label">邮箱</div>
-          <input class="main-page-input second-input" ng-bind="user.email"></input>
+          <input class="main-page-input second-input" type="text" ng-model="email"></input>
           <button class="main-page-button continue-button" onclick="goto2nd()"></button>
       </div>
       <div id="second-step"  style="display: none;">
-          <div class="main-page-lable first-label" ng-bind="user.password">密码</div>
-          <input class="main-page-input first-input"></input>
-          <div class="main-page-lable second-label" ng-bind="user.retype_password">确认密码</div>
-          <input class="main-page-input second-input"></input>
+          <div class="main-page-lable first-label">密码</div>
+          <input class="main-page-input first-input" type="text" ng-model="password"></input>
+          <div class="main-page-lable second-label">确认密码</div>
+          <input class="main-page-input second-input"  type="text" ng-model="retype_password"></input>
           <button class="final-button left-button" ng-click="signup()">确认</button>
           <button class="final-button right-button" onclick="main_cancle()">取消</button>
       </div>
       <div id="login-page" style="display: none;">
-          <div class="main-page-lable first-label" ng-bind="user.username">用户名</div>
-          <input class="main-page-input first-input"></input>
-          <div class="main-page-lable second-label" ng-bind="user.password">密码</div>
-          <input class="main-page-input second-input"></input>
+          <div class="main-page-lable first-label">用户名</div>
+          <input class="main-page-input first-input" type="text" ng-model="username"></input>
+          <div class="main-page-lable second-label">密码</div>
+          <input class="main-page-input second-input" type="text" ng-model="password"></input>
           <button class="final-button left-button" ng-click="login()">登录</button>
           <button class="final-button right-button" onclick="main_cancle()">取消</button>
       </div>
   </div>
-  <div id="adminview">
-
-  </div>
-  <div id="userview" style="display: none;">
+  <div id="adminview" style="display: none;">
       <div class="topbar">
           <span class="topbartitle">企业周报管理</span>
           <img src="images/down.png" class="avatar-down"/>
           <img src="images/xh.jpg" class="avatar"/>
           <div class="user-status"></div>
           <div class="separator"></div>
-          <button class="border-btn btn-text">用户<img src="images/down.png" class="btn-icon"/></button>
+          <button class="border-btn btn-text" onclick="logout()">管理员<img src="images/down.png" class="btn-icon"/></button>
       </div>
       <div class="searchbar">
           <img src="images/search.png" class="icon"/>
@@ -76,6 +73,32 @@
             <img src="images/manager.png" class="sidebarIcon">
             <a href="#?/weeklyManager" class="sideButtonLabelSelected" name="weeklyManager">周报管理</a>
           </div>
+          <div class="sideButton" ng-click="selectThis('aboutMe')" name="aboutMe">
+            <img src="images/aboutme.png" class="sidebarIcon">
+            <a href="#?/aboutMe" class="sideButtonLabel" name="aboutMe">个人中心</a>
+          </div>
+        </div>
+        <div class="base"></div>
+        <div ng-view class="view"></div>
+      </div>
+  </div>
+
+  <div id="userview" style="display: none;">
+      <div class="topbar">
+          <span class="topbartitle">企业周报管理</span>
+          <img src="images/down.png" class="avatar-down"/>
+          <img src="images/xh.jpg" class="avatar"/>
+          <div class="user-status"></div>
+          <div class="separator"></div>
+          <button class="border-btn btn-text" onclick="logout()">用户<img src="images/down.png" class="btn-icon"/></button>
+      </div>
+      <div class="searchbar">
+          <img src="images/search.png" class="icon"/>
+          <span class="searchtips">查找姓名/周报/日期/......</span>
+      </div>
+      <div class="content">
+        <div class="sidebar" ng-controller="sidebarCtrl">
+          <!-- 以#开头的情况下 url中有匹配的href则跳转到匹配的 没有则按url（含默认前缀和默认路由）加上href跳转 -->
           <div class="sideButton" ng-click="selectThis('myWeekly')" name="myWeekly">
             <img src="images/mine.png" class="sidebarIcon">
             <a href="#?/myWeekly" class="sideButtonLabel" name="myWeekly">我的周报</a>
@@ -103,7 +126,8 @@
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-file-upload/dist/angular-file-upload.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="controller/app.js"></script>
+  <script src="app.js"></script>
+  <script src="controller/mainpage.js"></script>
   <script src="weeklyManager/weeklyManager.js"></script>
   <script src="myWeekly/myWeekly.js"></script>
   <script src="aboutMe/aboutMe.js"></script>

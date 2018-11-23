@@ -6,7 +6,8 @@ angular.module('myApp', [
   'myApp.weeklyManager',
   'myApp.myWeekly',
   'myApp.aboutMe',
-  'myApp.version'
+  'myApp.version',
+  'myApp.mainPage'
 ])
 
 .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
@@ -47,55 +48,3 @@ angular.module('myApp', [
         $scope.selectOne = selectedOne;
     };
 }]);
-
-function gotologinpage(){
-    var loginpage = document.getElementById("main-line");
-    loginpage.style.display = "block";
-
-    var loginpage = document.getElementById("login-page");
-    loginpage.style.display = "block";
-
-    var signup_1st = document.getElementById("first-step");
-    var signup_2nd = document.getElementById("second-step");
-    signup_1st.style.display = "none";
-    signup_2nd.style.display = "none";
-}
-
-function goto1st(){
-    var loginpage = document.getElementById("main-line");
-    loginpage.style.display = "block";
-
-    var loginpage = document.getElementById("login-page");
-    loginpage.style.display = "none";
-
-    var signup_1st = document.getElementById("first-step");
-    var signup_2nd = document.getElementById("second-step");
-    signup_1st.style.display = "block";
-    signup_2nd.style.display = "none";
-}
-
-function goto2nd(){
-    var loginpage = document.getElementById("main-line");
-    loginpage.style.display = "block";
-
-    var loginpage = document.getElementById("login-page");
-    loginpage.style.display = "none";
-
-    var signup_1st = document.getElementById("first-step");
-    var signup_2nd = document.getElementById("second-step");
-    signup_1st.style.display = "none";
-    signup_2nd.style.display = "block";
-}
-
-function main_cancle(){
-    var loginpage = document.getElementById("main-line");
-    loginpage.style.display = "none";
-
-    var loginpage = document.getElementById("login-page");
-    loginpage.style.display = "none";
-
-    var signup_1st = document.getElementById("first-step");
-    var signup_2nd = document.getElementById("second-step");
-    signup_1st.style.display = "none";
-    signup_2nd.style.display = "none";
-}
