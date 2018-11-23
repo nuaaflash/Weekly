@@ -29,6 +29,7 @@ angular.module('myApp.mainPage', [])
         }
         else{
             alert("注册成功！");
+            gotologinpage();
         }
     }
 
