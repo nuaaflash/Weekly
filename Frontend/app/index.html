@@ -21,11 +21,36 @@
       <div class="mainpage-background"></div>
       <div class="main-page-title">企业周报管理</div>
       <div class="main-page-title-en">Enterprise weekly management</div>
-      <div class="bigcircle">
-
+      <div class="bigcircle"></div>
+      <div class="circle"></div>
+      <div id="main-line" class="line-main-page" style="display: none;"></div>
+      <div class="login-signup">
+        <button id="login" class="main-page-button" onclick="gotologinpage()">登录</button>
+        <div id="flush">/</div>
+        <button id="signup" class="main-page-button" onclick="goto1st()">注册</button>
       </div>
-      <div class="circle">
-
+      <div id="first-step" style="display: none;">
+          <div class="main-page-lable first-label">用户名</div>
+          <input class="main-page-input first-input" ng-bind="user.username"></input>
+          <div class="main-page-lable second-label">邮箱</div>
+          <input class="main-page-input second-input" ng-bind="user.email"></input>
+          <button class="main-page-button continue-button" onclick="goto2nd()"></button>
+      </div>
+      <div id="second-step"  style="display: none;">
+          <div class="main-page-lable first-label" ng-bind="user.password">密码</div>
+          <input class="main-page-input first-input"></input>
+          <div class="main-page-lable second-label" ng-bind="user.retype_password">确认密码</div>
+          <input class="main-page-input second-input"></input>
+          <button class="final-button left-button" ng-click="signup()">确认</button>
+          <button class="final-button right-button" onclick="main_cancle()">取消</button>
+      </div>
+      <div id="login-page" style="display: none;">
+          <div class="main-page-lable first-label" ng-bind="user.username">用户名</div>
+          <input class="main-page-input first-input"></input>
+          <div class="main-page-lable second-label" ng-bind="user.password">密码</div>
+          <input class="main-page-input second-input"></input>
+          <button class="final-button left-button" ng-click="login()">登录</button>
+          <button class="final-button right-button" onclick="main_cancle()">取消</button>
       </div>
   </div>
   <div id="adminview">
@@ -78,7 +103,7 @@
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-file-upload/dist/angular-file-upload.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="app.js"></script>
+  <script src="controller/app.js"></script>
   <script src="weeklyManager/weeklyManager.js"></script>
   <script src="myWeekly/myWeekly.js"></script>
   <script src="aboutMe/aboutMe.js"></script>

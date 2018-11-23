@@ -18,10 +18,10 @@ div#mainpage{
 
 .bigcircle{
     position:absolute;
-    right: 87px;
-    top:-6px;
+    left: 613px;
+    top:-98px;
     width: 666px;
-    height: 568px;
+    height: 666px;
     background-color: #ffffff;
     opacity: 0.04;
     border-radius: 50%;
@@ -48,17 +48,18 @@ div#mainpage{
     position:absolute;
     left: 166px;
     top: 239px;
-    width: 532px;
+    width: 800px;
     height: 57px;
     font-family: zcoolwenyiti;
     font-size: 72px;
+    letter-spacing: 22px;
     color: #cccccc;
     z-index: 3;
 }
 
 .main-page-title-en{
     position:absolute;
-    left: 165px;
+    left: 166px;
     top: 398px;
     width: 800px;
     height: 24px;
@@ -66,5 +67,208 @@ div#mainpage{
     font-size: 26px;
     letter-spacing: 8px;
     color: #cccccc;
+    z-index: 3;
+}
+
+.line-main-page {
+    position:absolute;
+    left: 856px;
+    top: 72px;
+	width: 1px;
+	height: 600px;
+    background-color: #666666;
+    z-index: 3;
+}
+
+div.login-signup{
+    position:absolute;
+    left: 1128px;
+    top: 70px;
+    z-index: 3;
+}
+
+.main-page-button{
+    border:0px;
+    background-color:transparent;
+    outline:none;
+}
+
+#login{
+	font-family: zcoolwenyiti;
+	font-size: 20px;
+	letter-spacing: 0px;
+    color: #3366cc;
+    float: left;
+}
+
+#login:hover {
+    font-family: zcoolwenyiti;
+	font-size: 26px;
+	letter-spacing: 0px;
+    color: #cccccc;
+}
+
+#login:focus {
+    font-family: zcoolwenyiti;
+	font-size: 26px;
+	letter-spacing: 0px;
+    color: #cccccc;
+}
+
+#login:active {
+    font-family: zcoolwenyiti;
+	font-size: 26px;
+	letter-spacing: 0px;
+    color: #cccccc;
+}
+
+#flush{
+	font-family: zcoolwenyiti;
+	font-size: 20px;
+	letter-spacing: 0px;
+    color: #3366cc;
+    float: left;
+}
+
+#signup {
+    font-family: zcoolwenyiti;
+	font-size: 20px;
+	letter-spacing: 0px;
+    color: #3366cc;
+	
+    float: left;
+}
+
+#signup:hover {
+    font-family: zcoolwenyiti;
+	font-size: 26px;
+	letter-spacing: 0px;
+    color: #cccccc;
+}
+
+#signup:focus {
+    font-family: zcoolwenyiti;
+	font-size: 26px;
+	letter-spacing: 0px;
+    color: #cccccc;
+}
+
+#signup:active {
+    font-family: zcoolwenyiti;
+	font-size: 26px;
+	letter-spacing: 0px;
+    color: #cccccc;
+}
+
+.main-page-lable{
+    width: 120px;
+	height: 17px;
+	font-family: zcoolwenyiti;
+	font-size: 22px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 31px;
+	letter-spacing: 7px;
+    color: #cccccc;
+    z-index: 3
+}
+
+.first-label {
+    position:absolute;
+    left: 912px;
+    top: 297px;
+}
+
+.second-label {
+    position:absolute;
+    left: 912px;
+    top: 387px;
+}
+
+.first-input{
+    position:absolute;
+    left: 912px;
+    bottom: 411px;
+}
+
+.second-input{
+    position:absolute;
+    left: 912px;
+    bottom: 323px;
+}
+
+.main-page-input{
+    font-family: zcoolwenyiti;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    line-height: 26px;
+    letter-spacing: 5px;
+    color: #cccccc;
+
+    outline:none;
+    border-style:none;
+    border-bottom-style:solid;
+    border-bottom-width:thin;
+    width: 316px;
+    border-bottom-color:#666666;
+    background: transparent;
+    z-index: 3
+}
+
+.continue-button{
+    position:absolute;
+    left: 1201px;
+    top: 493px;
+    width: 7px;
+    height: 14px;
+    border-top: 2px solid #ffffff;
+    border-right: 2px solid #ffffff;
+    transform: rotate(45deg);
+    z-index: 3;
+}
+
+.final-button {
+	width: 88px;
+    height: 28px;
+    outline:none;
+	border-radius: 14px;
+    border: solid 3px  #666666;
+    background: transparent;
+
+    font-family: AdobeHeitiStd-Regular;
+	font-size: 12px;
+	font-weight: normal;
+	font-stretch: normal;
+    letter-spacing: 0px;
+	color:  #666666;
+}
+
+.final-button:hover {
+    border: solid 3px #ffffff;
+    color: #ffffff;
+}
+
+.final-button:focus {
+    border: solid 3px #ffffff;
+    color: #ffffff;
+}
+
+.final-button:active {
+    border: solid 3px #ffffff;
+    color: #ffffff;
+}
+
+.left-button{
+    position:absolute;
+    left: 949px;
+    top: 502px;
+    z-index: 3;
+}
+
+.right-button{
+    position:absolute;
+    left: 1103px;
+    top: 502px;
     z-index: 3;
 }
