@@ -3,12 +3,12 @@
     <button  ng-click="dlt()" class="btn Lable"><img src="../images/export.png" class="Icon">导出</button>
 </div>
 <table>
-    <tr class="head">
-        <td>
-            <label>
-                <input type="checkbox" ng-click="qx()"/>
-            </label>
-        </td>
+    <tr class="head weeklyManager">
+        <!--<td>-->
+            <!--<label>-->
+                <!--<input type="checkbox" ng-click="qx()"/>-->
+            <!--</label>-->
+        <!--</td>-->
         <td>序号</td>
         <td>姓名</td>
         <td>工号</td>
@@ -19,16 +19,15 @@
         <td>操作</td>
     </tr>
     <tr class="content" ng-if="workers.length == 0">
-        <td>
-            <label>无数据</label>
-        </td>
+        <td></td><td></td><td></td>
+        <td>无数据</td>
     </tr>
     <tr class="content" ng-repeat="worker in workers">
-        <td>
-            <label>
-                <input type="checkbox" name="ck" ng-click="ck($index)">
-            </label>
-        </td>
+        <!--<td>-->
+            <!--<label>-->
+                <!--<input type="checkbox" name="ck" ng-click="ck($index)">-->
+            <!--</label>-->
+        <!--</td>-->
         <td ng-bind="$index+1"></td>
         <td ng-bind="worker.worker_id"></td>
         <td ng-bind="worker.job"></td>
@@ -39,15 +38,24 @@
             </label>
         </td>
         <td ng-bind="worker.review"></td>
-        <td><input type="button" ng-click="dele($index)" value="删除"/></td>
+        <td><div class="delete" ng-click="dele($index)">删除</div></td>
     </tr>
 </table>
-
+<div class="bottoms">
+    <div class="pagetag pagelabel">1</div>
+    <div class="lines-of-page">10行/页</div>
+    <div class="this-page-line">本页为0~0条记录，总记录0条</div>
+</div>
 <div class="back" id="backgroud_popup"></div>
 
 <div class="pop" id="popup">
 <table class="popuptable">
     <tr class="popupline">
+        <td class="popupcell">
+            <label>员工姓名：
+                <input type="text" ng-model="worker_name"/>
+            </label>
+        </td>
         <td class="popupcell">
             <label>员工工号：
                 <input type="text" ng-model="worker_id"/>
@@ -61,7 +69,7 @@
     </tr>
     <tr class="popupline">
         <td class="popupcell">
-            <label>具体内容：
+            <label>工作内容：
                 <textarea ng-model="detail"></textarea>
             </label>
         </td>

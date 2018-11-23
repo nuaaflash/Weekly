@@ -123,8 +123,7 @@ html,body{
 }
 
 .content{
-    overflow-x: hidden;
-	height: 624px;
+	width:1000000px;
 }
 
 .sidebar {

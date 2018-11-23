@@ -4,11 +4,11 @@
 </div>
 <table>
     <tr class="head">
-        <td>
-            <label>
-                <input type="checkbox" ng-click="qx()"/>
-            </label>
-        </td>
+        <!--<td>-->
+            <!--<label>-->
+                <!--<input type="checkbox" ng-click="qx()"/>-->
+            <!--</label>-->
+        <!--</td>-->
         <td>序号</td>
         <td>工号</td>
         <td>项目</td>
@@ -18,18 +18,15 @@
         <td>操作</td>
     </tr>
     <tr class="content" ng-if="workers.length == 0">
-        <td></td><td></td><td></td><td></td>
-        <td>
-            <label>无数据</label>
-        </td>
         <td></td><td></td><td></td>
+        <td>无数据</td>
     </tr>
     <tr class="content" ng-repeat="worker in workers">
-        <td>
-            <label>
-                <input type="checkbox" name="ck" ng-click="ck($index)">
-            </label>
-        </td>
+        <!--<td>-->
+            <!--<label>-->
+                <!--<input type="checkbox" name="ck" ng-click="ck($index)">-->
+            <!--</label>-->
+        <!--</td>-->
         <td ng-bind="$index+1"></td>
         <td ng-bind="worker.worker_id"></td>
         <td ng-bind="worker.job"></td>
@@ -40,7 +37,7 @@
             </label>
         </td>
         <td ng-bind="worker.review"></td>
-        <td><input type="button" ng-click="dele($index)" value="删除"/></td>
+        <td><div class="delete" ng-click="dele($index)">删除</div></td>
     </tr>
 </table>
 <div class="bottoms">
@@ -92,3 +89,4 @@
         </td>
     </tr>
 </table>
+</div>

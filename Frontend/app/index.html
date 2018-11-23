@@ -11,42 +11,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-  <link rel="stylesheet" href="app.css">
-  <link rel="stylesheet" href="myWeekly/myWeekly.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/table.css">
+  <link rel="stylesheet" href="css/mainpage.css">
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-  <div class="topbar">
-      <span class="topbartitle">企业周报管理</span>
-      <img src="images/down.png" class="avatar-down"/>
-      <img src="images/xh.jpg" class="avatar"/>
-      <div class="user-status"></div>
-      <div class="separator"></div>
-      <button class="border-btn btn-text">用户<img src="images/down.png" class="btn-icon"/></button>
-  </div>
-  <div class="searchbar">
-      <img src="images/search.png" class="icon"/>
-      <span class="searchtips">查找姓名/周报/日期/......</span>
-  </div>
-  <div class="content">
-    <div class="sidebar">
-      <!-- 以#开头的情况下 url中有匹配的href则跳转到匹配的 没有则按url（含默认前缀和默认路由）加上href跳转 -->
-      <div class="sideButtonSelected">
-        <img src="images/manager.png" class="sidebarIcon">
-        <a href="#?/weeklyManager" class="sideButtonLabelSelected">周报管理</a>
+  <div id="mainpage">
+      <div class="mainpage-background"></div>
+      <div class="main-page-title">企业周报管理</div>
+      <div class="main-page-title-en">Enterprise weekly management</div>
+      <div class="bigcircle">
+
       </div>
-      <div class="sideButton">
-        <img src="images/mine.png" class="sidebarIcon">
-        <a href="#?/myWeekly" class="sideButtonLabel">我的周报</a>
+      <div class="circle">
+
       </div>
-      <div class="sideButton">
-        <img src="images/aboutme.png" class="sidebarIcon">
-        <a href="#?/aboutMe" class="sideButtonLabel">个人中心</a>
-      </div>
-    </div>
-    <div class="base"></div>
-    <div ng-view class="view"></div>
   </div>
+  <div id="adminview">
+
+  </div>
+  <div id="userview" style="display: none;">
+      <div class="topbar">
+          <span class="topbartitle">企业周报管理</span>
+          <img src="images/down.png" class="avatar-down"/>
+          <img src="images/xh.jpg" class="avatar"/>
+          <div class="user-status"></div>
+          <div class="separator"></div>
+          <button class="border-btn btn-text">用户<img src="images/down.png" class="btn-icon"/></button>
+      </div>
+      <div class="searchbar">
+          <img src="images/search.png" class="icon"/>
+          <span class="searchtips">查找姓名/周报/日期/......</span>
+      </div>
+      <div class="content">
+        <div class="sidebar" ng-controller="sidebarCtrl">
+          <!-- 以#开头的情况下 url中有匹配的href则跳转到匹配的 没有则按url（含默认前缀和默认路由）加上href跳转 -->
+          <div class="sideButtonSelected"  ng-click="selectThis('weeklyManager')" name="weeklyManager">
+            <img src="images/manager.png" class="sidebarIcon">
+            <a href="#?/weeklyManager" class="sideButtonLabelSelected" name="weeklyManager">周报管理</a>
+          </div>
+          <div class="sideButton" ng-click="selectThis('myWeekly')" name="myWeekly">
+            <img src="images/mine.png" class="sidebarIcon">
+            <a href="#?/myWeekly" class="sideButtonLabel" name="myWeekly">我的周报</a>
+          </div>
+          <div class="sideButton" ng-click="selectThis('aboutMe')" name="aboutMe">
+            <img src="images/aboutme.png" class="sidebarIcon">
+            <a href="#?/aboutMe" class="sideButtonLabel" name="aboutMe">个人中心</a>
+          </div>
+        </div>
+        <div class="base"></div>
+        <div ng-view class="view"></div>
+      </div>
+  </div>
+  
 
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>

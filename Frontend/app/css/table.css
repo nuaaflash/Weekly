@@ -40,6 +40,11 @@ tr.head{
 	background-color: #c1c9cf;
 }
 
+tr.weeklyManager > td{
+    width: 144px;
+    text-align:center;
+}
+
 tr.content {
 	width: 1075px;
 	height: 38px;
@@ -50,7 +55,8 @@ tr.popupline{
 }
 
 td{
-    width: 157px;
+    width: 162px;
+    text-align:center;
 }
 
 td.popupcell{
@@ -132,6 +138,15 @@ div.buttons{
     margin-left: 6px;
 
     padding-left: 16px;
+}
+
+div.delete{
+	width: 25px;
+	height: 12px;
+	font-family: MicrosoftYaHei;
+	font-size: 12px;
+	color: #ff0000;
+    margin-left: 12px;
 }
 
 div.bottoms{
