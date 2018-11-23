@@ -27,6 +27,9 @@ angular.module('myApp.mainPage', [])
         if($scope.password != $scope.retype_password){
             alert("两次输入密码不一致！");
         }
+        else{
+            alert("注册成功！");
+        }
     }
 
 }]);
