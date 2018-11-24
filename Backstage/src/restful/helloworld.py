@@ -21,7 +21,7 @@ def abort_if_todo_doesnt_exist(todo_id):
 
 
 parser = reqparse.RequestParser()
-parser.add_argument('task')
+parser.add_argument('userid')
 
 
 # # 操作（put / get / delete）单一资源Todo
@@ -53,7 +53,7 @@ class TodoList(Resource):
         args = parser.parse_args()
         todo_id = int(max(TODOS.keys()).lstrip('todo')) + 1
         todo_id = 'todo%i' % todo_id
-        TODOS[todo_id] = {'task': args['task']}
+        TODOS[todo_id] = {'task': args['userid']}
         return TODOS[todo_id], 201
 
 
