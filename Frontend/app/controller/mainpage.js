@@ -6,13 +6,13 @@ angular.module('myApp.mainPage', [])
     // 登录
     $scope.login = function(){
         debugger;
-        alert("用户名"+$scope.username+"密码"+$scope.password);
+        // alert("用户名"+$scope.username+"密码"+$scope.password);
 
         $http({
             method: "POST",
             url: "http://127.0.0.1:5000/login",
             dataType: 'JSON',
-            data:{"userid":"todo23","password":"123"}
+            data:{"userid":$scope.username,"password":$scope.password}
           }).
           success(function(data, status) {
            //$scope.status = status;

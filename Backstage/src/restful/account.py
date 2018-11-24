@@ -54,8 +54,16 @@ class Login(Resource):
     def post(self):
         args = parser.parse_args()
         userid = args['userid']
-        # password = args['password']
-        return userid, 201
+        password = args['password']
+        if(userid in users.keys()):
+            if(users[userid] == password):
+                return True, 200
+            else:
+                return False, 200
+        else:
+            return "User Not Found", 200
+
+
 
 
 
