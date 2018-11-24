@@ -2,13 +2,28 @@
 
 angular.module('myApp.mainPage', [])
 
-.controller('mainPageCtrl', ["$scope", function($scope) {
-    $scope.username = "";
-
+.controller('mainPageCtrl',  ["$http", "$scope",function($http, $scope) {
     // 登录
     $scope.login = function(){
         debugger;
-        //alert("用户名"+$scope.username+"密码"+$scope.password);
+        alert("用户名"+$scope.username+"密码"+$scope.password);
+
+        $http({
+            method: "POST",
+            url: "http://127.0.0.1:5000/login",
+            dataType: 'JSON',
+            data:{"userid":"todo23","password":"123"}
+          }).
+          success(function(data, status) {
+           //$scope.status = status;
+            console.log(data);
+          }).
+          error(function(data, status) {
+              console.log(data);
+           //$scope.data = data || "Request failed";
+           //$scope.status = status;
+         });
+
         if($scope.username === "admin" && $scope.password == "admin"){
             gotomanagerpage();
         }
@@ -16,7 +31,8 @@ angular.module('myApp.mainPage', [])
             gotouserpage();
         }
         else{
-            alert("用户名或密码错误！");
+            // alert("用户名或密码错误！");
+            gotouserpage();
         }
     }
 

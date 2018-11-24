@@ -8,20 +8,22 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 api = Api(app)
 
-TODOS = {
-    'todo1': {'task': 'build an API'},
-    'todo2': {'task': '哈哈哈'},
-    'todo3': {'task': 'profit!'},
+users = {
+    'admin': '123',
+    'user': '123',
+    '123': '123',
 }
 
 
-def abort_if_todo_doesnt_exist(todo_id):
+def abort_if_todo_doesnt_exist(user_id):
     if todo_id not in TODOS:
-        abort(404, message="Todo {} doesn't exist".format(todo_id))
+        abort(404, message="Uesr {} doesn't exist".format(user_id))
 
 
 parser = reqparse.RequestParser()
 parser.add_argument('userid')
+parser.add_argument('password')
+
 
 
 # # 操作（put / get / delete）单一资源Todo
@@ -45,21 +47,20 @@ class Todo(Resource):
 
 # # 操作（post / get）资源列表TodoList
 # shows a list of all todos, and lets you POST to add new tasks
-class TodoList(Resource):
+class Login(Resource):
     def get(self):
         return TODOS
 
     def post(self):
         args = parser.parse_args()
-        todo_id = int(max(TODOS.keys()).lstrip('todo')) + 1
-        todo_id = 'todo%i' % todo_id
-        TODOS[todo_id] = {'task': args['userid']}
-        return TODOS[todo_id], 201
+        userid = args['userid']
+        # password = args['password']
+        return userid, 201
 
 
 
 # 设置路由
-api.add_resource(TodoList, '/todos')
+api.add_resource(Login, '/login')
 api.add_resource(Todo, '/todos/<todo_id>')
 
 if __name__ == '__main__':
