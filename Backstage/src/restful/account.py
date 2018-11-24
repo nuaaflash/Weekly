@@ -23,30 +23,24 @@ def abort_if_todo_doesnt_exist(user_id):
 parser = reqparse.RequestParser()
 parser.add_argument('userid')
 parser.add_argument('password')
+parser.add_argument('email')
 
 
 
-# # 操作（put / get / delete）单一资源Todo
-# shows a single todo item and lets you delete a todo item
-class Todo(Resource):
-    def get(self, todo_id):
-        abort_if_todo_doesnt_exist(todo_id)
-        return TODOS[todo_id]
+class Signup(Resource):
 
-    def delete(self, todo_id):
-        abort_if_todo_doesnt_exist(todo_id)
-        del TODOS[todo_id]
-        return '', 204
-
-    def put(self, todo_id):
+    def post(self):
         args = parser.parse_args()
-        task = {'task': args['task']}
-        TODOS[todo_id] = task
-        return task, 201
+        userid = args['userid']
+        password = args['password']
+        if (userid in users.keys()):
+            return False, 200
+        else:
+            users[userid] = password
+            return True, 201
 
 
-# # 操作（post / get）资源列表TodoList
-# shows a list of all todos, and lets you POST to add new tasks
+
 class Login(Resource):
     def get(self):
         return TODOS
@@ -69,7 +63,7 @@ class Login(Resource):
 
 # 设置路由
 api.add_resource(Login, '/login')
-api.add_resource(Todo, '/todos/<todo_id>')
+api.add_resource(Signup, '/signup')
 
 if __name__ == '__main__':
     app.run(debug=True)

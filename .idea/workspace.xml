@@ -39,8 +39,8 @@
       <file leaf-file-name="mainpage.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Frontend/app/controller/mainpage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+            <state relative-caret-position="336">
+              <caret line="48" column="30" lean-forward="true" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -48,8 +48,8 @@
       <file leaf-file-name="account.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Backstage/src/restful/account.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+            <state relative-caret-position="57">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
               <folding>
                 <element signature="e#24#47#0" expanded="true" />
               </folding>
@@ -151,8 +151,8 @@
         <option value="$PROJECT_DIR$/Frontend/bower.json" />
         <option value="$PROJECT_DIR$/Frontend/app/app.js" />
         <option value="$PROJECT_DIR$/Backstage/src/restful/helloworld.py" />
-        <option value="$PROJECT_DIR$/Backstage/src/restful/account.py" />
         <option value="$PROJECT_DIR$/Frontend/app/controller/mainpage.js" />
+        <option value="$PROJECT_DIR$/Backstage/src/restful/account.py" />
       </list>
     </option>
   </component>
@@ -380,7 +380,14 @@
       <option name="project" value="LOCAL" />
       <updated>1543030026242</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="登录完成">
+      <created>1543030757177</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1543030757177</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -422,7 +429,8 @@
     <MESSAGE value="实现另一部分婷婷的UI" />
     <MESSAGE value="实现框架和我的周报页面" />
     <MESSAGE value="解决账号密码传到后台的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="解决账号密码传到后台的问题" />
+    <MESSAGE value="登录完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="登录完成" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -676,8 +684,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Backstage/src/restful/account.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+        <state relative-caret-position="57">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
           <folding>
             <element signature="e#24#47#0" expanded="true" />
           </folding>
@@ -686,8 +694,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Frontend/app/controller/mainpage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        <state relative-caret-position="336">
+          <caret line="48" column="30" lean-forward="true" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
         </state>
       </provider>
     </entry>
