@@ -13,6 +13,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
     //定义数组
     $scope.workers=[];
     $scope.done = false;
+    $scope.show = "none";
      var uploader= new FileUploader({
         url:"F:\\",
         autoUpload: true
@@ -32,10 +33,8 @@ angular.module('myApp.myWeekly', ['ngRoute'])
     }
     //添加的方法
     $scope.add = function(){
-        var pop = document.getElementById('popup');
-        var back_of_pop = document.getElementById('backgroud_popup');
-        pop.style.display = "block";
-        back_of_pop.style.display = "block";
+        debugger;
+        $scope.show = "block";
     };
     //提交
     $scope.submit =function(){
@@ -52,10 +51,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
     };
     // 关闭弹窗
     $scope.close = function(){
-        var pop = document.getElementById('popup');
-        var back_of_pop = document.getElementById('backgroud_popup');
-        pop.style.display = "none";
-        back_of_pop.style.display = "none";
+        $scope.show = "none";
     };
     //删除一行
     $scope.dele =function($index){

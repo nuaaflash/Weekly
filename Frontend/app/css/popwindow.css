@@ -1,0 +1,80 @@
+.pop-header{
+	width: 564px;
+	height: 87px;
+	background-color: #2a3245;
+	border-radius: 4px 4px 0px 0px;
+}
+
+.pop-window {
+    position:absolute;
+    top:247px;
+    left:479px;
+    cursor:pointer;
+    z-Index:99999;
+
+	width: 564px;
+	height: 554px;
+	background-color: #ffffff;
+	border-radius: 4px;
+}
+
+.pop-title{
+    position:absolute;
+    top:34px;
+    left:43px;
+
+	font-family: zcoolwenyiti;
+	font-size: 22px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 24px;
+	letter-spacing: 0px;
+	color: #ffffff;
+}
+
+.must-input{
+	width: 6px;
+	height: 6px;
+	font-family: MicrosoftYaHei;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0px;
+	color: #e60012;
+}
+
+.pop-form{
+    position:relative;
+}
+
+.first-star{
+    position:absolute;
+    top:48px;
+    left:40px;
+}
+
+.pop-label{
+	font-family: MicrosoftYaHei;
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	color: #333333;
+}
+
+.first-label{
+    position:absolute;
+    top:44px;
+    left:48px;
+}
+
+.pop-input{
+    width: 160px;
+    height: 30px;
+    border: solid 1px #e5e5e5;
+}
+
+.first-input{
+    position:absolute;
+    top:44px;
+    left:126px;
+}

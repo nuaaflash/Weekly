@@ -5,21 +5,19 @@
     top:0;
     left:0;
     background-color:#000;
-    display:none;
     filter:alpha(Opacity=80);-moz-opacity:0.5;opacity: 0.5;
-    z-Index:999;
+    z-Index:9999;
 }
 
 .pop{
     position:absolute;
     width:800px;
     height:500px;
-    top:25%;
-    left:25%;
+    top:247px;
+    left:479px;
     background-color:#FFF;
-    display:none;
     cursor:pointer;
-    z-Index:9999;
+    z-Index:99999;
 }
 
 table{

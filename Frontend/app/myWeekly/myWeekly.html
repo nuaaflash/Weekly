@@ -20,6 +20,7 @@
     <tr class="content" ng-if="workers.length == 0">
         <td></td><td></td><td></td>
         <td>无数据</td>
+        <td></td><td></td><td></td>
     </tr>
     <tr class="content" ng-repeat="worker in workers">
         <!--<td>-->
@@ -45,11 +46,20 @@
     <div class="lines-of-page">10行/页</div>
     <div class="this-page-line">本页为0~0条记录，总记录0条</div>
 </div>
-<div class="back" id="backgroud_popup"></div>
+<div class="back" id="backgroud_popup" ng-style="{display:show}"></div>
 
-<div class="pop" id="popup">
-<table class="popuptable">
-    <tr class="popupline">
+<div class="pop-window" id="popup" ng-style="{display:show}">
+    <div class="pop-header">
+        <label class="pop-title">编辑周报</label>
+    </div>
+    <form class="pop-form">
+        <label class='must-input first-star'>*</label>
+        <label class="pop-label first-label">工作名称</label>
+        <input class="pop-input first-input"></input>
+    </form>
+
+<!-- <table class="popuptable"> -->
+    <!-- <tr class="popupline">
         <td class="popupcell">
             <label>员工工号：
                 <input type="text" ng-model="worker_id"/>
@@ -88,5 +98,5 @@
             </label>
         </td>
     </tr>
-</table>
+</table> -->
 </div>
