@@ -3,21 +3,23 @@ from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import *
 
+from database import DB_user
+
 app = Flask(__name__)
 # 允许跨域访问
 CORS(app, supports_credentials=True)
 api = Api(app)
 
-users = {
-    'admin': '123',
-    'user': '123',
-    '123': '123',
-}
+# users = {
+#     'admin': '123',
+#     'user': '123',
+#     '123': '123',
+# }
 
 
-def abort_if_todo_doesnt_exist(user_id):
-    if todo_id not in TODOS:
-        abort(404, message="Uesr {} doesn't exist".format(user_id))
+# def abort_if_todo_doesnt_exist(user_id):
+#     if user_id not in users:
+#         abort(404, message="Uesr {} doesn't exist".format(user_id))
 
 
 parser = reqparse.RequestParser()
@@ -33,24 +35,32 @@ class Signup(Resource):
         args = parser.parse_args()
         userid = args['userid']
         password = args['password']
-        if (userid in users.keys()):
+        email = args['email']
+        db_passwd = DB_user.Search(userid)
+        if (db_passwd != None):
+            db_passwd = db_passwd[0]
+            print(db_passwd)
             return False, 200
         else:
-            users[userid] = password
+            DB_user.insert(userid,email,password)
             return True, 201
 
 
 
 class Login(Resource):
-    def get(self):
-        return TODOS
+    # def get(self):
+    #     return users
 
     def post(self):
         args = parser.parse_args()
         userid = args['userid']
         password = args['password']
-        if(userid in users.keys()):
-            if(users[userid] == password):
+        # 查询数据库
+        db_passwd = DB_user.Search(userid)
+        if(db_passwd != None):
+            db_passwd = db_passwd[0]
+            # if(userid in users.keys()):
+            if(db_passwd == password):#(users[userid] == password):(db_passwd == password):
                 return True, 200
             else:
                 return False, 200

@@ -38,9 +38,9 @@
       </div>
       <div id="second-step"  style="display: none;">
           <div class="main-page-lable first-label">密码</div>
-          <input class="main-page-input first-input" type="text" ng-model="password"></input>
+          <input class="main-page-input first-input" type="password" ng-model="password"></input>
           <div class="main-page-lable second-label">确认密码</div>
-          <input class="main-page-input second-input"  type="text" ng-model="retype_password"></input>
+          <input class="main-page-input second-input"  type="password" ng-model="retype_password"></input>
           <button class="final-button left-button" ng-click="signup()">确认</button>
           <button class="final-button right-button" onclick="main_cancle()">取消</button>
       </div>
@@ -48,7 +48,7 @@
           <div class="main-page-lable first-label">用户名</div>
           <input class="main-page-input first-input" type="text" ng-model="username"></input>
           <div class="main-page-lable second-label">密码</div>
-          <input class="main-page-input second-input" type="text" ng-model="password"></input>
+          <input class="main-page-input second-input" type="password" ng-model="password"></input>
           <button class="final-button left-button" ng-click="login()">登录</button>
           <button class="final-button right-button" onclick="main_cancle()">取消</button>
       </div>
@@ -75,7 +75,7 @@
           </div>
           <div class="sideButton" ng-click="selectThis('aboutMe')" name="aboutMe">
             <img src="images/aboutme.png" class="sidebarIcon">
-            <a href="#?/aboutMe" class="sideButtonLabel" name="aboutMe">个人中心</a>
+            <a href="#?/aboutMe" class="sideButtonLabel" name="aboutMe">注册管理</a>
           </div>
         </div>
         <div class="base"></div>

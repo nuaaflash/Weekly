@@ -12,47 +12,32 @@ angular.module('myApp.mainPage', [])
             method: "POST",
             url: "http://127.0.0.1:5000/login",
             dataType: 'JSON',
-            data:{"userid":$scope.username,"password":$scope.password}
+            data:{"userid":$scope.username,"password":$scope.password},
           }).
           success(function(data, status) {
            //$scope.status = status;
             console.log(data);
+            if(data && $scope.username === "admin"){
+                gotomanagerpage();
+            }
+            else if(data==true){
+                // alert("用户名或密码错误！");
+                gotouserpage();
+            }
+            else{
+                alert("用户名或密码错误！");
+            }
           }).
           error(function(data, status) {
               console.log(data);
-           //$scope.data = data || "Request failed";
-           //$scope.status = status;
+              alert("网络错误！");
          });
-
-        if($scope.username === "admin" && $scope.password == "admin"){
-            gotomanagerpage();
-        }
-        else if($scope.username === "user" && $scope.password == "user"){
-            gotouserpage();
-        }
-        else{
-            // alert("用户名或密码错误！");
-            gotouserpage();
-        }
+        
     }
 
     // 注册
     $scope.signup = function(){
-        $http({
-            method: "POST",
-            url: "http://127.0.0.1:5000/signup",
-            dataType: 'JSON',
-            data:{"userid":$scope.username,"password":$scope.password,"email":$scope.email}
-          }).
-          success(function(data, status) {
-           //$scope.status = status;
-            console.log(data);
-          }).
-          error(function(data, status) {
-              console.log(data);
-           //$scope.data = data || "Request failed";
-           //$scope.status = status;
-         });
+       
 
 
         debugger;
@@ -61,8 +46,30 @@ angular.module('myApp.mainPage', [])
             alert("两次输入密码不一致！");
         }
         else{
-            alert("注册成功！");
-            gotologinpage();
+            
+            $http({
+                method: "POST",
+                url: "http://127.0.0.1:5000/signup",
+                dataType: 'JSON',
+                data:{"userid":$scope.newusername,"password":$scope.password,"email":$scope.email}
+              }).
+              success(function(data, status) {
+               //$scope.status = status;
+                console.log(data);
+                if(data){
+                    alert("注册成功！");
+                    $scope.username = $scope.newusername;
+                    gotologinpage();
+                }
+                else{
+                    alert("用户名已存在！");
+                }
+              }).
+              error(function(data, status) {
+                  console.log(data);
+               //$scope.data = data || "Request failed";
+               //$scope.status = status;
+             });
         }
     }
 
