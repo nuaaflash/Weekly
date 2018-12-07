@@ -7,8 +7,8 @@
 
 .pop-window {
     position:absolute;
-    top:247px;
-    left:479px;
+    top:196px;
+    left:478px;
     cursor:pointer;
     z-Index:99999;
 
@@ -53,6 +53,24 @@
     left:40px;
 }
 
+.second-star{
+    position:absolute;
+    top:48px;
+    left:310px;
+}
+
+.third-star{
+    position:absolute;
+    top:94px;
+    left:40px;
+}
+
+.fourth-star{
+    position:absolute;
+    top:312px;
+    left:40px;
+}
+
 .pop-label{
 	font-family: MicrosoftYaHei;
 	font-size: 16px;
@@ -67,6 +85,24 @@
     left:48px;
 }
 
+.second-label{
+    position:absolute;
+    top:44px;
+    left:318px;
+}
+
+.third-label{
+    position:absolute;
+    top:90px;
+    left:48px;
+}
+
+.fourth-label{
+    position:absolute;
+    top:308px;
+    left:48px;
+}
+
 .pop-input{
     width: 160px;
     height: 30px;
@@ -77,4 +113,74 @@
     position:absolute;
     top:44px;
     left:126px;
+}
+
+.pop-radio{
+	vertical-align:middle;
+	margin-top:-2px;
+	margin-bottom:1px;
+}
+
+.pop-radio-label{
+	font-family: MicrosoftYaHei;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	color: #333333;
+}
+
+.first-radio{
+    position:absolute;
+    top:46px;
+    left:386px;
+}
+
+.first-textarea{
+	position:absolute;
+    top:90px;
+    left:126px;
+
+	width: 397px;
+	height: 202px;
+	border: solid 1px #e5e5e5;
+}
+
+.second-textarea{
+	position:absolute;
+    top:308px;
+    left:126px;
+
+	width: 397px;
+	height: 101px;
+	border: solid 1px #e5e5e5;
+}
+
+.pop-submit{
+	width: 120px;
+	height: 28px;
+	background-color: #2a3245;
+	border-radius: 14px;
+
+	font-family: zcoolwenyiti;
+	font-size: 12px;
+	color: #ffffff;
+
+	position:absolute;
+	top:422px;
+	left:132px;
+}
+
+.pop-cancel{
+	width: 120px;
+	height: 28px;
+	border-radius: 14px;
+	border: solid 1px #2a3245;
+
+	font-family: zcoolwenyiti;
+	font-size: 12px;
+	color: #666666;
+
+	position:absolute;
+	top:422px;
+	left:314px;
 }

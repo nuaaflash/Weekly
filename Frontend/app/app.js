@@ -14,7 +14,7 @@ angular.module('myApp', [
     // 设置路由定位前缀
     $locationProvider.hashPrefix('?');
     // 设置view路由默认值
-    $routeProvider.otherwise({redirectTo: '/weeklyManager'});
+    $routeProvider.otherwise({redirectTo: '/myWeekly'});
     // 两句语句作用的结果是 url#[前缀][路由默认值]
 }])
 

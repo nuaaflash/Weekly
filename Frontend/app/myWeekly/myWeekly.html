@@ -17,34 +17,34 @@
         <td>总结反思</td>
         <td>操作</td>
     </tr>
-    <tr class="content" ng-if="workers.length == 0">
+    <tr class="content" ng-if="weeklys.length == 0">
         <td></td><td></td><td></td>
         <td>无数据</td>
         <td></td><td></td><td></td>
     </tr>
-    <tr class="content" ng-repeat="worker in workers">
+    <tr class="content" ng-repeat="weekly in weeklys | startFrom : {start} | limitTo:10 ">
         <!--<td>-->
             <!--<label>-->
                 <!--<input type="checkbox" name="ck" ng-click="ck($index)">-->
             <!--</label>-->
         <!--</td>-->
         <td ng-bind="$index+1"></td>
-        <td ng-bind="worker.worker_id"></td>
-        <td ng-bind="worker.job"></td>
-        <td ng-bind="worker.detail"></td>
+        <td ng-bind="weekly.worker_id"></td>
+        <td ng-bind="weekly.job"></td>
+        <td ng-bind="weekly.detail"></td>
          <td>
             <label>
                 <input type="checkbox" ng-checked="worker.done" ng-click="donef($index)">
             </label>
         </td>
-        <td ng-bind="worker.review"></td>
+        <td ng-bind="weekly.review"></td>
         <td><div class="delete" ng-click="dele($index)">删除</div></td>
     </tr>
 </table>
 <div class="bottoms">
-    <div class="pagetag pagelabel">1</div>
+    <div class="pagetag pagelabel">{{pagenumber}}</div>
     <div class="lines-of-page">10行/页</div>
-    <div class="this-page-line">本页为0~0条记录，总记录0条</div>
+    <div class="this-page-line">本页为{{start}}~{{end}}条记录，总记录{{sum}}条</div>
 </div>
 <div class="back" id="backgroud_popup" ng-style="{display:show}"></div>
 
@@ -55,48 +55,25 @@
     <form class="pop-form">
         <label class='must-input first-star'>*</label>
         <label class="pop-label first-label">工作名称</label>
-        <input class="pop-input first-input"></input>
-    </form>
+        <input class="pop-input first-input" ng-model="job"/>
 
-<!-- <table class="popuptable"> -->
-    <!-- <tr class="popupline">
-        <td class="popupcell">
-            <label>员工工号：
-                <input type="text" ng-model="worker_id"/>
-            </label>
-        </td>
-        <td class="popupcell">
-            <label>工作名称：
-                <input type="text" ng-model="job"/>
-            </label>
-        </td>
-    </tr>
-    <tr class="popupline">
-        <td class="popupcell">
-            <label>具体内容：
-                <textarea ng-model="detail"></textarea>
-            </label>
-        </td>
-        <td class="popupcell">
-            <label>完成情况：
-                <input type="checkbox" ng-checked="done" ng-click="doneInit()">
-            </label>
-        </td>
-    </tr>
-    <tr class="popupline">
-        <td class="popupcell">
-            <label>总结反思：
-                <textarea ng-model="review"></textarea>
-            </label>
-        </td>
-        <td class="popupcell">
-            <label>
-                <input type="button" value="提交" ng-click="submit()" />
-            </label>
-            <label>
-                <input type="button" value="关闭" ng-click="close()"/>
-            </label>
-        </td>
-    </tr>
-</table> -->
+        <label class='must-input second-star'>*</label>
+        <label class="pop-label second-label">完成情况</label>
+        <div class="first-radio">
+            <input type="radio"  class="pop-radio" ng-checked="done" ng-click="doneInit()"><label class="pop-radio-label">完成</label></input>
+            <input type="radio"  class="pop-radio" ng-checked="!done" ng-click="doneInit()"><label class="pop-radio-label">完成中</label></input>
+        </div>
+
+        <label class='must-input third-star'>*</label>
+        <label class="pop-label third-label">工作内容</label>
+        <textarea class="first-textarea" ng-model="detail"></textarea>
+
+        <label class='must-input fourth-star'>*</label>
+        <label class="pop-label fourth-label">总结反思</label>
+        <textarea class="second-textarea"ng-model="review"></textarea>
+
+        <button class="pop-submit" ng-click="submit()">保存</button>
+        <button class="pop-cancel"  ng-click="close()">取消</button>
+
+    </form>
 </div>
