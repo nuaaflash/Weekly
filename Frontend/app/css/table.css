@@ -90,12 +90,37 @@ div.buttons{
     padding-top: 20px;
 }
 
+.btnLastPage{
+    width: 90px;
+	height: 28px;
+	background-color: #f0f0f0;
+    color: #99928f;
+	border-radius: 14px;
+    border-width: 0px;
+    child-align: middle;
+    float: right;
+    margin-right: 6px;
+}
+
+.btnNextPage{
+    width: 90px;
+	height: 28px;
+	background-color: #f0f0f0;
+    color: #99928f;
+	border-radius: 14px;
+    border-width: 0px;
+    child-align: middle;
+    float: right;
+    margin-right: 64px;
+}
+
 .pagetag{
     width: 20px;
 	height: 22px;
     border-radius: 5px;
 	background-color: #1596cf;
     padding-left: 12px;
+    margin-top: 6px;
     float: left;
 }
 
@@ -103,6 +128,7 @@ div.buttons{
 	font-family: MicrosoftYaHei;
 	font-size: 14px;
 	color: #ffffff;
+    margin-top: 6px;
 }
 
 .lines-of-page{
@@ -117,24 +143,19 @@ div.buttons{
 
     float: left;
     margin-left: 6px;
-
+    margin-top: 6px;
     padding-left: 16px;
 }
 
 .this-page-line{
-	width: 169px;
 	height: 13px;
 	font-family: MicrosoftYaHei;
 	font-size: 12px;
-	font-weight: normal;
-	font-stretch: normal;
-	line-height: 16px;
-	letter-spacing: 0px;
 	color: #99928f;
 
     float:left;
     margin-left: 6px;
-
+    margin-top: 6px;
     padding-left: 16px;
 }
 

@@ -3,6 +3,10 @@
 angular.module('myApp.mainPage', [])
 
 .controller('mainPageCtrl',  ["$http", "$scope",function($http, $scope) {
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    if(userInfo.userId){
+        gotouserpage();
+    }
     // 登录
     $scope.login = function(){
         debugger;
@@ -20,8 +24,9 @@ angular.module('myApp.mainPage', [])
             if(data && $scope.username === "admin"){
                 gotomanagerpage();
             }
-            else if(data==true){
+            else if(data){
                 // alert("用户名或密码错误！");
+                sessionStorage.setItem('userInfo', JSON.stringify(data));
                 gotouserpage();
             }
             else{
