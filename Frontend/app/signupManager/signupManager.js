@@ -1,15 +1,16 @@
 'use strict';
 
-angular.module('myApp.weeklyManager', ['ngRoute'])
+angular.module('myApp.signupManager', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/weeklyManager', {
-    templateUrl: 'weeklyManager/weeklyManager.html',
-    controller: 'weeklyManagerCtrl'
+  $routeProvider.when('/signupManager', {
+    templateUrl: 'signupManager/signupManager.html',
+    controller: 'signupManagerCtrl'
   });
 }])
 
 .filter('startFrom', function() {
+
     return function(input, start) {
 
         if(input) {
@@ -27,7 +28,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
 
 })
 
-.controller('weeklyManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
+.controller('signupManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
     //定义数组
     $scope.weeklys=[];
     $scope.done = false;
@@ -116,20 +117,6 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         var weekly = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
         //放进数组
         $scope.weeklys.push(weekly);
-        $http({
-            method: "POST",
-            url: "http://127.0.0.1:5000/addWeekly",
-            dataType: 'JSON',
-            data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
-        }).
-        success(function(data, status) {
-        //$scope.status = status;
-        console.log(data);
-        }).
-        error(function(data, status) {
-          console.log(status);
-          alert(data);
-        });
         // 关闭窗口 清除数据
         $scope.job = "";
         $scope.detail = "";
@@ -146,7 +133,20 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         if($scope.sum > $scope.end){
             $scope.nextpage();
         }
-
+        $http({
+            method: "POST",
+            url: "http://127.0.0.1:5000/addWeekly",
+            dataType: 'JSON',
+            data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
+        }).
+        success(function(data, status) {
+        //$scope.status = status;
+        console.log(data);
+        }).
+        error(function(data, status) {
+          console.log(status);
+          alert(data);
+        });
     };
     // 关闭弹窗
     $scope.close = function(){
@@ -219,4 +219,5 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         thisOne.style.backgroundColor = selectedBG;
         $scope.selectOne = selectedOne;
     };
+
 }]);
