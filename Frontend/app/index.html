@@ -18,7 +18,7 @@
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-  <div id="mainpage" ng-controller="mainPageCtrl">
+  <div id="mainpage" ng-controller="mainPageCtrl" style="display: none">
       <div class="mainpage-background"></div>
       <div class="main-page-title">企业周报管理</div>
       <div class="main-page-title-en">Enterprise weekly management</div>
@@ -70,13 +70,13 @@
       <div class="content">
         <div class="sidebar" ng-controller="sidebarCtrl">
           <!-- 以#开头的情况下 url中有匹配的href则跳转到匹配的 没有则按url（含默认前缀和默认路由）加上href跳转 -->
-          <div class="sideButtonSelected"  ng-click="selectThis('weeklyManager')" name="weeklyManager">
-            <img src="images/manager.png" class="sidebarIcon">
-            <a href="#?/weeklyManager" class="sideButtonLabelSelected" name="weeklyManager">周报管理</a>
+          <div ng-class="weeklyManager" ng-click="selectThis('weeklyManager')">
+            <img src="images/mine.png" class="sidebarIcon">
+            <a href="#?/weeklyManager" ng-class="weeklyManagerLabel">周报管理</a>
           </div>
-          <div class="sideButton" ng-click="selectThis('signupManager')" name="signupManager">
+          <div ng-class="signupManager" ng-click="selectThis('signupManager')" >
             <img src="images/aboutme.png" class="sidebarIcon">
-            <a href="#?/signupManager" class="sideButtonLabel" name="signupManager">注册管理</a>
+            <a href="#?/signupManager" ng-class="signupManagerLabel">注册管理</a>
           </div>
         </div>
         <div class="base"></div>
@@ -100,13 +100,13 @@
       <div class="content">
         <div class="sidebar" ng-controller="sidebarCtrl">
           <!-- 以#开头的情况下 url中有匹配的href则跳转到匹配的 没有则按url（含默认前缀和默认路由）加上href跳转 -->
-          <div class="sideButton" ng-click="selectThis('myWeekly')" name="myWeekly">
+          <div ng-class="myWeekly" ng-click="selectThis('myWeekly')">
             <img src="images/mine.png" class="sidebarIcon">
-            <a href="#?/myWeekly" class="sideButtonLabel" name="myWeekly">我的周报</a>
+            <a href="#?/myWeekly" ng-class="myWeeklyLabel">我的周报</a>
           </div>
-          <div class="sideButton" ng-click="selectThis('aboutMe')" name="aboutMe">
+          <div ng-class="aboutMe" ng-click="selectThis('aboutMe')">
             <img src="images/aboutme.png" class="sidebarIcon">
-            <a href="#?/aboutMe" class="sideButtonLabel" name="aboutMe">个人中心</a>
+            <a href="#?/aboutMe" ng-class="aboutMeLabel">个人中心</a>
           </div>
         </div>
         <div class="base"></div>

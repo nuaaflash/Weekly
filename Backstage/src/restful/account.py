@@ -9,6 +9,8 @@ userInfo = {
     'Wnumber': '161530319',
 }
 
+userTypeDict = {'admin':'admin', '123':'user'}
+
 parser = reqparse.RequestParser()
 parser.add_argument('userid')
 parser.add_argument('password')
@@ -43,7 +45,7 @@ class Login(Resource):
             db_passwd = db_passwd[0]
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):
                 userInfo['userId'] = userid
-                userInfo['type'] = "user"
+                userInfo['type'] = userTypeDict[userid]
                 return userInfo, 200
             else:
                 return None, 200

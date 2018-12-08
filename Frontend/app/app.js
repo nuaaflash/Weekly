@@ -15,37 +15,50 @@ angular.module('myApp', [
     // 设置路由定位前缀
     $locationProvider.hashPrefix('?');
     // 设置view路由默认值
-    $routeProvider.otherwise({redirectTo: '/myWeekly'});
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    if(userInfo && userInfo.type=== 'admin'){
+        $routeProvider.otherwise({redirectTo: '/weeklyManager'});
+    }
+    else if(userInfo && userInfo.type === 'user'){
+        $routeProvider.otherwise({redirectTo: '/myWeekly'});
+    }
+    else{
+        $routeProvider.otherwise({redirectTo: '/'});
+    }
+
     // 两句语句作用的结果是 url#[前缀][路由默认值]
 }])
 
 .controller('sidebarCtrl', ["$scope", function($scope) {
+    // 设置默认选中的标签名 方便js调整样式 设置默认样式
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    if(userInfo && userInfo.type=== 'user'){
+        $scope.selectOne = 'myWeekly';
+        $scope.myWeekly = 'sideButtonSelected';
+        $scope.myWeeklyLabel = 'sideButtonLabelSelected';
+        $scope.aboutMe = 'sideButton';
+        $scope.aboutMeLabel = 'sideButtonLabel';
+    }
+    else if(userInfo && userInfo.type === 'admin'){
+        $scope.selectOne = 'weeklyManager';
+        $scope.weeklyManager = 'sideButtonSelected';
+        $scope.weeklyManagerLabel = 'sideButtonLabelSelected';
+        $scope.signupManager = 'sideButton';
+        $scope.signupManagerLabel = 'sideButtonLabel';
+     }
     // 选择改变侧边栏样式
     $scope.selectThis = function(selectedOne){
-        console.log(selectedOne);
-        var selectedBG = "#373f52";
-        var selectedFont = "#ffffff";
-        var notSelectedBG = "#2a3245";
-        var notselectedFont = "#6a707d";
         // 点选的标签和当前标签一致时 直接返回 不改变样式
         if($scope.selectOne && selectedOne === $scope.selectOne){
             return;
         }
-
-        if(!$scope.selectOne){
-            // 设置默认选中的标签名 方便js调整样式
-            $scope.selectOne = "weeklyManager";
-        }
-
         // 恢复之前被选择的侧边栏标签
-        var preOne = document.getElementsByName($scope.selectOne);
-        preOne[0].style.backgroundColor = notSelectedBG;
-        preOne[1].style.color = notselectedFont;
+        $scope[$scope.selectOne] = 'sideButton';
+        $scope[$scope.selectOne+'Label'] = 'sideButtonLabel';
         // 改变当前被选中的样式
-        var thisOne = document.getElementsByName(selectedOne);
-        console.log(thisOne);
-        thisOne[0].style.backgroundColor = selectedBG;
-        thisOne[1].style.color = selectedFont;
+        $scope[selectedOne] = 'sideButtonSelected';
+        $scope[selectedOne+'Label'] = 'sideButtonLabelSelected';
+
         $scope.selectOne = selectedOne;
     };
 }]);

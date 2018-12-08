@@ -4,9 +4,17 @@ angular.module('myApp.mainPage', [])
 
 .controller('mainPageCtrl',  ["$http", "$scope",function($http, $scope) {
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if(userInfo && userInfo.userId){
+    if( userInfo && userInfo.type === 'admin'){
+        gotomanagerpage();
+    }
+    else if(userInfo && userInfo.type === 'user'){
         gotouserpage();
     }
+    else{
+        var mainpage = document.getElementById("mainpage");
+        mainpage.style.display = 'block';
+    }
+
     // 登录
     $scope.login = function(){
         debugger;
@@ -21,13 +29,18 @@ angular.module('myApp.mainPage', [])
           success(function(data, status) {
            //$scope.status = status;
             console.log(data);
-            if(data && $scope.username === "admin"){
-                gotomanagerpage();
-            }
-            else if(data){
+            if(data){
                 // alert("用户名或密码错误！");
                 sessionStorage.setItem('userInfo', JSON.stringify(data));
-                gotouserpage();
+                if(data.type === 'admin'){
+                    gotomanagerpage();
+                }
+                else if(data.type === 'user'){
+                    gotouserpage();
+                }
+                else{
+                    alert('管理员未审核！');
+                }
             }
             else{
                 alert("用户名或密码错误！");
@@ -47,7 +60,7 @@ angular.module('myApp.mainPage', [])
 
         debugger;
         //alert("用户名"+$scope.username+"密码"+$scope.password+"邮箱"+$scope.email);
-        if($scope.password != $scope.retype_password){
+        if($scope.password !== $scope.retype_password){
             alert("两次输入密码不一致！");
         }
         else{
@@ -72,8 +85,6 @@ angular.module('myApp.mainPage', [])
               }).
               error(function(data, status) {
                   console.log(data);
-               //$scope.data = data || "Request failed";
-               //$scope.status = status;
              });
         }
     }
@@ -89,6 +100,16 @@ function gotouserpage(){
 
     var adminpage = document.getElementById("adminview");
     adminpage.style.display = "none";
+
+    var newurls = window.location.href.split('/#?/');
+
+    debugger;
+    window.location.href = newurls[0] + '/#?/' + 'myWeekly';
+
+    if(sessionStorage.getItem('status') !== 'login'){
+        window.history.go(0);
+        sessionStorage.setItem('status','login');
+    }
 }
 
 function gotomanagerpage(){
@@ -100,6 +121,16 @@ function gotomanagerpage(){
 
     var adminpage = document.getElementById("adminview");
     adminpage.style.display = "block";
+
+    var newurls = window.location.href.split('/#?/');
+
+    debugger;
+    window.location.href = newurls[0] + '/#?/' + 'weeklyManager';
+
+    if(sessionStorage.getItem('status') !== 'login'){
+        window.history.go(0);
+        sessionStorage.setItem('status','login');
+    }
 }
 
 function logout(){
@@ -111,6 +142,12 @@ function logout(){
 
     var adminpage = document.getElementById("adminview");
     adminpage.style.display = "none";
+
+    var newurls = window.location.href.split('/#?/');
+    window.location.href = newurls[0];
+    debugger;
+
+    sessionStorage.clear()
 }
 
 function gotologinpage(){

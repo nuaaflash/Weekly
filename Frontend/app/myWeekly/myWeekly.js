@@ -51,10 +51,10 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             var fileSizeValid = item.size > 0; //文件大小限制；
             return fileSizeValid ;
         }
-    })
+    });
     $scope.UploadFile = function(){
         uploader.uploadAll();
-    }
+    };
     //添加的方法
     $scope.add = function(){
         debugger;
@@ -200,24 +200,6 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             $scope.weeklys[i].flag=qq;
         }
         qq=!qq;
-    };
-
-        // 选择改变侧边栏样式
-    $scope.selectThis = function(selectedOne){
-        console.log("hi");
-        var selectedBG = "#373f52";
-        var notSelectedBG = "#2a3245";
-        // 点选的标签和当前标签一致时 直接返回 不改变样式
-        if(selectedOne === $scope.selectOne){
-            return;
-        }
-        // 恢复之前被选择的侧边栏标签
-        var preOne = document.getElementById($scope.selectOne);
-        preOne.style.backgroundColor = notSelectedBG;
-        // 改变当前被选中的样式
-        var thisOne = document.getElementById(selectedOne);
-        thisOne.style.backgroundColor = selectedBG;
-        $scope.selectOne = selectedOne;
     };
 
 }]);
