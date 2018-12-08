@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import  pymysql
+import pymysql
 
 # 打开数据库连接
 def connection():

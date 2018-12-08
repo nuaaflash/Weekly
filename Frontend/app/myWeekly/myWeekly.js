@@ -9,7 +9,8 @@ angular.module('myApp.myWeekly', ['ngRoute'])
   });
 }])
 
-.controller('myWeeklyCtrl', ["$scope","FileUploader", function($scope,FileUploader){//创建控制
+.controller('myWeeklyCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
+
     //定义数组
     $scope.workers=[];
     $scope.done = false;
@@ -109,4 +110,5 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         thisOne.style.backgroundColor = selectedBG;
         $scope.selectOne = selectedOne;
     };
+
 }]);
