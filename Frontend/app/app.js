@@ -2,12 +2,13 @@
 
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
-  'ngRoute',
-  'myApp.weeklyManager',
-  'myApp.myWeekly',
-  'myApp.aboutMe',
-  'myApp.version',
-  'myApp.mainPage'
+    'ngRoute',
+    'myApp.weeklyManager',
+    'myApp.signupManager',
+    'myApp.myWeekly',
+    'myApp.aboutMe',
+    'myApp.version',
+    'myApp.mainPage'
 ])
 
 .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {

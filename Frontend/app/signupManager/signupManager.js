@@ -1,15 +1,16 @@
 'use strict';
 
-angular.module('myApp.weeklyManager', ['ngRoute'])
+angular.module('myApp.signupManager', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/weeklyManager', {
-    templateUrl: 'weeklyManager/weeklyManager.html',
-    controller: 'weeklyManagerCtrl'
+  $routeProvider.when('/signupManager', {
+    templateUrl: 'signupManager/signupManager.html',
+    controller: 'signupManagerCtrl'
   });
 }])
 
 .filter('startFrom', function() {
+
     return function(input, start) {
 
         if(input) {
@@ -27,7 +28,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
 
 })
 
-.controller('weeklyManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
+.controller('signupManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
     //定义数组
     $scope.weeklys=[];
     $scope.done = false;
@@ -218,4 +219,5 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         thisOne.style.backgroundColor = selectedBG;
         $scope.selectOne = selectedOne;
     };
+
 }]);
