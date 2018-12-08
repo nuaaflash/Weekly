@@ -5,30 +5,12 @@ from flask_cors import *
 
 from database import DB_user
 
-app = Flask(__name__)
-# 允许跨域访问
-CORS(app, supports_credentials=True)
-api = Api(app)
-
-# users = {
-#     'admin': '123',
-#     'user': '123',
-#     '123': '123',
-# }
-
-
-# def abort_if_todo_doesnt_exist(user_id):
-#     if user_id not in users:
-#         abort(404, message="Uesr {} doesn't exist".format(user_id))
-
-
 parser = reqparse.RequestParser()
 parser.add_argument('Wnumber')
 parser.add_argument('Pname')
 parser.add_argument('content')
 parser.add_argument('completion')
 parser.add_argument('review')
-
 
 class AddWeekly(Resource):
     # def get(self):
@@ -56,10 +38,3 @@ class AddWeekly(Resource):
         # else:
         #     return "User Not Found", 200
         return Wnumber, 200
-
-
-# 设置路由
-api.add_resource(AddWeekly, '/addWeekly')
-
-if __name__ == '__main__':
-    app.run(debug=True)
