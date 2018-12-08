@@ -25,8 +25,6 @@ parser.add_argument('userid')
 parser.add_argument('password')
 parser.add_argument('email')
 
-
-
 class Signup(Resource):
 
     def post(self):

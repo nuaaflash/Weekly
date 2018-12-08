@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pymysql
-import DBConnection
+from database import DBConnection
 
 def insert(userID,email,password):
 

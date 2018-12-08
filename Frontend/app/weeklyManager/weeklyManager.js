@@ -9,7 +9,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
   });
 }])
 
-.controller('weeklyManagerCtrl', ["$scope","FileUploader", function($scope,FileUploader){//创建控制
+.controller('weeklyManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
     //定义数组
     $scope.workers=[];
     $scope.done = false;
@@ -49,7 +49,23 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         $scope.workers.push(worker);
         pop.style.display = "none";
         back_of_pop.style.display = "none";
+
+        $http({
+            method: "POST",
+            url: "http://127.0.0.1:5000/addWeekly",
+            dataType: 'JSON',
+            data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
+        }).
+        success(function(data, status) {
+        //$scope.status = status;
+        console.log(data);
+        }).
+        error(function(data, status) {
+          console.log(status);
+          alert(data);
+        });
     };
+
     // 关闭弹窗
     $scope.close = function(){
         var pop = document.getElementById('popup');
