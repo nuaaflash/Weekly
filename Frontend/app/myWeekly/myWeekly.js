@@ -115,6 +115,20 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         // 读取当前用户缓存
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         var weekly = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
+        $http({
+            method: "POST",
+            url: "http://127.0.0.1:5000/addWeekly",
+            dataType: 'JSON',
+            data:{"Wnumber":userInfo.Wnumber,"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review},
+        }).
+        success(function(data, status) {
+        //$scope.status = status;
+        //alert(data);
+        }).
+        error(function(data, status) {
+          console.log(status);
+          alert(data);
+        });
         //放进数组
         $scope.weeklys.push(weekly);
         // 关闭窗口 清除数据
@@ -133,20 +147,6 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         if($scope.sum > $scope.end){
             $scope.nextpage();
         }
-        $http({
-            method: "POST",
-            url: "http://127.0.0.1:5000/addWeekly",
-            dataType: 'JSON',
-            data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
-        }).
-        success(function(data, status) {
-        //$scope.status = status;
-        console.log(data);
-        }).
-        error(function(data, status) {
-          console.log(status);
-          alert(data);
-        });
     };
     // 关闭弹窗
     $scope.close = function(){
