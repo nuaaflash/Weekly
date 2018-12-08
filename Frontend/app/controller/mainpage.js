@@ -4,7 +4,7 @@ angular.module('myApp.mainPage', [])
 
 .controller('mainPageCtrl',  ["$http", "$scope",function($http, $scope) {
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if(userInfo.userId){
+    if(userInfo && userInfo.userId){
         gotouserpage();
     }
     // 登录

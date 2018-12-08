@@ -133,6 +133,20 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         if($scope.sum > $scope.end){
             $scope.nextpage();
         }
+        $http({
+            method: "POST",
+            url: "http://127.0.0.1:5000/addWeekly",
+            dataType: 'JSON',
+            data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
+        }).
+        success(function(data, status) {
+        //$scope.status = status;
+        console.log(data);
+        }).
+        error(function(data, status) {
+          console.log(status);
+          alert(data);
+        });
     };
     // 关闭弹窗
     $scope.close = function(){
