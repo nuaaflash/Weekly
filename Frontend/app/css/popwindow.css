@@ -47,25 +47,25 @@
     position:relative;
 }
 
-.first-star{
+.first-pop-star{
     position:absolute;
     top:48px;
     left:40px;
 }
 
-.second-star{
+.second-pop-star{
     position:absolute;
     top:48px;
     left:310px;
 }
 
-.third-star{
+.third-pop-star{
     position:absolute;
     top:94px;
     left:40px;
 }
 
-.fourth-star{
+.fourth-pop-star{
     position:absolute;
     top:312px;
     left:40px;
@@ -79,25 +79,25 @@
 	color: #333333;
 }
 
-.first-label{
+.first-pop-label{
     position:absolute;
     top:44px;
     left:48px;
 }
 
-.second-label{
+.second-pop-label{
     position:absolute;
     top:44px;
     left:318px;
 }
 
-.third-label{
+.third-pop-label{
     position:absolute;
     top:90px;
     left:48px;
 }
 
-.fourth-label{
+.fourth-pop-label{
     position:absolute;
     top:308px;
     left:48px;
@@ -109,7 +109,7 @@
     border: solid 1px #e5e5e5;
 }
 
-.first-input{
+.first-pop-input{
     position:absolute;
     top:44px;
     left:126px;
@@ -129,13 +129,13 @@
 	color: #333333;
 }
 
-.first-radio{
+.first-pop-radio{
     position:absolute;
     top:46px;
     left:386px;
 }
 
-.first-textarea{
+.first-pop-textarea{
 	position:absolute;
     top:90px;
     left:126px;
@@ -145,7 +145,7 @@
 	border: solid 1px #e5e5e5;
 }
 
-.second-textarea{
+.second-pop-textarea{
 	position:absolute;
     top:308px;
     left:126px;

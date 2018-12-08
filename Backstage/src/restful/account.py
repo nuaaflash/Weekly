@@ -10,11 +10,9 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True)
 api = Api(app)
 
-# users = {
-#     'admin': '123',
-#     'user': '123',
-#     '123': '123',
-# }
+userInfo = {
+    'Wnumber': '161530319',
+}
 
 
 # def abort_if_todo_doesnt_exist(user_id):
@@ -61,9 +59,11 @@ class Login(Resource):
             db_passwd = db_passwd[0]
             # if(userid in users.keys()):
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):
-                return True, 200
+                userInfo['userId'] = userid
+                userInfo['type'] = "user"
+                return userInfo, 200
             else:
-                return False, 200
+                return None, 200
         else:
             return "User Not Found", 200
 

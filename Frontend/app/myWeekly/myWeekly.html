@@ -1,6 +1,6 @@
 <div class="buttons">
     <button  ng-click="add()" class="btn Lable"><img src="../images/add.png" class="Icon">增加</button>
-    <button  ng-click="dlt()" class="btn Lable"><img src="../images/export.png" class="Icon">导出</button>
+    <button  ng-click="dlt()" class="btn Lable" style="display: none"><img src="../images/export.png" class="Icon">导出</button>
 </div>
 <table>
     <tr class="head">
@@ -11,8 +11,8 @@
         <!--</td>-->
         <td>序号</td>
         <td>工号</td>
-        <td>项目</td>
-        <td>具体内容</td>
+        <td>工作名称</td>
+        <td>工作内容</td>
         <td>完成情况</td>
         <td>总结反思</td>
         <td>操作</td>
@@ -22,13 +22,13 @@
         <td>无数据</td>
         <td></td><td></td><td></td>
     </tr>
-    <tr class="content" ng-repeat="weekly in weeklys | startFrom : {start} | limitTo:10 ">
+    <tr class="content" ng-repeat="weekly in weeklys | startFrom : start | limitTo: pagemax ">
         <!--<td>-->
             <!--<label>-->
                 <!--<input type="checkbox" name="ck" ng-click="ck($index)">-->
             <!--</label>-->
         <!--</td>-->
-        <td ng-bind="$index+1"></td>
+        <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
         <td ng-bind="weekly.worker_id"></td>
         <td ng-bind="weekly.job"></td>
         <td ng-bind="weekly.detail"></td>
@@ -43,9 +43,13 @@
 </table>
 <div class="bottoms">
     <div class="pagetag pagelabel">{{pagenumber}}</div>
-    <div class="lines-of-page">10行/页</div>
-    <div class="this-page-line">本页为{{start}}~{{end}}条记录，总记录{{sum}}条</div>
+    <div class="lines-of-page">{{pagemax}}行/页</div>
+    <div class="this-page-line">本页为{{pagenumber == 1?(sum == 0? 0:1):start+1}}~{{end}}条记录，总记录{{sum}}条</div>
+    <button  ng-click="nextpage()" class="btnNextPage Lable" ng-if="pagenumber * pagemax < sum">下一页 ></button>
+    <button  ng-click="lastpage()" class="btnLastPage Lable" ng-if="pagenumber != 1 && pagenumber * pagemax < sum">上一页 <</button>
+    <button  ng-click="lastpage()" class="btnNextPage Lable" ng-if="pagenumber != 1 && pagenumber * pagemax >= sum">上一页 <</button>
 </div>
+
 <div class="back" id="backgroud_popup" ng-style="{display:show}"></div>
 
 <div class="pop-window" id="popup" ng-style="{display:show}">
@@ -53,24 +57,24 @@
         <label class="pop-title">编辑周报</label>
     </div>
     <form class="pop-form">
-        <label class='must-input first-star'>*</label>
-        <label class="pop-label first-label">工作名称</label>
-        <input class="pop-input first-input" ng-model="job"/>
+        <label class='must-input first-pop-star'>*</label>
+        <label class="pop-label first-pop-label">工作名称</label>
+        <input class="pop-input first-pop-input" ng-model="job"/>
 
-        <label class='must-input second-star'>*</label>
-        <label class="pop-label second-label">完成情况</label>
-        <div class="first-radio">
+        <label class='must-input second-pop-star'>*</label>
+        <label class="pop-label second-pop-label">完成情况</label>
+        <div class="first-pop-radio">
             <input type="radio"  class="pop-radio" ng-checked="done" ng-click="doneInit()"><label class="pop-radio-label">完成</label></input>
             <input type="radio"  class="pop-radio" ng-checked="!done" ng-click="doneInit()"><label class="pop-radio-label">完成中</label></input>
         </div>
 
-        <label class='must-input third-star'>*</label>
-        <label class="pop-label third-label">工作内容</label>
-        <textarea class="first-textarea" ng-model="detail"></textarea>
+        <label class='must-input third-pop-star'>*</label>
+        <label class="pop-label third-pop-label">工作内容</label>
+        <textarea class="first-pop-textarea" ng-model="detail"></textarea>
 
-        <label class='must-input fourth-star'>*</label>
-        <label class="pop-label fourth-label">总结反思</label>
-        <textarea class="second-textarea"ng-model="review"></textarea>
+        <label class='must-input fourth-pop-star'>*</label>
+        <label class="pop-label fourth-pop-label">总结反思</label>
+        <textarea class="second-pop-textarea"ng-model="review"></textarea>
 
         <button class="pop-submit" ng-click="submit()">保存</button>
         <button class="pop-cancel"  ng-click="close()">取消</button>
