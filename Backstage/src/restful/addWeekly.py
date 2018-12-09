@@ -33,3 +33,17 @@ class AddWeekly(Resource):
         # 插入数据库
         DB_weekly.insert(Wnumber, Pname, content, completion, review)
         #return Pname
+
+class GetWeekly(Resource):
+    # def get(self):
+    #     return users
+
+    def post(self):
+        args = parser.parse_args()
+        Wnumber = int(args['Wnumber'])
+        weeklyInfo = {}
+        try:
+            weeklyInfo['weeklys'] = DB_weekly.WeeklySearch(Wnumber)
+            return weeklyInfo, 200
+        except:
+            return weeklyInfo, 500

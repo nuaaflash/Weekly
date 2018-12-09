@@ -14,6 +14,7 @@ api = Api(app)
 
 # 设置路由
 api.add_resource(addWeekly.AddWeekly, '/addWeekly')
+api.add_resource(addWeekly.GetWeekly, '/getWeekly')
 api.add_resource(account.Login, '/login')
 api.add_resource(account.Signup, '/signup')
 
