@@ -36,6 +36,7 @@ html,body{
 	width: 42px;
 	height: 38px;
 	float:right;
+	margin-top: -8px;
 	margin-right: 18px;
 	border-radius:50%;
 	background-color: #373f52;
@@ -55,10 +56,59 @@ html,body{
 	background-color: #5bea94;
 	border-radius:50%;
 	border: solid 8px #2a3245;
-	margin-top: 20px;
+	margin-top: 16px;
 	float:right;
 	margin-right: -56px;
 	z-index: 999;
+}
+
+.user-id{
+	font-family: AdobeHeitiStd-Regular;
+	font-size: 12px;
+	margin-top: 38px;
+	margin-right: -32px;
+	color: #ffffff;
+	float:right;
+}
+
+.right-selectMenu{
+	margin-top: 42px;
+	margin-right: -58px;
+	float:right;
+}
+
+.selectMenuButtonSelected{
+	width: 68px;
+	height: 32px;
+	background-color: #373f52;
+}
+
+.selectMenuButton{
+	width: 68px;
+	height: 32px;
+	background-color: #2a3245;
+}
+
+.selectMenuIcon {
+	width: 10px;
+	height: 10px;
+	margin-left: 16px;
+}
+
+.selectMenuLabelSelected{
+    text-decoration:none;
+	font-family: zcoolwenyiti;
+	font-size: 12px;
+	color: #ffffff;
+	margin-left: 10px;
+}
+
+.selectMenuLabel{
+    text-decoration:none;
+	font-family: zcoolwenyiti;
+	font-size: 12px;
+	color: #6a707d;
+	margin-left: 10px;
 }
 
 .separator {

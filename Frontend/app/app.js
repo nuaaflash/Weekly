@@ -29,7 +29,8 @@ angular.module('myApp', [
     // 两句语句作用的结果是 url#[前缀][路由默认值]
 }])
 
-.controller('sidebarCtrl', ["$scope", function($scope) {
+.controller('frameCtrl', ["$scope", function($scope) {
+    $scope.right_selectMenu = {'display': 'none'};
     // 设置默认选中的标签名 方便js调整样式 设置默认样式
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     if(userInfo && userInfo.type=== 'user'){
@@ -46,6 +47,33 @@ angular.module('myApp', [
         $scope.signupManager = 'sideButton';
         $scope.signupManagerLabel = 'sideButtonLabel';
      }
+     // 设置用户名
+    debugger;
+     $scope.userid = userInfo && userInfo.userId ? userInfo.userId:"";
+     // 用户名悬浮下拉框样式
+    $scope.over_selectMenu = function () {
+        $scope.p_selectMenu='selectMenuButton';
+        $scope.p_selectMenuLabel='selectMenuLabel';
+        $scope.l_selectMenu='selectMenuButton';
+        $scope.l_selectMenuLabel='selectMenuLabel';
+        $scope.right_selectMenu={'display':'block'};
+    };
+    $scope.over_personal = function(){
+        $scope.p_selectMenu='selectMenuButtonSelected';
+        $scope.p_selectMenuLabel='selectMenuLabelSelected';
+    };
+    $scope.leave_personal = function(){
+        $scope.p_selectMenu='selectMenuButton';
+        $scope.p_selectMenuLabel='selectMenuLabel';
+    };
+    $scope.over_logout = function(){
+        $scope.l_selectMenu='selectMenuButtonSelected';
+        $scope.l_selectMenuLabel='selectMenuLabelSelected';
+    };
+    $scope.leave_logout = function(){
+        $scope.l_selectMenu='selectMenuButton';
+        $scope.l_selectMenuLabel='selectMenuLabel';
+    };
     // 选择改变侧边栏样式
     $scope.selectThis = function(selectedOne){
         // 点选的标签和当前标签一致时 直接返回 不改变样式

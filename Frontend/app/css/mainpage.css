@@ -188,13 +188,13 @@ div.login-signup{
 .first-input{
     position:absolute;
     left: 912px;
-    bottom: 411px;
+    top: 342px;
 }
 
 .second-input{
     position:absolute;
     left: 912px;
-    bottom: 323px;
+    top: 432px;
 }
 
 .main-page-input{
