@@ -114,9 +114,9 @@ html,body{
 .separator {
 	width: 2px;
 	height: 21px;
-	float:right;
-	margin-right: 39px;
-	margin-top: 2px;
+	position:absolute;
+    left: 1326px;
+	top: 26px;
 	background-color: #9e9eb9;
 }
 
@@ -126,8 +126,9 @@ html,body{
 	border-radius: 14px;
 	border: solid 3px #ffffff;
     background-color: #2a3245;
-    float:right;
 	child-align: middle;
+	position:absolute;
+    left: 1200px;
 }
 
 .btn-text{
@@ -185,7 +186,7 @@ html,body{
 .sidebar {
     float:left;
 	width: 139px;
-	height: 624px;
+	height: 10000px;
 	background-color: #2a3245;
 }
 

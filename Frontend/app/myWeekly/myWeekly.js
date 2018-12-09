@@ -29,7 +29,15 @@ angular.module('myApp.myWeekly', ['ngRoute'])
 })
 
 .controller('myWeeklyCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
-    //定义数组
+    // 定义数组
+    $scope.weeklys=[];
+    $scope.done = false;
+    $scope.show = "none";
+    $scope.pagenumber = 1;
+    $scope.start = 0;
+    $scope.end = 0;
+    $scope.sum = 0;
+    $scope.pagemax = 6;
     // 读取当前用户缓存
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     debugger;
@@ -40,20 +48,27 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             data:{"Wnumber":userInfo.Wnumber},
         }).
         success(function(data, status) {
-            $scope.sql_weeklys = data.weeklys;
+            for(var i = 0;i < data.weeklys.length;i ++){
+                var sql_weekly = data.weeklys[i];
+                var completion = (sql_weekly[4] === 1);
+                var weekly = {"flag":false,"worker_id":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[3],"done":sql_weekly.completion,"review":sql_weekly[5]};
+                $scope.weeklys.push(weekly);
+            }
+            // 更新总数
+            $scope.sum = $scope.weeklys.length;
+            if($scope.sum === 0){
+                $scope.start = 0;
+            }
+            $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+            // // 新建后的记录不在本页则翻页
+            // if($scope.sum > $scope.end){
+            //     $scope.nextpage();
+            // }
         }).
         error(function(data, status) {
           console.log(status);
-          alert(data);
         });
-    $scope.weeklys=[];
-    $scope.done = false;
-    $scope.show = "none";
-    $scope.pagenumber = 1;
-    $scope.start = 0;
-    $scope.end = 0;
-    $scope.sum = 0;
-    $scope.pagemax = 6;
+
      var uploader= new FileUploader({
         url:"F:\\",
         autoUpload: true

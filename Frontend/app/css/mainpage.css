@@ -46,7 +46,7 @@ div#mainpage{
 
 .main-page-title{
     position:absolute;
-    left: 166px;
+    left: 480px;
     top: 239px;
     width: 800px;
     height: 57px;
@@ -59,7 +59,7 @@ div#mainpage{
 
 .main-page-title-en{
     position:absolute;
-    left: 166px;
+    left: 480px;
     top: 398px;
     width: 800px;
     height: 24px;

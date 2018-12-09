@@ -20,13 +20,13 @@
 <body>
   <div id="mainpage" ng-controller="mainPageCtrl" style="display: none">
       <div class="mainpage-background"></div>
-      <div class="main-page-title">企业周报管理</div>
-      <div class="main-page-title-en">Enterprise weekly management</div>
+      <div class="main-page-title" ng-style="label_y">企业周报管理</div>
+      <div class="main-page-title-en" ng-style="label_y">Enterprise weekly management</div>
       <div class="bigcircle"></div>
       <div class="circle"></div>
       <div id="main-line" class="line-main-page" style="display: none;"></div>
       <div class="login-signup">
-        <button id="login" class="main-page-button" onclick="gotologinpage()">登录</button>
+        <button id="login" class="main-page-button" onclick="gotologinpage()" ng-click="label_y = {'left':'166px'}">登录</button>
         <div id="flush">/</div>
         <button id="signup" class="main-page-button" onclick="goto1st()">注册</button>
       </div>
