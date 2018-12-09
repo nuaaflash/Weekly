@@ -30,6 +30,22 @@ angular.module('myApp.myWeekly', ['ngRoute'])
 
 .controller('myWeeklyCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
     //定义数组
+    // 读取当前用户缓存
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    debugger;
+    $http({
+            method: "POST",
+            url: "http://127.0.0.1:5000/getWeekly",
+            dataType: 'JSON',
+            data:{"Wnumber":userInfo.Wnumber},
+        }).
+        success(function(data, status) {
+            $scope.sql_weeklys = data.weeklys;
+        }).
+        error(function(data, status) {
+          console.log(status);
+          alert(data);
+        });
     $scope.weeklys=[];
     $scope.done = false;
     $scope.show = "none";
