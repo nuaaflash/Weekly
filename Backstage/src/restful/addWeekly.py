@@ -23,13 +23,15 @@ class AddWeekly(Resource):
         content = args['content']
         completionBool = args['completion']
         review = args['review']
-        if completionBool:
+
+
+        if completionBool == 'True':
             completion = 1
         else:
             completion = 0
 
 
-
+        print completion
         # 插入数据库
         DB_weekly.insert(Wnumber, Pname, content, completion, review)
         #return Pname

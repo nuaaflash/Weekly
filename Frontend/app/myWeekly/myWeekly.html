@@ -34,11 +34,16 @@
         <td ng-bind="weekly.detail"></td>
          <td>
             <label>
-                <input type="checkbox" ng-checked="worker.done" ng-click="donef($index)">
+                <input type="checkbox" ng-checked="weekly.done" ng-click="donef($index)">
             </label>
         </td>
         <td ng-bind="weekly.review"></td>
-        <td><div class="delete" ng-click="dele($index)">删除</div></td>
+        <td>
+
+            <div class="edit" ng-click="edit((pagenumber-1)*pagemax + $index)">编辑</div>
+            <div class="delete" ng-click="dele((pagenumber-1)*pagemax + $index)">删除</div>
+            <div class="detail" ng-click="details((pagenumber-1)*pagemax + $index)">更多</div>
+        </td>
     </tr>
 </table>
 <div class="bottoms">
@@ -59,25 +64,30 @@
     <form class="pop-form">
         <label class='must-input first-pop-star'>*</label>
         <label class="pop-label first-pop-label">工作名称</label>
-        <input class="pop-input first-pop-input" ng-model="job"/>
+        <input class="pop-input first-pop-input" ng-model="job" ng-style="editOrNot" ng-readonly="readOnly"/>
 
         <label class='must-input second-pop-star'>*</label>
         <label class="pop-label second-pop-label">完成情况</label>
         <div class="first-pop-radio">
-            <input type="radio"  class="pop-radio" ng-checked="done" ng-click="doneInit()"><label class="pop-radio-label">完成</label></input>
-            <input type="radio"  class="pop-radio" ng-checked="!done" ng-click="doneInit()"><label class="pop-radio-label">完成中</label></input>
+            <input type="radio"  ng-if="showSave==='block'" class="pop-radio" ng-checked="done" ng-click="doneInit(1)">
+                <label class="pop-radio-label" ng-if="showSave==='block'">完成</label>
+            </input>
+            <input type="radio"  ng-if="showSave==='block'" class="pop-radio" ng-checked="!done" ng-click="doneInit(0)">
+                <label class="pop-radio-label" ng-if="showSave==='block'">完成中</label>
+            </input>
+            <label class="pop-radio pop-radio-label" ng-if="showSave==='none'">{{finishStatus}}</label>
         </div>
 
         <label class='must-input third-pop-star'>*</label>
         <label class="pop-label third-pop-label">工作内容</label>
-        <textarea class="first-pop-textarea" ng-model="detail"></textarea>
+        <textarea class="first-pop-textarea" ng-model="detail"  ng-style="editOrNot" ng-readonly="readOnly"></textarea>
 
         <label class='must-input fourth-pop-star'>*</label>
         <label class="pop-label fourth-pop-label">总结反思</label>
-        <textarea class="second-pop-textarea"ng-model="review"></textarea>
+        <textarea class="second-pop-textarea"ng-model="review"  ng-style="editOrNot" ng-readonly="readOnly"></textarea>
 
-        <button class="pop-submit" ng-click="submit()">保存</button>
-        <button class="pop-cancel"  ng-click="close()">取消</button>
+        <button class="pop-submit" ng-click="submit()" ng-style="{'display': showSave}">保存</button>
+        <button class="pop-cancel"  ng-click="close()">{{closeTag}}</button>
 
     </form>
 </div>

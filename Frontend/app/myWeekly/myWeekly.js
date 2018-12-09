@@ -51,7 +51,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             for(var i = 0;i < data.weeklys.length;i ++){
                 var sql_weekly = data.weeklys[i];
                 var completion = (sql_weekly[4] === 1);
-                var weekly = {"flag":false,"worker_id":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[3],"done":sql_weekly.completion,"review":sql_weekly[5]};
+                var weekly = {"flag":false,"worker_id":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[3],"done":completion,"review":sql_weekly[5]};
                 $scope.weeklys.push(weekly);
             }
             // 更新总数
@@ -83,13 +83,57 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             return fileSizeValid ;
         }
     });
+    // 编辑周报
+    $scope.edit = function($index){
+        var thisWeekly = $scope.weeklys[$index];
+        // 回填数据
+        $scope.job = thisWeekly.job;
+        $scope.detail = thisWeekly.detail;
+        $scope.done = thisWeekly.done;
+        $scope.review = thisWeekly.review;
+        $scope.show = "block";
+        // 改变窗口样式
+        $scope.editOrNot = {
+        };
+         $scope.readOnly = false;
+         $scope.showSave = "block";
+         $scope.closeTag = "取消";
+    };
+
+    // 查看周报
+    $scope.details = function($index){
+        var thisWeekly = $scope.weeklys[$index];
+        // 回填数据
+        $scope.job = thisWeekly.job;
+        $scope.detail = thisWeekly.detail;
+        $scope.done = thisWeekly.done;
+        $scope.review = thisWeekly.review;
+        $scope.show = "block";
+        // 改变窗口样式
+        $scope.editOrNot = {
+            "outline":"none",
+            "border-style":"none"
+        };
+         $scope.readOnly = true;
+
+         $scope.showSave = "none";
+         $scope.closeTag = "关闭";
+
+         $scope.finishStatus = thisWeekly.done? '已完成':'完成中';
+    };
     $scope.UploadFile = function(){
         uploader.uploadAll();
     };
     //添加的方法
     $scope.add = function(){
         debugger;
+        // 改变窗口样式
+        $scope.editOrNot = {
+        };
+        $scope.readOnly = false;
         $scope.show = "block";
+        $scope.showSave = "block";
+        $scope.closeTag = "取消";
     };
     // 上一页
     $scope.lastpage = function(){
@@ -132,7 +176,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             alert(errorInfo);
             return false;
         }
-    }
+    };
     //提交
     $scope.submit =function(){
         if(!validatePop()){
@@ -142,7 +186,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         var back_of_pop = document.getElementById('backgroud_popup');
         console.log($scope);
         //创建对象
-        console.log($scope.sjob)
+        console.log($scope.sjob);
         // 读取当前用户缓存
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         var weekly = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
@@ -187,6 +231,11 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         $scope.done = false;
         $scope.review = "";
         $scope.show = "none";
+        // 改变窗口样式
+        $scope.editOrNot = {
+        };
+        $scope.readOnly = false;
+
     };
     //删除一行
     $scope.dele =function($index){
@@ -203,8 +252,8 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         $scope.weeklys[$index].flag=!$scope.weeklys[$index].flag;
     };
     //改变完成情况
-    $scope.doneInit = function(){
-        $scope.done = !$scope.done;
+    $scope.doneInit = function(code){
+        $scope.done = (code === 1);
     };
     //改变完成情况
     $scope.donef = function($index){
