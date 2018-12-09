@@ -92,7 +92,7 @@
           <div class="user-status"></div>
           <div class="user-id" ng-mouseover="over_selectMenu()">{{userid}}</div>
           <div class="right-selectMenu" ng-style="right_selectMenu" ng-mouseover="right_selectMenu={'display':'block'}" ng-mouseleave="right_selectMenu={'display':'none'}">
-              <div ng-class="p_selectMenu" ng-mouseover="over_personal()" ng-mouseleave="leave_personal()">
+              <div ng-class="p_selectMenu" ng-click="selectThis('aboutMe')" ng-mouseover="over_personal()" ng-mouseleave="leave_personal()">
                 <!--<img src="images/mine.png" class="selectMenuIcon">-->
                 <a href="#?/aboutMe" ng-class="p_selectMenuLabel">个人中心</a>
               </div>
