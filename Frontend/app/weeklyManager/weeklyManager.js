@@ -29,6 +29,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
 
 .controller('weeklyManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
     //定义数组
+    $scope.users=[];
     $scope.weeklys=[];
     $scope.done = false;
     $scope.show = "none";
@@ -37,10 +38,18 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
+    // 初始化样式
+    $scope.userlistshow = 'block';
+    $scope.weeklyshow = 'none';
      var uploader= new FileUploader({
         url:"F:\\",
         autoUpload: true
       });
+    // 初始化users(TODO:用restful服务代替)
+    var user = {};
+    user.Wnumber = '161530319';
+    user.name = '夏涵';
+    $scope.users.push(user);
     // 上传文件方法
     uploader.filters.push({
         name: "xxx.doc",
@@ -54,10 +63,11 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     $scope.UploadFile = function(){
         uploader.uploadAll();
     }
-    //添加的方法
-    $scope.add = function(){
+    //返回到用户列表
+    $scope.back = function(){
         debugger;
-        $scope.show = "block";
+        $scope.userlistshow = 'block';
+        $scope.weeklyshow = 'none';
     };
     // 上一页
     $scope.lastpage = function(){
@@ -101,53 +111,28 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
             return false;
         }
     }
-    //提交
-    $scope.submit =function(){
-        if(!validatePop()){
-            return false;
-        }
-        var pop = document.getElementById('popup');
-        var back_of_pop = document.getElementById('backgroud_popup');
-        console.log($scope);
-        //创建对象
-        console.log($scope.sjob)
-        // 读取当前用户缓存
-        var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-        var weekly = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
-        //放进数组
+
+    // 查看周报
+    $scope.seeweekly = function(){
+        $scope.userlistshow = 'none';
+        $scope.weeklyshow = 'block';
+        var Wnumber = $scope.users[$index].Wnumber;
+        // TODO:调用服务查询该工号用户的周报
+        var weekly = {};
+        weekly.Wnumber = Wnumber;
+        weekly.job = '跳舞';
+        weekly.detail = '乱跳';
+        weekly.review = '跳得好';
         $scope.weeklys.push(weekly);
-        $http({
-            method: "POST",
-            url: "http://127.0.0.1:5000/addWeekly",
-            dataType: 'JSON',
-            data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
-        }).
-        success(function(data, status) {
-        //$scope.status = status;
-        console.log(data);
-        }).
-        error(function(data, status) {
-          console.log(status);
-          alert(data);
-        });
-        // 关闭窗口 清除数据
-        $scope.job = "";
-        $scope.detail = "";
-        $scope.done = false;
-        $scope.review = "";
-        $scope.show = "none";
         // 更新总数
-        $scope.sum = $scope.weeklys.length;
+        $scope.sum = $scope.users.length;
         if($scope.sum === 0){
             $scope.start = 0;
         }
         $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-        // 新建后的记录不在本页则翻页
-        if($scope.sum > $scope.end){
-            $scope.nextpage();
-        }
 
-    };
+    }
+    
     // 关闭弹窗
     $scope.close = function(){
         // 关闭窗口 清除数据
@@ -159,9 +144,9 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     };
     //删除一行
     $scope.dele =function($index){
-        $scope.weeklys.splice($index,1);
+        $scope.users.splice($index,1);
         // 更新总数
-        $scope.sum = $scope.weeklys.length;
+        $scope.sum = $scope.users.length;
         if($scope.sum === 0){
             $scope.start = 0;
         }
@@ -169,36 +154,11 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     };
     //改变每行chekbox的状态
     $scope.ck = function($index){
-        $scope.weeklys[$index].flag=!$scope.weeklys[$index].flag;
+        $scope.users[$index].flag=!$scope.users[$index].flag;
     };
     //改变完成情况
     $scope.doneInit = function(){
         $scope.done = !$scope.done;
     };
-    //改变完成情况
-    $scope.donef = function($index){
-        $scope.weeklys[$index].done=!$scope.weeklys[$index].done;
-    };
-    //批量删除
-    $scope.plsc = function(){
-        //反着遍历
-        for (var i = $scope.weeklys.length-1;i>=0;i--) {
-            if ($scope.weeklys[i].flag) {
-                $scope.weeklys.splice(i,1);
-            }
-        }
-    };
 
-    //全选
-    var qq = true;
-    $scope.qx = function(){
-        //获取属性
-        var ck = $("input[name=ck]");
-        for (var i=0;i<ck.length;i++) {
-            ck[i].checked=qq;
-            //给每个数组中的ck赋值
-            $scope.weeklys[i].flag=qq;
-        }
-        qq=!qq;
-    };
 }]);

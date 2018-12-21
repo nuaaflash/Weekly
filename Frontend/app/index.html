@@ -60,8 +60,18 @@
           <img src="images/down.png" class="avatar-down"/>
           <img src="images/xh.jpg" class="avatar"/>
           <div class="user-status"></div>
-          <div class="separator"></div>
-          <button class="border-btn btn-text" onclick="logout()">管理员<img src="images/down.png" class="btn-icon"/></button>
+          <div class="user-id" ng-mouseover="over_selectMenu()">{{userid}}</div>
+          <div class="right-selectMenu" ng-style="right_selectMenu" ng-mouseover="right_selectMenu={'display':'block'}" ng-mouseleave="right_selectMenu={'display':'none'}">
+              <div ng-class="p_selectMenu" ng-click="selectThis('aboutMe')" ng-mouseover="over_personal()" ng-mouseleave="leave_personal()">
+                <!--<img src="images/mine.png" class="selectMenuIcon">-->
+                <a href="#?/aboutMe" ng-class="p_selectMenuLabel">个人中心</a>
+              </div>
+              <div ng-class="l_selectMenu" onclick="logout()" ng-mouseover="over_logout()" ng-mouseleave="leave_logout()">
+                <!--<img src="images/aboutme.png" class="selectMenuIcon">-->
+                <a href="#?/" ng-class="l_selectMenuLabel">注销登录</a>
+              </div>
+          </div>
+          <!-- <button class="border-btn btn-text" onclick="logout()">管理员<img src="images/down.png" class="btn-icon"/></button> -->
       </div>
       <div class="searchbar">
           <img src="images/search.png" class="icon"/>
@@ -103,7 +113,7 @@
           </div>
 
           <div class="separator"></div>
-          <button class="border-btn btn-text" onclick="logout()">用户<img src="images/down.png" class="btn-icon"/></button>
+          <!-- <button class="border-btn btn-text" onclick="logout()">用户<img src="images/down.png" class="btn-icon"/></button> -->
       </div>
       <div class="searchbar">
           <img src="images/search.png" class="icon"/>

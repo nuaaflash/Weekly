@@ -189,3 +189,11 @@ div.bottoms{
     margin-top: 12px;
     margin-left: 64px;
 }
+
+div.seeweekly{
+	font-family: MicrosoftYaHei;
+	font-size: 12px;
+	color: #2ab6ca;
+    float: left;
+    margin-left: 52px;
+}
