@@ -31,7 +31,7 @@ class AddWeekly(Resource):
             completion = 0
 
 
-        print completion
+        print(completion)
         # 插入数据库
         DB_weekly.insert(Wnumber, Pname, content, completion, review)
         #return Pname
