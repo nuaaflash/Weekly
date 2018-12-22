@@ -16,10 +16,10 @@ angular.module('myApp', [
     $locationProvider.hashPrefix('?');
     // 设置view路由默认值
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if(userInfo && userInfo.type=== 'admin'){
+    if(userInfo && userInfo.type=== 'leader'){
         $routeProvider.otherwise({redirectTo: '/weeklyManager'});
     }
-    else if(userInfo && userInfo.type === 'user'){
+    else if(userInfo && userInfo.type === 'worker'){
         $routeProvider.otherwise({redirectTo: '/myWeekly'});
     }
     else{
@@ -33,14 +33,15 @@ angular.module('myApp', [
     $scope.right_selectMenu = {'display': 'none'};
     // 设置默认选中的标签名 方便js调整样式 设置默认样式
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if(userInfo && userInfo.type=== 'user'){
+    $scope.photo = userInfo.photo;
+    if(userInfo && userInfo.type === 'worker'){
         $scope.selectOne = 'myWeekly';
         $scope.myWeekly = 'sideButtonSelected';
         $scope.myWeeklyLabel = 'sideButtonLabelSelected';
         $scope.aboutMe = 'sideButton';
         $scope.aboutMeLabel = 'sideButtonLabel';
     }
-    else if(userInfo && userInfo.type === 'admin'){
+    else if(userInfo && userInfo.type === 'leader'){
         $scope.selectOne = 'weeklyManager';
         $scope.weeklyManager = 'sideButtonSelected';
         $scope.weeklyManagerLabel = 'sideButtonLabelSelected';
@@ -49,7 +50,7 @@ angular.module('myApp', [
      }
      // 设置用户名
     debugger;
-     $scope.userid = userInfo && userInfo.userId ? userInfo.userId:"";
+     $scope.username = userInfo && userInfo.name ? userInfo.name:"";
      // 用户名悬浮下拉框样式
     $scope.over_selectMenu = function () {
         $scope.p_selectMenu='selectMenuButton';

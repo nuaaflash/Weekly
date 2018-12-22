@@ -31,7 +31,7 @@
         <button id="signup" class="main-page-button" onclick="goto1st()">注册</button>
       </div>
       <div id="first-step" style="display: none;">
-          <div class="main-page-lable first-label">用户名</div>
+          <div class="main-page-lable first-label">姓名</div>
           <input class="main-page-input first-input"  type="text" ng-model="newusername"></input>
           <div class="main-page-lable second-label">邮箱</div>
           <input class="main-page-input second-input" type="text" ng-model="email"></input>
@@ -46,8 +46,8 @@
           <button class="final-button right-button" onclick="main_cancle()">取消</button>
       </div>
       <div id="login-page" style="display: none;">
-          <div class="main-page-lable first-label">用户名</div>
-          <input class="main-page-input first-input" type="text" ng-model="username"></input>
+          <div class="main-page-lable first-label">工号</div>
+          <input class="main-page-input first-input" type="text" ng-model="wnumber"></input>
           <div class="main-page-lable second-label">密码</div>
           <input class="main-page-input second-input" type="password" ng-model="password"></input>
           <button class="final-button left-button" ng-click="login()">登录</button>
@@ -58,9 +58,9 @@
       <div class="topbar">
           <span class="topbartitle">企业周报管理</span>
           <img src="images/down.png" class="avatar-down"/>
-          <img src="images/xh.jpg" class="avatar"/>
+          <img ng-src="images/{{photo}}" class="avatar"/>
           <div class="user-status"></div>
-          <div class="user-id" ng-mouseover="over_selectMenu()">{{userid}}</div>
+          <div class="user-id" ng-mouseover="over_selectMenu()">{{username}}</div>
           <div class="right-selectMenu" ng-style="right_selectMenu" ng-mouseover="right_selectMenu={'display':'block'}" ng-mouseleave="right_selectMenu={'display':'none'}">
               <div ng-class="p_selectMenu" ng-click="selectThis('aboutMe')" ng-mouseover="over_personal()" ng-mouseleave="leave_personal()">
                 <!--<img src="images/mine.png" class="selectMenuIcon">-->
@@ -98,9 +98,9 @@
       <div class="topbar">
           <span class="topbartitle">企业周报管理</span>
           <img src="images/down.png" class="avatar-down"/>
-          <img src="images/xh.jpg" class="avatar"/>
+          <img ng-src="images/{{photo}}" class="avatar"/>
           <div class="user-status"></div>
-          <div class="user-id" ng-mouseover="over_selectMenu()">{{userid}}</div>
+          <div class="user-id" ng-mouseover="over_selectMenu()">{{username}}</div>
           <div class="right-selectMenu" ng-style="right_selectMenu" ng-mouseover="right_selectMenu={'display':'block'}" ng-mouseleave="right_selectMenu={'display':'none'}">
               <div ng-class="p_selectMenu" ng-click="selectThis('aboutMe')" ng-mouseover="over_personal()" ng-mouseleave="leave_personal()">
                 <!--<img src="images/mine.png" class="selectMenuIcon">-->
@@ -112,7 +112,7 @@
               </div>
           </div>
 
-          <div class="separator"></div>
+          <!-- <div class="separator"></div> -->
           <!-- <button class="border-btn btn-text" onclick="logout()">用户<img src="images/down.png" class="btn-icon"/></button> -->
       </div>
       <div class="searchbar">
