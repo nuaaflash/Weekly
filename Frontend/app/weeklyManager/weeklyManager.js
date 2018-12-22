@@ -30,7 +30,6 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
 .controller('weeklyManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
     //定义数组
     $scope.users=[];
-    $scope.weeklys=[];
     $scope.done = false;
     $scope.show = "none";
     $scope.pagenumber = 1;
@@ -38,6 +37,13 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
+
+    
+    $scope.weeklys=[];
+    $scope.weeklystart = 0;
+    $scope.weeklyend = 0;
+    $scope.weeklysum = 0;
+    $scope.wpagenumber = 1;
     // 初始化样式
     $scope.userlistshow = 'block';
     $scope.weeklyshow = 'none';
@@ -70,17 +76,31 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         $scope.weeklyshow = 'none';
     };
     // 上一页
-    $scope.lastpage = function(){
-        debugger;
-        $scope.start -= $scope.pagemax;
-        $scope.pagenumber -= 1;
+    $scope.lastpage = function(usermode = true){
+        if(usermode){
+            debugger;
+            $scope.start -= $scope.pagemax;
+            $scope.pagenumber -= 1;
+        }
+        else{
+            debugger;
+            $scope.weeklystart -= $scope.pagemax;
+            $scope.wpagenumber -= 1;
+        }
     };
     // 下一页
-    $scope.nextpage = function(){
+    $scope.nextpage = function(usermode = true){
         debugger;
-        $scope.start += $scope.pagemax;
-        $scope.pagenumber += 1;
-        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+        if(usermode){
+            $scope.start += $scope.pagemax;
+            $scope.pagenumber += 1;
+            $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+        }
+        else{
+            $scope.weeklystart += $scope.pagemax;
+            $scope.wpagenumber += 1;
+            $scope.weeklyend = $scope.weeklysum < $scope.pagemax*$scope.wpagenumber ? $scope.weeklysum:$scope.pagemax*$scope.wpagenumber;
+        }
     };
     // 校验
     var validatePop=function () {
@@ -113,7 +133,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     }
 
     // 查看周报
-    $scope.seeweekly = function(){
+    $scope.seeweekly = function($index){
         $scope.userlistshow = 'none';
         $scope.weeklyshow = 'block';
         var Wnumber = $scope.users[$index].Wnumber;
@@ -124,12 +144,13 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         weekly.detail = '乱跳';
         weekly.review = '跳得好';
         $scope.weeklys.push(weekly);
+        debugger;
         // 更新总数
-        $scope.sum = $scope.users.length;
-        if($scope.sum === 0){
-            $scope.start = 0;
+        $scope.weeklysum = $scope.weeklys.length;
+        if($scope.weeklysum === 0){
+            $scope.weeeklystart = 0;
         }
-        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+        $scope.weeklyend = $scope.weeklysum < $scope.pagemax*$scope.wpagenumber ? $scope.weeklysum:$scope.pagemax*$scope.wpagenumber;
 
     }
     

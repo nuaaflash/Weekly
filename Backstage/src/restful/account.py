@@ -40,7 +40,7 @@ class Login(Resource):
         userid = args['userid']
         password = args['password']
         # 查询数据库
-        db_passwd = DB_user.Search(userid)
+        db_passwd = ['123']#DB_user.Search(userid)
         if(db_passwd != None):
             db_passwd = db_passwd[0]
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):

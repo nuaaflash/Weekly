@@ -3,7 +3,7 @@ import pymysql
 import datetime
 from database import DBConnection
 
-def insert(Wnumber,Pname,content,completion,review):
+def insert(Wnumber,Pname,content,completion,audit,review,WeekID):
     # 打开数据库连接
     db = DBConnection.connection()
 
@@ -14,25 +14,25 @@ def insert(Wnumber,Pname,content,completion,review):
     dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     #SQL插入语句
-    sql = "insert into weekly (Wnumber,date,Pname,content,completion,review) \
-          values('%d','%s','%s','%s','%d','%s')" % \
-          (Wnumber,dt,Pname,content,completion,review)
+    sql = "insert into weekly (Wnumber,Fdate,Ndate,Pname,content,completion,review,audit,WeekID) \
+          values('%d','%s','%s','%s','%d','%s','%d','%d')" % \
+          (Wnumber,dt,dt,Pname,content,completion,review,audit,WeekID)
 
     try:
         #执行sql语句
         cursor.execute(sql)
         #提交到数据库执行
         db.commit()
-        print("增添成功！")
+        return True
     except:
         #如果发生错误则回滚
         db.rollback()
-        print("增添失败！")
+        return False
 
     #关闭数据库连接
     db.close()
 
-def delete(Wnumber):
+def delete(WeekID):
     # 打开数据库连接
     db = DBConnection.connection()
 
@@ -40,7 +40,7 @@ def delete(Wnumber):
     cursor = db.cursor()
 
     # SQL删除语句
-    sql = "delete from weekly where Wnumber ='%d'" % (Wnumber)
+    sql = "delete from weekly where WeekID ='%d'" % (WeekID)
 
     try:
         # 执行sql语句
@@ -65,7 +65,7 @@ def SequentialSearch():
     cursor = db.cursor()
 
     # SQL查找语句
-    sql = "select * from weekly order by Wnumber"
+    sql = "select * from weekly order by Fdate"
 
     try:
         # 执行sql语句
@@ -74,17 +74,41 @@ def SequentialSearch():
         result = cursor.fetchall()
         for row in result:
             list.append(row)
-        print("查询成功！")
     except:
         # 如果发生错误则回滚
         db.rollback()
-        print("查询失败！")
 
     # 关闭数据库连接
     db.close()
     return list
 
-def update(Wnumber,Pname,content,completion):
+def WeeklySearch(Wnumber):
+    list = []
+    # 打开数据库连接
+    db = DBConnection.connection()
+
+    # 使用cursor()方法创建一个游标对象cursor
+    cursor = db.cursor()
+
+    # SQL查找语句
+    sql = "select * from weekly where Wnumber  = '%d' order by Fdate" % (Wnumber)
+
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        # 获取所有记录列表
+        result = cursor.fetchall()
+        for row in result:
+            list.append(row)
+    except:
+        # 如果发生错误则回滚
+        db.rollback()
+
+    # 关闭数据库连接
+    db.close()
+    return list
+
+def update(Pname,content,completion,review,WeekID):
     # 打开数据库连接
     db = DBConnection.connection()
 
@@ -95,8 +119,8 @@ def update(Wnumber,Pname,content,completion):
     dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # SQL更新语句
-    sql = "update weekly set date='%s',Pname='%s',content='%s',completion='%d' where Wnumber='%d' " % \
-          (dt,Pname,content,completion,Wnumber)
+    sql = "update weekly set Ndate='%s',Pname='%s',content='%s',completion='%d',review='%s' where WeekID='%d' " % \
+          (dt,Pname,content,completion,review,WeekID)
 
     try:
         # 执行sql语句
@@ -112,29 +136,58 @@ def update(Wnumber,Pname,content,completion):
     # 关闭数据库连接
     db.close()
 
-
-def WeeklySearch(Wnumber):
-    list = []
+def AusitUpdate(WeekID):
     # 打开数据库连接
     db = DBConnection.connection()
 
     # 使用cursor()方法创建一个游标对象cursor
     cursor = db.cursor()
 
-    # SQL查找语句
-    sql = "select * from weekly where Wnumber  = '%s'" % (Wnumber)
+    # 获取当前时间
+    dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # SQL更新语句
+    sql = "update weekly set Ndate='%s',audit='%d' where WeekID='%d' " % \
+          (dt,1,WeekID)
 
     try:
         # 执行sql语句
         cursor.execute(sql)
-        # 获取所有记录列表
-        result = cursor.fetchall()
-        for row in result:
-            list.append(row)
+        #提交到数据库执行
+        db.commit()
+        return True
     except:
         # 如果发生错误则回滚
         db.rollback()
+        return False
 
     # 关闭数据库连接
     db.close()
-    return list
+
+def ReviewUpdate(WeekID,review):
+    # 打开数据库连接
+    db = DBConnection.connection()
+
+    # 使用cursor()方法创建一个游标对象cursor
+    cursor = db.cursor()
+
+    # 获取当前时间
+    dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # SQL更新语句
+    sql = "update weekly set Ndate='%s',review='%s' where WeekID='%d' " % \
+          (dt,review,WeekID)
+
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        #提交到数据库执行
+        db.commit()
+        return True
+    except:
+        # 如果发生错误则回滚
+        db.rollback()
+        return False
+
+    # 关闭数据库连接
+    db.close()
