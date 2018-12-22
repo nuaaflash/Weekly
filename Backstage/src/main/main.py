@@ -17,6 +17,7 @@ api.add_resource(addWeekly.AddWeekly, '/addWeekly')
 api.add_resource(addWeekly.GetWeekly, '/getWeekly')
 api.add_resource(account.Login, '/login')
 api.add_resource(account.Signup, '/signup')
+api.add_resource(account.GetSignUps, '/getSignups')
 
 if __name__ == '__main__':
     app.run(debug=True)

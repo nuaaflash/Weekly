@@ -68,14 +68,19 @@ class GetSignUps(Resource):
 
     def post(self):
         userlist = []
-        userinfo = {}
         try:
             db_userlist = DB_user.SignUpSearch()
             for user in db_userlist:
+                userinfo = {}
                 userinfo['email'] = user[0]
                 userinfo['password'] = user[1]
                 userinfo['name'] = user[2]
+                if(user[3] == -1):
+                    userinfo['status'] = '待审核'
+                else:
+                    userinfo['status'] = '已通过'
                 userlist.append(userinfo)
+                print(userlist)
             return userlist, 200
         except:
             return userlist, 500

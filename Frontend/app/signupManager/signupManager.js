@@ -28,9 +28,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
 
 })
 
-.controller('signupManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
-    //定义数组
-    $scope.weeklys=[];
+.controller('signupManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){
     $scope.done = false;
     $scope.show = "none";
     $scope.pagenumber = 1;
@@ -38,6 +36,32 @@ angular.module('myApp.signupManager', ['ngRoute'])
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
+    // 获取注册请求列表
+    $http({
+        method: "POST",
+        url: "http://127.0.0.1:5000/getSignups",
+        dataType: 'JSON',
+        data:{},
+    }).
+    success(function(data, status) {
+        $scope.workers = data;
+        alert(data[0].name + data[1].name)
+        // 更新总数
+        $scope.sum = $scope.works.length;
+        if($scope.sum === 0){
+            $scope.start = 0;
+        }
+        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+        // 新建后的记录不在本页则翻页
+        if($scope.sum > $scope.end){
+            $scope.nextpage();
+        }
+    }).
+    error(function(data, status) {
+        console.log(status);
+        alert(data);
+    });
+
      var uploader= new FileUploader({
         url:"F:\\",
         autoUpload: true
@@ -116,9 +140,9 @@ angular.module('myApp.signupManager', ['ngRoute'])
         console.log($scope.sjob)
         // 读取当前用户缓存
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-        var weekly = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
+        var work = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
         //放进数组
-        $scope.weeklys.push(weekly);
+        $scope.works.push(work);
         // 关闭窗口 清除数据
         $scope.job = "";
         $scope.detail = "";
@@ -126,7 +150,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
         $scope.review = "";
         $scope.show = "none";
         // 更新总数
-        $scope.sum = $scope.weeklys.length;
+        $scope.sum = $scope.works.length;
         if($scope.sum === 0){
             $scope.start = 0;
         }
@@ -135,20 +159,20 @@ angular.module('myApp.signupManager', ['ngRoute'])
         if($scope.sum > $scope.end){
             $scope.nextpage();
         }
-        $http({
-            method: "POST",
-            url: "http://127.0.0.1:5000/addWeekly",
-            dataType: 'JSON',
-            data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
-        }).
-        success(function(data, status) {
-        //$scope.status = status;
-        console.log(data);
-        }).
-        error(function(data, status) {
-          console.log(status);
-          alert(data);
-        });
+        // $http({
+        //     method: "POST",
+        //     url: "http://127.0.0.1:5000/getSignups",
+        //     dataType: 'JSON',
+        //     data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
+        // }).
+        // success(function(data, status) {
+        // //$scope.status = status;
+        // console.log(data);
+        // }).
+        // error(function(data, status) {
+        //   console.log(status);
+        //   alert(data);
+        // });
     };
     // 关闭弹窗
     $scope.close = function(){
@@ -161,9 +185,9 @@ angular.module('myApp.signupManager', ['ngRoute'])
     };
     //删除一行
     $scope.dele =function($index){
-        $scope.weeklys.splice($index,1);
+        $scope.works.splice($index,1);
         // 更新总数
-        $scope.sum = $scope.weeklys.length;
+        $scope.sum = $scope.works.length;
         if($scope.sum === 0){
             $scope.start = 0;
         }
@@ -171,24 +195,11 @@ angular.module('myApp.signupManager', ['ngRoute'])
     };
     //改变每行chekbox的状态
     $scope.ck = function($index){
-        $scope.weeklys[$index].flag=!$scope.weeklys[$index].flag;
+        $scope.works[$index].flag=!$scope.works[$index].flag;
     };
     //改变完成情况
     $scope.doneInit = function(){
         $scope.done = !$scope.done;
-    };
-    //改变完成情况
-    $scope.donef = function($index){
-        $scope.weeklys[$index].done=!$scope.weeklys[$index].done;
-    };
-    //批量删除
-    $scope.plsc = function(){
-        //反着遍历
-        for (var i = $scope.weeklys.length-1;i>=0;i--) {
-            if ($scope.weeklys[i].flag) {
-                $scope.weeklys.splice(i,1);
-            }
-        }
     };
 
     //全选
@@ -199,7 +210,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
         for (var i=0;i<ck.length;i++) {
             ck[i].checked=qq;
             //给每个数组中的ck赋值
-            $scope.weeklys[i].flag=qq;
+            $scope.works[i].flag=qq;
         }
         qq=!qq;
     };
