@@ -3,7 +3,8 @@ import pymysql
 import datetime
 from database import DBConnection
 
-def insert(Wnumber,Pname,content,completion,audit,review,WeekID):
+def insert(Wnumber,Pname,content,completion,review,audit=0):
+    # Wnumber = int(Wnumber)
     # 打开数据库连接
     db = DBConnection.connection()
 
@@ -14,9 +15,9 @@ def insert(Wnumber,Pname,content,completion,audit,review,WeekID):
     dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     #SQL插入语句
-    sql = "insert into weekly (Wnumber,Fdate,Ndate,Pname,content,completion,review,audit,WeekID) \
-          values('%d','%s','%s','%s','%d','%s','%d','%d')" % \
-          (Wnumber,dt,dt,Pname,content,completion,review,audit,WeekID)
+    sql = "insert into weekly (Wnumber,Fdate,Ndate,Pname,content,completion,review,audit) \
+          values('%d','%s','%s','%s','%s','%d','%s','%d')" % \
+          (Wnumber,dt,dt,Pname,content,completion,review,audit)
 
     try:
         #执行sql语句

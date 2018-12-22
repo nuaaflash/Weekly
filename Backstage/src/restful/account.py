@@ -5,47 +5,57 @@ from flask_cors import *
 
 from database import DB_user
 
-userInfo = {
-    'Wnumber': '161530319',
-}
 
-userTypeDict = {'admin':'admin', '123':'user'}
 
 parser = reqparse.RequestParser()
-parser.add_argument('userid')
+parser.add_argument('wnumber')
 parser.add_argument('password')
 parser.add_argument('email')
+parser.add_argument('name')
 
 class Signup(Resource):
 
     def post(self):
         args = parser.parse_args()
-        userid = args['userid']
+        name = args['name']
         password = args['password']
         email = args['email']
-        db_passwd = DB_user.Search(userid)
-        if (db_passwd != None):
-            db_passwd = db_passwd[0]
-            print(db_passwd)
-            return False, 200
-        else:
-            DB_user.insert(userid,email,password)
+        # db_passwd = DB_user.Search(wnumber)
+        # if (db_passwd != None):
+        #     db_passwd = db_passwd[0]
+        #     print(db_passwd)
+        #     return False, 200
+        # else:
+        if(DB_user.insert(email,password,name)):
             return True, 201
+        else:
+            return False,200
 
 
 
 class Login(Resource):
     def post(self):
         args = parser.parse_args()
-        userid = args['userid']
+        wnumber = args['wnumber']
         password = args['password']
+        print(password)
         # 查询数据库
-        db_passwd = ['123']#DB_user.Search(userid)
-        if(db_passwd != None):
-            db_passwd = db_passwd[0]
+        db_userinfo = DB_user.Search(wnumber)
+        if(db_userinfo != None):
+            db_passwd = db_userinfo[0]
+            db_lwnum = db_userinfo[1]
+            db_name = db_userinfo[2]
+            db_photo = db_userinfo[3]
+
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):
-                userInfo['userId'] = userid
-                userInfo['type'] = userTypeDict[userid]
+                userInfo = {}
+                userInfo['Wnumber'] = wnumber
+                if(db_lwnum == 0):
+                    userInfo['type'] = 'leader'
+                else:
+                    userInfo['type'] = 'worker'
+                userInfo['name'] = db_name
+                userInfo['photo'] = db_photo
                 return userInfo, 200
             else:
                 return None, 200

@@ -4,10 +4,10 @@ angular.module('myApp.mainPage', [])
 
 .controller('mainPageCtrl',  ["$http", "$scope",function($http, $scope) {
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if( userInfo && userInfo.type === 'admin'){
+    if( userInfo && userInfo.type === 'leader'){
         gotomanagerpage();
     }
-    else if(userInfo && userInfo.type === 'user'){
+    else if(userInfo && userInfo.type === 'worker'){
         gotouserpage();
     }
     else{
@@ -24,7 +24,7 @@ angular.module('myApp.mainPage', [])
             method: "POST",
             url: "http://127.0.0.1:5000/login",
             dataType: 'JSON',
-            data:{"userid":$scope.username,"password":$scope.password},
+            data:{"wnumber":$scope.wnumber,"password":$scope.password},
           }).
           success(function(data, status) {
            //$scope.status = status;
@@ -32,10 +32,10 @@ angular.module('myApp.mainPage', [])
             if(data){
                 // alert("用户名或密码错误！");
                 sessionStorage.setItem('userInfo', JSON.stringify(data));
-                if(data.type === 'admin'){
+                if(data.type === 'leader'){
                     gotomanagerpage();
                 }
-                else if(data.type === 'user'){
+                else if(data.type === 'worker'){
                     gotouserpage();
                 }
                 else{
@@ -43,7 +43,7 @@ angular.module('myApp.mainPage', [])
                 }
             }
             else{
-                alert("用户名或密码错误！");
+                alert("工号或密码错误！");
             }
           }).
           error(function(data, status) {
@@ -69,18 +69,17 @@ angular.module('myApp.mainPage', [])
                 method: "POST",
                 url: "http://127.0.0.1:5000/signup",
                 dataType: 'JSON',
-                data:{"userid":$scope.newusername,"password":$scope.password,"email":$scope.email}
+                data:{"name":$scope.newusername,"password":$scope.password,"email":$scope.email}
               }).
               success(function(data, status) {
                //$scope.status = status;
                 console.log(data);
                 if(data){
-                    alert("注册成功！");
-                    $scope.username = $scope.newusername;
+                    alert("注册成功！请等待工号分配！");
                     gotologinpage();
                 }
                 else{
-                    alert("用户名已存在！");
+                    alert("注册失败，请检查网络！");
                 }
               }).
               error(function(data, status) {

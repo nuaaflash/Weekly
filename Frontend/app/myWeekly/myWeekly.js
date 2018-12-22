@@ -50,8 +50,8 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         success(function(data, status) {
             for(var i = 0;i < data.weeklys.length;i ++){
                 var sql_weekly = data.weeklys[i];
-                var completion = (sql_weekly[4] === 1);
-                var weekly = {"flag":false,"worker_id":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[3],"done":completion,"review":sql_weekly[5]};
+                var completion = (sql_weekly[5] === 1);
+                var weekly = {"flag":false,"worker_id":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7]};
                 $scope.weeklys.push(weekly);
             }
             // 更新总数

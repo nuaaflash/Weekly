@@ -2,7 +2,7 @@
 import pymysql
 from database import DBConnection
 
-def insert(email,password,userName,Wnumber,LWnumber):
+def insert(email,password,userName,Wnumber='Not confirm yet',LWnumber='Not confirm yet'):
 
     flag = False
     # 打开数据库连接
@@ -30,7 +30,7 @@ def insert(email,password,userName,Wnumber,LWnumber):
     db.close()
     return flag
 
-def Search(userID):
+def Search(Wnumber):
     result = 0
     # 打开数据库连接
     db = DBConnection.connection()
@@ -39,7 +39,7 @@ def Search(userID):
     cursor = db.cursor()
 
     # SQL查找语句
-    sql = "select password from user where userID = '%s'" % (userID)
+    sql = "select password,LWnumber,userName,photo from user where Wnumber = '%s'" % (Wnumber)
 
     try:
         # 执行sql语句
