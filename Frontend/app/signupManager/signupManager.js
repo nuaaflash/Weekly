@@ -42,6 +42,8 @@ angular.module('myApp.signupManager', ['ngRoute'])
         url:"F:\\",
         autoUpload: true
       });
+    // TODO:获取待审核名单
+    
     // 上传文件方法
     uploader.filters.push({
         name: "xxx.doc",

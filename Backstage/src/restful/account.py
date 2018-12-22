@@ -61,3 +61,21 @@ class Login(Resource):
                 return None, 200
         else:
             return "User Not Found", 200
+
+class GetSignUps(Resource):
+    # def get(self):
+    #     return users
+
+    def post(self):
+        userlist = []
+        userinfo = {}
+        try:
+            db_userlist = DB_user.SignUpSearch()
+            for user in db_userlist:
+                userinfo['email'] = user[0]
+                userinfo['password'] = user[1]
+                userinfo['name'] = user[2]
+                userlist.append(userinfo)
+            return userlist, 200
+        except:
+            return userlist, 500

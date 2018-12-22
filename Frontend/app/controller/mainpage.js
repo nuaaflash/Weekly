@@ -76,6 +76,11 @@ angular.module('myApp.mainPage', [])
                 console.log(data);
                 if(data){
                     alert("注册成功！请等待工号分配！");
+                    // 清空表单
+                    $scope.password = '';
+                    $scope.newusername = '';
+                    $scope.email = '';
+                    $scope.retype_password = '';
                     gotologinpage();
                 }
                 else{
