@@ -204,4 +204,9 @@ function main_cancle(){
     var signup_2nd = document.getElementById("second-step");
     signup_1st.style.display = "none";
     signup_2nd.style.display = "none";
+    // 清空表单
+    $scope.password = '';
+    $scope.newusername = '';
+    $scope.email = '';
+    $scope.retype_password = '';
 }

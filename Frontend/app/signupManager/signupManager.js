@@ -45,7 +45,6 @@ angular.module('myApp.signupManager', ['ngRoute'])
     }).
     success(function(data, status) {
         $scope.workers = data;
-        alert(data[0].name + data[1].name)
         // 更新总数
         $scope.sum = $scope.works.length;
         if($scope.sum === 0){

@@ -43,7 +43,7 @@
           <div class="main-page-lable second-label">确认密码</div>
           <input class="main-page-input second-input"  type="password" ng-model="retype_password"></input>
           <button class="final-button left-button" ng-click="signup()">确认</button>
-          <button class="final-button right-button" onclick="main_cancle()">取消</button>
+          <button class="final-button right-button" onclick="main_cancle()" ng-click="label_y = {'left':'480px'}">取消</button>
       </div>
       <div id="login-page" style="display: none;">
           <div class="main-page-lable first-label">工号</div>
@@ -51,7 +51,7 @@
           <div class="main-page-lable second-label">密码</div>
           <input class="main-page-input second-input" type="password" ng-model="password"></input>
           <button class="final-button left-button" ng-click="login()">登录</button>
-          <button class="final-button right-button" onclick="main_cancle()">取消</button>
+          <button class="final-button right-button" onclick="main_cancle()" ng-click="label_y = {'left':'480px'}">取消</button>
       </div>
   </div>
   <div id="adminview" style="display: none;"  ng-controller="frameCtrl">
