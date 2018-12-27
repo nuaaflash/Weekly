@@ -43,7 +43,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
     debugger;
     $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/getWeekly",
+            url: "http://106.15.200.206:4396/getWeekly",
             dataType: 'JSON',
             data:{"Wnumber":userInfo.Wnumber},
         }).
@@ -192,7 +192,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         var weekly = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
         $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/addWeekly",
+            url: "http://106.15.200.206:4396/addWeekly",
             dataType: 'JSON',
             data:{"Wnumber":userInfo.Wnumber,"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review},
         }).

@@ -39,7 +39,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
     // 获取注册请求列表
     $http({
         method: "POST",
-        url: "http://127.0.0.1:5000/getSignups",
+        url: "http://106.15.200.206:4396/getSignups",
         dataType: 'JSON',
         data:{},
     }).
@@ -160,7 +160,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
         }
         // $http({
         //     method: "POST",
-        //     url: "http://127.0.0.1:5000/getSignups",
+        //     url: "http://106.15.200.206:4396/getSignups",
         //     dataType: 'JSON',
         //     data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
         // }).

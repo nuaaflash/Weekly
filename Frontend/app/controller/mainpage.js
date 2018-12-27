@@ -22,7 +22,7 @@ angular.module('myApp.mainPage', [])
 
         $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/login",
+            url: "http://106.15.200.206:4396/login",
             dataType: 'JSON',
             data:{"wnumber":$scope.wnumber,"password":$scope.password},
           }).
@@ -67,7 +67,7 @@ angular.module('myApp.mainPage', [])
             
             $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/signup",
+                url: "http://106.15.200.206:4396/signup",
                 dataType: 'JSON',
                 data:{"name":$scope.newusername,"password":$scope.password,"email":$scope.email}
               }).

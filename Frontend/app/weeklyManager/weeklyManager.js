@@ -137,13 +137,40 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         $scope.userlistshow = 'none';
         $scope.weeklyshow = 'block';
         var Wnumber = $scope.users[$index].Wnumber;
-        // TODO:调用服务查询该工号用户的周报
-        var weekly = {};
-        weekly.Wnumber = Wnumber;
-        weekly.job = '跳舞';
-        weekly.detail = '乱跳';
-        weekly.review = '跳得好';
-        $scope.weeklys.push(weekly);
+        // 调用服务查询该工号用户的周报
+        $http({
+            method: "POST",
+            url: "http://106.15.200.206:4396/getWeekly",
+            dataType: 'JSON',
+            data:{"Wnumber":Wnumber},
+        }).
+        success(function(data, status) {
+            $scope.weeklys = []
+            for(var i = 0;i < data.weeklys.length;i ++){
+                var sql_weekly = data.weeklys[i];
+                var completion = (sql_weekly[5] === 1);
+                var weekly = {"flag":false,"Wnumber":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7]};
+                $scope.weeklys.push(weekly);
+            }
+            // 更新总数
+            $scope.sum = $scope.weeklys.length;
+            if($scope.sum === 0){
+                $scope.start = 0;
+            }
+            $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+            // // 新建后的记录不在本页则翻页
+            // if($scope.sum > $scope.end){
+            //     $scope.nextpage();
+            // }
+        }).
+        error(function(data, status) {
+          console.log(status);
+        });
+        // weekly.Wnumber = Wnumber;
+        // weekly.job = '跳舞';
+        // weekly.detail = '乱跳';
+        // weekly.review = '跳得好';
+        // $scope.weeklys.push(weekly);
         debugger;
         // 更新总数
         $scope.weeklysum = $scope.weeklys.length;
