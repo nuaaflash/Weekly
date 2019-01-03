@@ -57,7 +57,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     // 初始化users
     $http({
         method: "POST",
-        url: "http://106.15.200.206:4396/getSubWorkers",
+        url: "http://127.0.0.1:5000/getSubWorkers",
         dataType: 'JSON',
         data:{"lwnumber":lwnumber},
     }).
@@ -142,7 +142,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         // 调用服务查询该工号用户的周报
         $http({
             method: "POST",
-            url: "http://106.15.200.206:4396/getWeekly",
+            url: "http://127.0.0.1:5000/getWeekly",
             dataType: 'JSON',
             data:{"Wnumber":Wnumber},
         }).
@@ -180,7 +180,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         // 调用服务查询该工号用户的周报
         // $http({
         //     method: "POST",
-        //     url: "http://106.15.200.206:4396/getWeekly",
+        //     url: "http://127.0.0.1:5000/getWeekly",
         //     dataType: 'JSON',
         //     data:{},
         // }).
