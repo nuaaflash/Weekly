@@ -110,14 +110,8 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     // 校验
     var validatePop=function () {
         var notFilled = [];
-        if(!$scope.job || $scope.job === ""){
-            notFilled.push("工作名称");
-        }
-        if(!$scope.detail || $scope.detail === ""){
-            notFilled.push("工作内容");
-        }
-        if(!$scope.review || $scope.review === ""){
-            notFilled.push("总结反思");
+        if(!$scope.comment || $scope.comment === ""){
+            notFilled.push("评论");
         }
         debugger;
         if(notFilled.length === 0){
@@ -151,18 +145,18 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
             for(var i = 0;i < data.weeklys.length;i ++){
                 var sql_weekly = data.weeklys[i];
                 var completion = (sql_weekly[5] === 1);
-                var weekly = {"flag":false,"Wnumber":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7]};
+                var weekly = {"flag":false,"Wnumber":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7],"weeklyid":sql_weekly[8]};
                 $scope.weeklys.push(weekly);
             }
             // 更新总数
-            $scope.sum = $scope.weeklys.length;
-            if($scope.sum === 0){
+            $scope.weeklysum = $scope.weeklys.length;
+            if($scope.weeklysum === 0){
                 $scope.start = 0;
             }
-            $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+            $scope.weeklyend = $scope.weeklysum < $scope.pagemax*$scope.wpagenumber ? $scope.weeklysum:$scope.pagemax*$scope.wpagenumber;
         }).
         error(function(data, status) {
-          console.log(status);
+          console.log("status");
         });
         debugger;
         // 更新总数
@@ -176,33 +170,49 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     
     // 查看周报
     $scope.comments = function($index){
-        console.log($index);
-        // 调用服务查询该工号用户的周报
-        // $http({
-        //     method: "POST",
-        //     url: "http://127.0.0.1:5000/getWeekly",
-        //     dataType: 'JSON',
-        //     data:{},
-        // }).
-        // success(function(data, status) {
-        //     $scope.weeklys = []
-        //     for(var i = 0;i < data.weeklys.length;i ++){
-        //         var sql_weekly = data.weeklys[i];
-        //         var completion = (sql_weekly[5] === 1);
-        //         var weekly = {"flag":false,"Wnumber":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7]};
-        //         $scope.weeklys.push(weekly);
-        //     }
-        //     // 更新总数
-        //     $scope.sum = $scope.weeklys.length;
-        //     if($scope.sum === 0){
-        //         $scope.start = 0;
-        //     }
-        //     $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-        // }).
-        // error(function(data, status) {
-        //     console.log(status);
-        // });
+        $scope.index = $index;
+        var thisWeekly = $scope.weeklys[$index];
+        // 回填数据
+        $scope.job = thisWeekly.job;
+        $scope.weeklyid = thisWeekly.weeklyid;
+        debugger;
+        // 改变窗口样式
+        $scope.editOrNot = {
+        };
+        $scope.readOnly = false;
+        $scope.show = "block";
+        $scope.showSave = "block";
+        $scope.closeTag = "取消";
+        $scope.operType = 'comments'
     }
+
+     //提交
+     $scope.submit =function(){
+        if(!validatePop()){
+            return false;
+        }
+        var pop = document.getElementById('popup');
+        var back_of_pop = document.getElementById('backgroud_popup');
+        
+        if($scope.operType === 'comments'){
+            $http({
+                method: "POST",
+                url: "http://127.0.0.1:5000/commentWeekly",
+                dataType: 'JSON',
+                data:{"comment":$scope.comment,"weeklyid":$scope.weeklyid},
+            }).
+            success(function(data, status) {
+                alert('已评论！')
+            }).
+            error(function(data, status) {
+                alert('评论失败，请检查网络！');
+            });
+            // 替换进数组
+            $scope.weeklys.splice($scope.index,1,weekly);
+            $scope.close();
+        }
+
+    };
 
     // 关闭弹窗
     $scope.close = function(){

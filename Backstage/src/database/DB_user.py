@@ -131,3 +131,28 @@ def SignUpAgree(userid, Wnumber, LWnumber):
 
     # 关闭数据库连接
     db.close()
+
+def SignUpDeny(userid):
+    # 打开数据库连接
+    db = DBConnection.connection()
+
+    # 使用cursor()方法创建一个游标对象cursor
+    cursor = db.cursor()
+
+    # SQL更新语句
+    sql = "DELETE FROM user where userid='%d'" % \
+          (userid)
+
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        # 提交到数据库执行
+        db.commit()
+        return True
+    except:
+        # 如果发生错误则回滚
+        db.rollback()
+        return False
+
+    # 关闭数据库连接
+    db.close()

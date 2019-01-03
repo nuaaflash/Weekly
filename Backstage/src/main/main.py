@@ -20,11 +20,13 @@ api = Api(app)
 api.add_resource(weekly.AddWeekly, '/addWeekly')
 api.add_resource(weekly.GetWeekly, '/getWeekly')
 api.add_resource(weekly.EditWeekly,'/editWeekly')
+api.add_resource(weekly.CommentWeekly,'/commentWeekly')
 api.add_resource(weekly.DeleteWeekly,'/deleteWeekly')
 api.add_resource(account.Login, '/login')
 api.add_resource(account.Signup, '/signup')
 api.add_resource(account.GetSignUps, '/getSignups')
 api.add_resource(account.AgreeSignUp, '/agreeSignup')
+api.add_resource(account.DenySignUp, '/denySignup')
 api.add_resource(account.GetSubWorker, '/getSubWorkers')
 
 if __name__ == '__main__':

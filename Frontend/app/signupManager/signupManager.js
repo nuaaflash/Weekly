@@ -137,7 +137,23 @@ angular.module('myApp.signupManager', ['ngRoute'])
     };
     // 拒绝注册
     $scope.deny = function($index){
-        console.log($index);
+        $http({
+            method: "POST",
+            url: "http://127.0.0.1:5000/denySignup",
+            dataType: 'JSON',
+            data:{
+                    "userid": $scope.workers[$index].userid
+                },
+        }).
+        success(function(data, status) {
+            $scope.works.splice($index,1);
+            alert('已拒绝！');
+        }).
+        error(function(data, status) {
+            alert('操作失败');
+        });
+        // 同意后关闭弹窗
+        $scope.close();
     };
     // 同意注册
     $scope.agree = function($index){

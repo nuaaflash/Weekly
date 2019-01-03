@@ -12,6 +12,7 @@ parser.add_argument('content')
 parser.add_argument('completion')
 parser.add_argument('review')
 parser.add_argument('weeklyid')
+parser.add_argument('comment')
 
 class AddWeekly(Resource):
     # def get(self):
@@ -85,9 +86,23 @@ class DeleteWeekly(Resource):
         args = parser.parse_args()
 
         weeklyid = int(args['weeklyid'])
-
         # 删除对应周报
         if(DB_weekly.delete(weeklyid)):
+            return True,201
+        else:
+            return False,500
+
+class CommentWeekly(Resource):
+    # def get(self):
+    #     return users
+
+    def post(self):
+        args = parser.parse_args()
+        comment = args['comment']
+        weeklyid = int(args['weeklyid'])
+
+        # 更新到数据库
+        if(DB_weekly.commentWeekly(comment, weeklyid)):
             return True,201
         else:
             return False,500

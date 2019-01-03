@@ -102,6 +102,18 @@ class AgreeSignUp(Resource):
         except:
             return False,500
 
+class DenySignUp(Resource):
+    def post(self):
+        try:
+            args = parser.parse_args()
+            userid = int(args['userid'])
+            if(DB_user.SignUpDeny(userid)):
+                return True,201
+            else:
+                return False,500
+        except:
+            return False,500
+
 class GetSubWorker(Resource):
     def post(self):
         try:
