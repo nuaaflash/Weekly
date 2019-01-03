@@ -28,7 +28,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
 
 })
 
-.controller('myWeeklyCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
+.controller('myWeeklyCtrl', ["$scope", "$http", function($scope,$http){//创建控制
     // 定义数组
     $scope.weeklys=[];
     $scope.done = false;
@@ -51,7 +51,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             for(var i = 0;i < data.weeklys.length;i ++){
                 var sql_weekly = data.weeklys[i];
                 var completion = (sql_weekly[5] === 1);
-                var weekly = {"flag":false,"worker_id":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7]};
+                var weekly = {"flag":false,"worker_id":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7],"weeklyid":sql_weekly[8]};
                 $scope.weeklys.push(weekly);
             }
             // 更新总数
@@ -69,28 +69,16 @@ angular.module('myApp.myWeekly', ['ngRoute'])
           console.log(status);
         });
 
-     var uploader= new FileUploader({
-        url:"F:\\",
-        autoUpload: true
-      });
-    // 上传文件方法
-    uploader.filters.push({
-        name: "xxx.doc",
-        fn: function(item) {
-            //item就是你上传的文件 这里面你就可以写你需要筛选的条件，下面举一个例子，筛选文件的大小
-            //$scope.maxSize是我指令传过来的参数
-            var fileSizeValid = item.size > 0; //文件大小限制；
-            return fileSizeValid ;
-        }
-    });
     // 编辑周报
     $scope.edit = function($index){
+        $scope.index = $index;
         var thisWeekly = $scope.weeklys[$index];
         // 回填数据
         $scope.job = thisWeekly.job;
         $scope.detail = thisWeekly.detail;
         $scope.done = thisWeekly.done;
         $scope.review = thisWeekly.review;
+        $scope.weeklyid = thisWeekly.weeklyid;
         $scope.show = "block";
         // 改变窗口样式
         $scope.editOrNot = {
@@ -98,6 +86,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
          $scope.readOnly = false;
          $scope.showSave = "block";
          $scope.closeTag = "取消";
+         $scope.operType = 'edit'
     };
 
     // 查看周报
@@ -121,9 +110,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
 
          $scope.finishStatus = thisWeekly.done? '已完成':'完成中';
     };
-    $scope.UploadFile = function(){
-        uploader.uploadAll();
-    };
+
     //添加的方法
     $scope.add = function(){
         debugger;
@@ -134,6 +121,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         $scope.show = "block";
         $scope.showSave = "block";
         $scope.closeTag = "取消";
+        $scope.operType = 'add'
     };
     // 上一页
     $scope.lastpage = function(){
@@ -190,38 +178,58 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         // 读取当前用户缓存
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         var weekly = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
-        $http({
-            method: "POST",
-            url: "http://106.15.200.206:4396/addWeekly",
-            dataType: 'JSON',
-            data:{"Wnumber":userInfo.Wnumber,"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review},
-        }).
-        success(function(data, status) {
-        //$scope.status = status;
-        //alert(data);
-        }).
-        error(function(data, status) {
-          console.log(status);
-          alert(data);
-        });
-        //放进数组
-        $scope.weeklys.push(weekly);
-        // 关闭窗口 清除数据
-        $scope.job = "";
-        $scope.detail = "";
-        $scope.done = false;
-        $scope.review = "";
-        $scope.show = "none";
-        // 更新总数
-        $scope.sum = $scope.weeklys.length;
-        if($scope.sum === 0){
-            $scope.start = 0;
+        if($scope.operType === 'add'){
+            $http({
+                method: "POST",
+                url: "http://106.15.200.206:4396/addWeekly",
+                dataType: 'JSON',
+                data:{"Wnumber":userInfo.Wnumber,"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review},
+            }).
+            success(function(data, status) {
+            //$scope.status = status;
+            //alert(data);
+            }).
+            error(function(data, status) {
+              console.log(status);
+              alert(data);
+            });
+            //放进数组
+            $scope.weeklys.push(weekly);
+            // 关闭窗口 清除数据
+            $scope.job = "";
+            $scope.detail = "";
+            $scope.done = false;
+            $scope.review = "";
+            $scope.show = "none";
+            // 更新总数
+            $scope.sum = $scope.weeklys.length;
+            if($scope.sum === 0){
+                $scope.start = 0;
+            }
+            $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+            // 新建后的记录不在本页则翻页
+            if($scope.sum > $scope.end){
+                $scope.nextpage();
+            }
         }
-        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-        // 新建后的记录不在本页则翻页
-        if($scope.sum > $scope.end){
-            $scope.nextpage();
+        else if($scope.operType === 'edit'){
+            $http({
+                method: "POST",
+                url: "http://106.15.200.206:4396/editWeekly",
+                dataType: 'JSON',
+                data:{"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review,"weeklyid":$scope.weeklyid},
+            }).
+            success(function(data, status) {
+                alert('修改成功！')
+            }).
+            error(function(data, status) {
+              console.log('修改失败，请检查网络！');
+            });
+            // 替换进数组
+            $scope.weeklys.splice($scope.index,1,weekly);
+            $scope.close();
         }
+
     };
     // 关闭弹窗
     $scope.close = function(){
@@ -235,10 +243,27 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         $scope.editOrNot = {
         };
         $scope.readOnly = false;
+        $scope.index = -1;
 
     };
     //删除一行
     $scope.dele =function($index){
+        // 从数据库删除
+        var thisWeekly = $scope.weeklys[$index];
+        $scope.weeklyid = thisWeekly.weeklyid;
+        $http({
+            method: "POST",
+            url: "http://106.15.200.206:4396/deleteWeekly",
+            dataType: 'JSON',
+            data:{"weeklyid":$scope.weeklyid},
+        }).
+        success(function(data, status) {
+            alert('删除成功！')
+        }).
+        error(function(data, status) {
+          console.log('删除失败，请检查网络！');
+        });
+        // 从数组删除
         $scope.weeklys.splice($index,1);
         // 更新总数
         $scope.sum = $scope.weeklys.length;
@@ -246,10 +271,6 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             $scope.start = 0;
         }
         $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-    };
-    //改变每行chekbox的状态
-    $scope.ck = function($index){
-        $scope.weeklys[$index].flag=!$scope.weeklys[$index].flag;
     };
     //改变完成情况
     $scope.doneInit = function(code){

@@ -42,17 +42,12 @@
     </div>
     <table>
         <tr class="head">
-            <!--<td>-->
-                <!--<label>-->
-                    <!--<input type="checkbox" ng-click="qx()"/>-->
-                <!--</label>-->
-            <!--</td>-->
             <td>序号</td>
             <td>工号</td>
             <td>工作名称</td>
             <td>工作内容</td>
             <td>完成情况</td>
-            <td>评价</td>
+            <td>总结反思</td>
             <td>操作</td>
         </tr>
         <tr class="content" ng-if="weeklys.length == 0">
@@ -61,24 +56,19 @@
             <td></td><td></td><td></td>
         </tr>
         <tr class="content" ng-repeat="weekly in weeklys | startFrom : weeklystart | limitTo: pagemax ">
-            <!--<td>-->
-                <!--<label>-->
-                    <!--<input type="checkbox" name="ck" ng-click="ck($index)">-->
-                <!--</label>-->
-            <!--</td>-->
             <td ng-bind="(wpagenumber-1)*pagemax + $index+1"></td>
             <td ng-bind="weekly.Wnumber"></td>
             <td ng-bind="weekly.job"></td>
-            <td ng-bind="weekly.detail"></td>
+            <td ng-bind="weekly.detail.length <= 10 ? weekly.detail : weekly.detail.substr(0, 10)+'......'"></td>
              <td>
                 <label>
                     <input type="checkbox" ng-checked="weekly.done" ng-click="donef($index)">
                 </label>
             </td>
-            <td ng-bind="weekly.review"></td>
+            <td ng-bind="weekly.review.length <= 8 ? weekly.review : weekly.review.substr(0,8)+'......'"></td>
             <td>
-                <div class="review" ng-click="review((wpagenumber-1)*pagemax + $index)">评价</div>
-                <div class="detail" ng-click="details((wpagenumber-1)*pagemax + $index)">详情</div>
+                <div class="comment" style="border:0;cursor:pointer" ng-click="comments((wpagenumber-1)*pagemax + $index)">评价</div>
+                <div class="detail" style="border:0;cursor:pointer" ng-click="details((wpagenumber-1)*pagemax + $index)">详情</div>
             </td>
         </tr>
     </table>
@@ -123,100 +113,3 @@
 
     </form>
 </div>
-<!-- <div class="buttons">
-    <button  ng-click="add()" class="btn Lable"><img src="../images/add.png" class="Icon">增加</button>
-    <button  ng-click="dlt()" class="btn Lable"><img src="../images/export.png" class="Icon">导出</button>
-</div> -->
-<!--<table>-->
-    <!--<tr class="head weeklyManager">-->
-        <!--&lt;!&ndash;<td>&ndash;&gt;-->
-            <!--&lt;!&ndash;<label>&ndash;&gt;-->
-                <!--&lt;!&ndash;<input type="checkbox" ng-click="qx()"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;</label>&ndash;&gt;-->
-        <!--&lt;!&ndash;</td>&ndash;&gt;-->
-        <!--<td>序号</td>-->
-        <!--<td>姓名</td>-->
-        <!--<td>工号</td>-->
-        <!--<td>工作名称</td>-->
-        <!--<td>工作内容</td>-->
-        <!--<td>完成情况</td>-->
-        <!--<td>总结反思</td>-->
-        <!--<td>操作</td>-->
-    <!--</tr>-->
-    <!--<tr class="content" ng-if="workers.length == 0">-->
-        <!--<td></td><td></td><td></td>-->
-        <!--<td>无数据</td>-->
-    <!--</tr>-->
-    <!--<tr class="content" ng-repeat="worker in workers">-->
-        <!--&lt;!&ndash;<td>&ndash;&gt;-->
-            <!--&lt;!&ndash;<label>&ndash;&gt;-->
-                <!--&lt;!&ndash;<input type="checkbox" name="ck" ng-click="ck($index)">&ndash;&gt;-->
-            <!--&lt;!&ndash;</label>&ndash;&gt;-->
-        <!--&lt;!&ndash;</td>&ndash;&gt;-->
-        <!--<td ng-bind="$index+1"></td>-->
-        <!--<td ng-bind="worker.worker_id"></td>-->
-        <!--<td ng-bind="worker.job"></td>-->
-        <!--<td ng-bind="worker.detail"></td>-->
-         <!--<td>-->
-            <!--<label>-->
-                <!--<input type="checkbox" ng-checked="worker.done" ng-click="donef($index)">-->
-            <!--</label>-->
-        <!--</td>-->
-        <!--<td ng-bind="worker.review"></td>-->
-        <!--<td><div class="delete" ng-click="dele($index)">删除</div></td>-->
-    <!--</tr>-->
-<!--</table>-->
-<!--<div class="bottoms">-->
-    <!--<div class="pagetag pagelabel">1</div>-->
-    <!--<div class="lines-of-page">10行/页</div>-->
-    <!--<div class="this-page-line">本页为0~0条记录，总记录0条</div>-->
-<!--</div>-->
-<!--<div class="back" id="backgroud_popup"></div>-->
-
-<!--<div class="pop" id="popup">-->
-<!--<table class="popuptable">-->
-    <!--<tr class="popupline">-->
-        <!--<td class="popupcell">-->
-            <!--<label>员工姓名：-->
-                <!--<input type="text" ng-model="worker_name"/>-->
-            <!--</label>-->
-        <!--</td>-->
-        <!--<td class="popupcell">-->
-            <!--<label>员工工号：-->
-                <!--<input type="text" ng-model="worker_id"/>-->
-            <!--</label>-->
-        <!--</td>-->
-        <!--<td class="popupcell">-->
-            <!--<label>工作名称：-->
-                <!--<input type="text" ng-model="job"/>-->
-            <!--</label>-->
-        <!--</td>-->
-    <!--</tr>-->
-    <!--<tr class="popupline">-->
-        <!--<td class="popupcell">-->
-            <!--<label>工作内容：-->
-                <!--<textarea ng-model="detail"></textarea>-->
-            <!--</label>-->
-        <!--</td>-->
-        <!--<td class="popupcell">-->
-            <!--<label>完成情况：-->
-                <!--<input type="checkbox" ng-checked="done" ng-click="doneInit()">-->
-            <!--</label>-->
-        <!--</td>-->
-    <!--</tr>-->
-    <!--<tr class="popupline">-->
-        <!--<td class="popupcell">-->
-            <!--<label>总结反思：-->
-                <!--<textarea ng-model="review"></textarea>-->
-            <!--</label>-->
-        <!--</td>-->
-        <!--<td class="popupcell">-->
-            <!--<label>-->
-                <!--<input type="button" value="提交" ng-click="submit()" />-->
-            <!--</label>-->
-            <!--<label>-->
-                <!--<input type="button" value="关闭" ng-click="close()"/>-->
-            <!--</label>-->
-        <!--</td>-->
-    <!--</tr>-->
-<!--</table>-->

@@ -51,24 +51,29 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         url:"F:\\",
         autoUpload: true
       });
-    // 初始化users(TODO:用restful服务代替)
-    var user = {};
-    user.Wnumber = '161530319';
-    user.name = '夏涵';
-    $scope.users.push(user);
-    // 上传文件方法
-    uploader.filters.push({
-        name: "xxx.doc",
-        fn: function(item) {
-            //item就是你上传的文件 这里面你就可以写你需要筛选的条件，下面举一个例子，筛选文件的大小
-            //$scope.maxSize是我指令传过来的参数
-            var fileSizeValid = item.size > 0; //文件大小限制；
-            return fileSizeValid ;
+    // 读取当前用户缓存
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    var lwnumber = userInfo.Wnumber;
+    // 初始化users
+    $http({
+        method: "POST",
+        url: "http://106.15.200.206:4396/getSubWorkers",
+        dataType: 'JSON',
+        data:{"lwnumber":lwnumber},
+    }).
+    success(function(data, status) {
+        $scope.users = [].concat(data);
+        // 更新总数
+        $scope.sum = $scope.users.length;
+        if($scope.sum === 0){
+            $scope.start = 0;
         }
-    })
-    $scope.UploadFile = function(){
-        uploader.uploadAll();
-    }
+        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+    }).
+    error(function(data, status) {
+      console.log('请检查网络！');
+    });
+
     //返回到用户列表
     $scope.back = function(){
         debugger;
@@ -111,9 +116,6 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         if(!$scope.detail || $scope.detail === ""){
             notFilled.push("工作内容");
         }
-        // if($scope.done === ""){
-        //     notFilled.push("完成情况");
-        // }
         if(!$scope.review || $scope.review === ""){
             notFilled.push("总结反思");
         }
@@ -158,19 +160,10 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
                 $scope.start = 0;
             }
             $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-            // // 新建后的记录不在本页则翻页
-            // if($scope.sum > $scope.end){
-            //     $scope.nextpage();
-            // }
         }).
         error(function(data, status) {
           console.log(status);
         });
-        // weekly.Wnumber = Wnumber;
-        // weekly.job = '跳舞';
-        // weekly.detail = '乱跳';
-        // weekly.review = '跳得好';
-        // $scope.weeklys.push(weekly);
         debugger;
         // 更新总数
         $scope.weeklysum = $scope.weeklys.length;
@@ -181,6 +174,36 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
 
     }
     
+    // 查看周报
+    $scope.comments = function($index){
+        console.log($index);
+        // 调用服务查询该工号用户的周报
+        // $http({
+        //     method: "POST",
+        //     url: "http://106.15.200.206:4396/getWeekly",
+        //     dataType: 'JSON',
+        //     data:{},
+        // }).
+        // success(function(data, status) {
+        //     $scope.weeklys = []
+        //     for(var i = 0;i < data.weeklys.length;i ++){
+        //         var sql_weekly = data.weeklys[i];
+        //         var completion = (sql_weekly[5] === 1);
+        //         var weekly = {"flag":false,"Wnumber":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7]};
+        //         $scope.weeklys.push(weekly);
+        //     }
+        //     // 更新总数
+        //     $scope.sum = $scope.weeklys.length;
+        //     if($scope.sum === 0){
+        //         $scope.start = 0;
+        //     }
+        //     $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+        // }).
+        // error(function(data, status) {
+        //     console.log(status);
+        // });
+    }
+
     // 关闭弹窗
     $scope.close = function(){
         // 关闭窗口 清除数据

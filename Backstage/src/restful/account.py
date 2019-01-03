@@ -12,6 +12,8 @@ parser.add_argument('wnumber')
 parser.add_argument('password')
 parser.add_argument('email')
 parser.add_argument('name')
+parser.add_argument('userid')
+parser.add_argument('lwnumber')
 
 class Signup(Resource):
 
@@ -75,6 +77,7 @@ class GetSignUps(Resource):
                 userinfo['email'] = user[0]
                 userinfo['password'] = user[1]
                 userinfo['name'] = user[2]
+                userinfo['userid'] = user[6]
                 if(user[3] == -1):
                     userinfo['status'] = '待审核'
                 else:
@@ -84,3 +87,36 @@ class GetSignUps(Resource):
             return userlist, 200
         except:
             return userlist, 500
+
+class AgreeSignUp(Resource):
+    def post(self):
+        try:
+            args = parser.parse_args()
+            wnumber = int(args['wnumber'])
+            lwnumber = int(args['lwnumber'])
+            userid = int(args['userid'])
+            if(DB_user.SignUpAgree(userid, wnumber, lwnumber)):
+                return True,201
+            else:
+                return False,500
+        except:
+            return False,500
+
+class GetSubWorker(Resource):
+    def post(self):
+        try:
+            args = parser.parse_args()
+            lwnumber = int(args['lwnumber'])
+            result = DB_user.SubSearch(lwnumber)
+            if(result != None):
+                users = []
+                for db_user in result:
+                    user = {}
+                    user['name'] = db_user[0]
+                    user['Wnumber'] = db_user[1]
+                    users.append(user)
+                return users, 200
+            else:
+                return False, 500
+        except:
+            return 500,False

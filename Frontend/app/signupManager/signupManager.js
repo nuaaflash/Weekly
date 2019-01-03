@@ -28,7 +28,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
 
 })
 
-.controller('signupManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){
+.controller('signupManagerCtrl', ["$scope", "$http", function($scope,$http){
     $scope.done = false;
     $scope.show = "none";
     $scope.pagenumber = 1;
@@ -44,9 +44,10 @@ angular.module('myApp.signupManager', ['ngRoute'])
         data:{},
     }).
     success(function(data, status) {
-        $scope.workers = data;
+        $scope.workers = [].concat(data);
+
         // 更新总数
-        $scope.sum = $scope.works.length;
+        $scope.sum = $scope.workers.length;
         if($scope.sum === 0){
             $scope.start = 0;
         }
@@ -57,34 +58,9 @@ angular.module('myApp.signupManager', ['ngRoute'])
         }
     }).
     error(function(data, status) {
-        console.log(status);
-        alert(data);
+        alert('请检查网络！');
     });
 
-     var uploader= new FileUploader({
-        url:"F:\\",
-        autoUpload: true
-      });
-    // TODO:获取待审核名单
-    
-    // 上传文件方法
-    uploader.filters.push({
-        name: "xxx.doc",
-        fn: function(item) {
-            //item就是你上传的文件 这里面你就可以写你需要筛选的条件，下面举一个例子，筛选文件的大小
-            //$scope.maxSize是我指令传过来的参数
-            var fileSizeValid = item.size > 0; //文件大小限制；
-            return fileSizeValid ;
-        }
-    })
-    $scope.UploadFile = function(){
-        uploader.uploadAll();
-    }
-    //添加的方法
-    $scope.add = function(){
-        debugger;
-        $scope.show = "block";
-    };
     // 上一页
     $scope.lastpage = function(){
         debugger;
@@ -101,17 +77,8 @@ angular.module('myApp.signupManager', ['ngRoute'])
     // 校验
     var validatePop=function () {
         var notFilled = [];
-        if(!$scope.job || $scope.job === ""){
-            notFilled.push("工作名称");
-        }
-        if(!$scope.detail || $scope.detail === ""){
-            notFilled.push("工作内容");
-        }
-        // if($scope.done === ""){
-        //     notFilled.push("完成情况");
-        // }
-        if(!$scope.review || $scope.review === ""){
-            notFilled.push("总结反思");
+        if(!$scope.Wnumber || $scope.Wnumber === ""){
+            notFilled.push("员工工号");
         }
         debugger;
         if(notFilled.length === 0){
@@ -134,54 +101,52 @@ angular.module('myApp.signupManager', ['ngRoute'])
         }
         var pop = document.getElementById('popup');
         var back_of_pop = document.getElementById('backgroud_popup');
-        console.log($scope);
-        //创建对象
-        console.log($scope.sjob)
+
         // 读取当前用户缓存
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-        var work = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
-        //放进数组
-        $scope.works.push(work);
-        // 关闭窗口 清除数据
-        $scope.job = "";
-        $scope.detail = "";
-        $scope.done = false;
-        $scope.review = "";
-        $scope.show = "none";
-        // 更新总数
-        $scope.sum = $scope.works.length;
-        if($scope.sum === 0){
-            $scope.start = 0;
-        }
-        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-        // 新建后的记录不在本页则翻页
-        if($scope.sum > $scope.end){
-            $scope.nextpage();
-        }
-        // $http({
-        //     method: "POST",
-        //     url: "http://106.15.200.206:4396/getSignups",
-        //     dataType: 'JSON',
-        //     data:{"Wnumber":567,"Pname":11,"content":22,"completion":3,"review":2},
-        // }).
-        // success(function(data, status) {
-        // //$scope.status = status;
-        // console.log(data);
-        // }).
-        // error(function(data, status) {
-        //   console.log(status);
-        //   alert(data);
-        // });
+        var lwnumber = userInfo.Wnumber;
+        $http({
+            method: "POST",
+            url: "http://106.15.200.206:4396/agreeSignup",
+            dataType: 'JSON',
+            data:{
+                    "lwnumber":lwnumber,
+                    "wnumber": $scope.Wnumber,
+                    "userid": $scope.userid
+                },
+        }).
+        success(function(data, status) {
+            $scope.works.splice($scope.thisline,1);
+            alert('已同意！');
+        }).
+        error(function(data, status) {
+            alert('操作失败');
+        });
+        // 同意后关闭弹窗
+        $scope.close();
     };
     // 关闭弹窗
     $scope.close = function(){
         // 关闭窗口 清除数据
-        $scope.job = "";
-        $scope.detail = "";
-        $scope.done = false;
-        $scope.review = "";
+        $scope.name = "";
+        $scope.userid = "";
+        $scope.Wnumber = "";
         $scope.show = "none";
+        $scope.thisline = -1;
+
     };
+    // 拒绝注册
+    $scope.deny = function($index){
+        console.log($index);
+    };
+    // 同意注册
+    $scope.agree = function($index){
+        debugger;
+        $scope.show = "block";
+        $scope.name = $scope.workers[$index].name;
+        $scope.userid = $scope.workers[$index].userid;
+        $scope.thisline = $index;
+    };  
     //删除一行
     $scope.dele =function($index){
         $scope.works.splice($index,1);

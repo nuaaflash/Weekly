@@ -159,7 +159,7 @@ div.buttons{
     padding-left: 16px;
 }
 
-div.edit{
+div.edit, div.agree, div.seeweekly, div.comment{
 	font-family: MicrosoftYaHei;
 	font-size: 12px;
 	color: #2ab6ca;
@@ -167,7 +167,7 @@ div.edit{
     margin-left: 32px;
 }
 
-div.delete{
+div.delete,div.deny{
 	font-family: MicrosoftYaHei;
 	font-size: 12px;
 	color: #ff0000;
@@ -188,12 +188,4 @@ div.bottoms{
     width: 100%;
     margin-top: 12px;
     margin-left: 64px;
-}
-
-div.seeweekly{
-	font-family: MicrosoftYaHei;
-	font-size: 12px;
-	color: #2ab6ca;
-    float: left;
-    margin-left: 52px;
 }

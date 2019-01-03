@@ -63,7 +63,7 @@ def SubSearch(LWnumber):
     cursor = db.cursor()
 
     # SQL查找语句
-    sql = "select * from user where LWnumber  = '%d'" % (LWnumber)
+    sql = "select userName, Wnumber from user where LWnumber  = '%d'" % (LWnumber)
 
     try:
         # 执行sql语句
@@ -75,6 +75,7 @@ def SubSearch(LWnumber):
     except:
         # 如果发生错误则回滚
         db.rollback()
+        return None
 
     # 关闭数据库连接
     db.close()
@@ -105,3 +106,28 @@ def SignUpSearch():
     # 关闭数据库连接
     db.close()
     return list
+
+def SignUpAgree(userid, Wnumber, LWnumber):
+    # 打开数据库连接
+    db = DBConnection.connection()
+
+    # 使用cursor()方法创建一个游标对象cursor
+    cursor = db.cursor()
+
+    # SQL更新语句
+    sql = "update user set Wnumber='%d',LWnumber='%d' where userid='%d' " % \
+          (Wnumber,LWnumber,userid)
+
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        #提交到数据库执行
+        db.commit()
+        return True
+    except:
+        # 如果发生错误则回滚
+        db.rollback()
+        return False
+
+    # 关闭数据库连接
+    db.close()

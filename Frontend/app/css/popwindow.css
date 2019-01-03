@@ -115,6 +115,12 @@
     left:126px;
 }
 
+.second-pop-input{
+    position:absolute;
+    top:44px;
+    left:386px;
+}
+
 .pop-radio{
 	vertical-align:middle;
 	margin-top:-2px;

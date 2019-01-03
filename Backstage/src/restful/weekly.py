@@ -11,6 +11,7 @@ parser.add_argument('Pname')
 parser.add_argument('content')
 parser.add_argument('completion')
 parser.add_argument('review')
+parser.add_argument('weeklyid')
 
 class AddWeekly(Resource):
     # def get(self):
@@ -49,3 +50,44 @@ class GetWeekly(Resource):
             return weeklyInfo, 200
         except:
             return weeklyInfo, 500
+
+class EditWeekly(Resource):
+    # def get(self):
+    #     return users
+
+    def post(self):
+        args = parser.parse_args()
+        Pname = args['Pname']
+        content = args['content']
+        completionBool = args['completion']
+        review = args['review']
+        weeklyid = int(args['weeklyid'])
+
+
+        if completionBool == 'True':
+            completion = 1
+        else:
+            completion = 0
+
+
+        print(completion)
+        # 更新到数据库
+        if(DB_weekly.update(Pname, content, completion, review,weeklyid)):
+            return True,201
+        else:
+            return False,500
+
+class DeleteWeekly(Resource):
+    # def get(self):
+    #     return users
+
+    def post(self):
+        args = parser.parse_args()
+
+        weeklyid = int(args['weeklyid'])
+
+        # 删除对应周报
+        if(DB_weekly.delete(weeklyid)):
+            return True,201
+        else:
+            return False,500

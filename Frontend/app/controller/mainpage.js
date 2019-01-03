@@ -53,6 +53,19 @@ angular.module('myApp.mainPage', [])
         
     }
 
+    document.onkeydown = keyDown;
+    //回车
+    function keyDown(e) {	
+        var e =e||event;	
+        var key=e.keyCode||e.which||e.charCode; 	
+        if(key==0xD){ 
+            // 判断是否按下回车键
+            // 按下回车登陆
+            $scope.login();	
+        }
+    }
+
+
     // 注册
     $scope.signup = function(){
        
