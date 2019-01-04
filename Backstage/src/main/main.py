@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-# import sys
-# import os
-# sys.path.append()
+import sys
+sys.path.append("..")
 
 from restful import weekly,account
 
