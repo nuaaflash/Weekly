@@ -48,7 +48,10 @@ class Login(Resource):
             db_lwnum = db_userinfo[4]
             db_name = db_userinfo[2]
             db_photo = db_userinfo[5]
-            db_leader = DB_user.Search(db_userinfo[4])[2]
+            if(db_lwnum != 0):
+                db_leader = DB_user.Search(db_userinfo[4])[2]
+            else:
+                db_leader = '无'
             db_email = db_userinfo[0]
 
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):

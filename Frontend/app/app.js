@@ -47,6 +47,8 @@ angular.module('myApp', [
         $scope.weeklyManagerLabel = 'sideButtonLabelSelected';
         $scope.signupManager = 'sideButton';
         $scope.signupManagerLabel = 'sideButtonLabel';
+        $scope.aboutMe = 'sideButton';
+        $scope.aboutMeLabel = 'sideButtonLabel';
      }
      // 设置用户名
     debugger;
