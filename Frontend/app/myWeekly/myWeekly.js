@@ -43,7 +43,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
     debugger;
     $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/getWeekly",
+            url: "http://106.15.200.206:4396/getWeekly",
             dataType: 'JSON',
             data:{"Wnumber":userInfo.Wnumber},
         }).
@@ -51,7 +51,17 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             for(var i = 0;i < data.weeklys.length;i ++){
                 var sql_weekly = data.weeklys[i];
                 var completion = (sql_weekly[5] === 1);
-                var weekly = {"flag":false,"worker_id":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7],"weeklyid":sql_weekly[8]};
+                var weekly = {
+                    "flag":false,
+                    "Wnumber":userInfo.Wnumber,
+                    "job":sql_weekly[1],
+                    "detail":sql_weekly[4],
+                    "done":completion,
+                    "audit":sql_weekly[6],
+                    "review":sql_weekly[7],
+                    "weeklyid":sql_weekly[8],
+                    "comment":sql_weekly[9]
+                };
                 $scope.weeklys.push(weekly);
             }
             // 更新总数
@@ -97,7 +107,9 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         $scope.detail = thisWeekly.detail;
         $scope.done = thisWeekly.done;
         $scope.review = thisWeekly.review;
+        $scope.comment = thisWeekly.comment?thisWeekly.comment:'暂无评价';
         $scope.show = "block";
+        $scope.operType = 'view'
         // 改变窗口样式
         $scope.editOrNot = {
             "outline":"none",
@@ -177,11 +189,18 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         console.log($scope.sjob);
         // 读取当前用户缓存
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-        var weekly = {"flag":false,"worker_id":userInfo.Wnumber,"job":$scope.job,"detail":$scope.detail,"done":$scope.done,"review":$scope.review};
+        var weekly = {"flag":false,
+                    "Wnumber":userInfo.Wnumber,
+                    "job":$scope.job,
+                    "detail":$scope.detail,
+                    "done":$scope.done,
+                    "review":$scope.review,
+                    "comment":null
+                };
         if($scope.operType === 'add'){
             $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/addWeekly",
+                url: "http://106.15.200.206:4396/addWeekly",
                 dataType: 'JSON',
                 data:{"Wnumber":userInfo.Wnumber,"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review},
             }).
@@ -215,7 +234,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         else if($scope.operType === 'edit'){
             $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/editWeekly",
+                url: "http://106.15.200.206:4396/editWeekly",
                 dataType: 'JSON',
                 data:{"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review,"weeklyid":$scope.weeklyid},
             }).
@@ -253,7 +272,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         $scope.weeklyid = thisWeekly.weeklyid;
         $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/deleteWeekly",
+            url: "http://106.15.200.206:4396/deleteWeekly",
             dataType: 'JSON',
             data:{"weeklyid":$scope.weeklyid},
         }).

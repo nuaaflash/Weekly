@@ -193,34 +193,6 @@ def ReviewUpdate(WeekID,review):
     # 关闭数据库连接
     db.close()
 
-def delete(WeekID):
-    # 打开数据库连接
-    db = DBConnection.connection()
-
-    # 使用cursor()方法创建一个游标对象cursor
-    cursor = db.cursor()
-
-    # 获取当前时间
-    dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    # SQL更新语句
-    sql = "DELETE FROM weekly WHERE WeekID = '%d' " % \
-          (WeekID)
-
-    try:
-        # 执行sql语句
-        cursor.execute(sql)
-        #提交到数据库执行
-        db.commit()
-        return True
-    except:
-        # 如果发生错误则回滚
-        db.rollback()
-        return False
-
-    # 关闭数据库连接
-    db.close()
-#DELETE FROM `Weekly`.`weekly` WHERE `WeekID` = 3
 def commentWeekly(comment,WeekID):
     # 打开数据库连接
     db = DBConnection.connection()

@@ -39,7 +39,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
     // 获取注册请求列表
     $http({
         method: "POST",
-        url: "http://127.0.0.1:5000/getSignups",
+        url: "http://106.15.200.206:4396/getSignups",
         dataType: 'JSON',
         data:{},
     }).
@@ -107,7 +107,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
         var lwnumber = userInfo.Wnumber;
         $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/agreeSignup",
+            url: "http://106.15.200.206:4396/agreeSignup",
             dataType: 'JSON',
             data:{
                     "lwnumber":lwnumber,
@@ -139,7 +139,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
     $scope.deny = function($index){
         $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/denySignup",
+            url: "http://106.15.200.206:4396/denySignup",
             dataType: 'JSON',
             data:{
                     "userid": $scope.workers[$index].userid

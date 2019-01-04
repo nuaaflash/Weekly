@@ -103,6 +103,9 @@ class CommentWeekly(Resource):
 
         # 更新到数据库
         if(DB_weekly.commentWeekly(comment, weeklyid)):
-            return True,201
+            if (DB_weekly.AusitUpdate(weeklyid)):
+                return True, 201
+            else:
+                return False, 500
         else:
             return False,500

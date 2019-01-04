@@ -9,9 +9,8 @@ from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import *
 
-from database import DB_user
-
 app = Flask(__name__)
+
 # 允许跨域访问
 CORS(app, supports_credentials=True)
 api = Api(app)

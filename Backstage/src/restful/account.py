@@ -44,10 +44,12 @@ class Login(Resource):
         # 查询数据库
         db_userinfo = DB_user.Search(wnumber)
         if(db_userinfo != None):
-            db_passwd = db_userinfo[0]
-            db_lwnum = db_userinfo[1]
+            db_passwd = db_userinfo[1]
+            db_lwnum = db_userinfo[4]
             db_name = db_userinfo[2]
-            db_photo = db_userinfo[3]
+            db_photo = db_userinfo[5]
+            db_leader = DB_user.Search(db_userinfo[4])[2]
+            db_email = db_userinfo[0]
 
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):
                 userInfo = {}
@@ -58,6 +60,8 @@ class Login(Resource):
                     userInfo['type'] = 'worker'
                 userInfo['name'] = db_name
                 userInfo['photo'] = db_photo
+                userInfo['pleader'] = db_leader
+                userInfo['email'] = db_email
                 return userInfo, 200
             else:
                 return None, 200

@@ -167,7 +167,7 @@ div.edit, div.agree, div.seeweekly, div.comment{
     margin-left: 32px;
 }
 
-div.delete,div.deny{
+div.delete,div.deny,div.notchecked{
 	font-family: MicrosoftYaHei;
 	font-size: 12px;
 	color: #ff0000;

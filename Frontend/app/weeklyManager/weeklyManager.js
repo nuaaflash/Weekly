@@ -32,11 +32,13 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     $scope.users=[];
     $scope.done = false;
     $scope.show = "none";
+    $scope.detailshow = "none";
     $scope.pagenumber = 1;
     $scope.start = 0;
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
+    $scope.weeklycheck = 'notchecked';
 
     
     $scope.weeklys=[];
@@ -57,7 +59,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     // 初始化users
     $http({
         method: "POST",
-        url: "http://127.0.0.1:5000/getSubWorkers",
+        url: "http://106.15.200.206:4396/getSubWorkers",
         dataType: 'JSON',
         data:{"lwnumber":lwnumber},
     }).
@@ -136,7 +138,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         // 调用服务查询该工号用户的周报
         $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/getWeekly",
+            url: "http://106.15.200.206:4396/getWeekly",
             dataType: 'JSON',
             data:{"Wnumber":Wnumber},
         }).
@@ -145,7 +147,16 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
             for(var i = 0;i < data.weeklys.length;i ++){
                 var sql_weekly = data.weeklys[i];
                 var completion = (sql_weekly[5] === 1);
-                var weekly = {"flag":false,"Wnumber":sql_weekly[0],"job":sql_weekly[1],"detail":sql_weekly[4],"done":completion,"review":sql_weekly[7],"weeklyid":sql_weekly[8]};
+                var weekly = {
+                    "flag":false,
+                    "Wnumber":sql_weekly[0],
+                    "job":sql_weekly[1],
+                    "detail":sql_weekly[4],
+                    "done":completion,
+                    "audit":sql_weekly[6],
+                    "review":sql_weekly[7],
+                    "weeklyid":sql_weekly[8],
+                    "comment":sql_weekly[9]};
                 $scope.weeklys.push(weekly);
             }
             // 更新总数
@@ -175,6 +186,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         // 回填数据
         $scope.job = thisWeekly.job;
         $scope.weeklyid = thisWeekly.weeklyid;
+        $scope.comment = thisWeekly.comment;
         debugger;
         // 改变窗口样式
         $scope.editOrNot = {
@@ -197,31 +209,69 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         if($scope.operType === 'comments'){
             $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/commentWeekly",
+                url: "http://106.15.200.206:4396/commentWeekly",
                 dataType: 'JSON',
                 data:{"comment":$scope.comment,"weeklyid":$scope.weeklyid},
             }).
             success(function(data, status) {
                 alert('已评论！')
+                $scope.weeklys[$scope.index].comment = $scope.comment;
+                $scope.weeklys[$scope.index].audit = 1;
+                $scope.close();
             }).
             error(function(data, status) {
                 alert('评论失败，请检查网络！');
+                $scope.close();
             });
             // 替换进数组
-            $scope.weeklys.splice($scope.index,1,weekly);
-            $scope.close();
+            // $scope.weeklys.splice($scope.index,1,weekly); 
         }
 
     };
 
+    // 查看周报
+    $scope.details = function($index){
+        var thisWeekly = $scope.weeklys[$index];
+        // 回填数据
+        $scope.job = thisWeekly.job;
+        $scope.detail = thisWeekly.detail;
+        $scope.done = thisWeekly.done;
+        $scope.review = thisWeekly.review;
+        $scope.detailshow = "block";
+        // 改变窗口样式
+        $scope.editOrNot = {
+            "outline":"none",
+            "border-style":"none"
+        };
+         $scope.readOnly = true;
+
+         $scope.showSave = "none";
+         $scope.closeTag = "关闭";
+
+         $scope.finishStatus = thisWeekly.done? '已完成':'完成中';
+    };
+
     // 关闭弹窗
     $scope.close = function(){
-        // 关闭窗口 清除数据
-        $scope.job = "";
-        $scope.detail = "";
-        $scope.done = false;
-        $scope.review = "";
-        $scope.show = "none";
+        if($scope.show === "block"){
+            // 关闭窗口 清除数据
+            $scope.comment = "";
+            $scope.show = "none";
+        }
+        else if($scope.detailshow === "block"){
+            $scope.detailshow = "none";
+            // 关闭窗口 清除数据
+            $scope.job = "";
+            $scope.detail = "";
+            $scope.done = false;
+            $scope.review = "";
+            $scope.show = "none";
+            // 改变窗口样式
+            $scope.editOrNot = {
+            };
+            $scope.readOnly = false;
+            $scope.index = -1;
+        }
     };
     //删除一行
     $scope.dele =function($index){
@@ -233,10 +283,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         }
         $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
     };
-    //改变每行chekbox的状态
-    $scope.ck = function($index){
-        $scope.users[$index].flag=!$scope.users[$index].flag;
-    };
+    
     //改变完成情况
     $scope.doneInit = function(){
         $scope.done = !$scope.done;

@@ -16,13 +16,11 @@
             <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
             <td ng-bind="user.name"></td>
             <td ng-bind="user.Wnumber"></td>
-             <td>
-                <label>
-                    <input type="checkbox" ng-checked="user.done" ng-click="donef($index)">
-                </label>
+            <td>
+                <div ng-class="weeklycheck" style="margin-left: 30px">存在未审核的周报</div>
             </td>
             <td>
-                <div class="seeweekly" style="border:0;cursor:pointer" ng-click="seeweekly((pagenumber-1)*pagemax + $index)">查看周报</div>
+                <div class="seeweekly" style="border:0;cursor:pointer;margin-left: 50px" ng-click="seeweekly((pagenumber-1)*pagemax + $index)">查看周报</div>
             </td>
         </tr>
     </table>
@@ -47,7 +45,7 @@
             <td>工作名称</td>
             <td>工作内容</td>
             <td>完成情况</td>
-            <td>总结反思</td>
+            <td>审核情况</td>
             <td>操作</td>
         </tr>
         <tr class="content" ng-if="weeklys.length == 0">
@@ -60,14 +58,10 @@
             <td ng-bind="weekly.Wnumber"></td>
             <td ng-bind="weekly.job"></td>
             <td ng-bind="weekly.detail.length <= 10 ? weekly.detail : weekly.detail.substr(0, 10)+'......'"></td>
-             <td>
-                <label>
-                    <input type="checkbox" ng-checked="weekly.done" ng-click="donef($index)">
-                </label>
-            </td>
-            <td ng-bind="weekly.review.length <= 8 ? weekly.review : weekly.review.substr(0,8)+'......'"></td>
+            <td ng-bind="weekly.done ? '已完成':'未完成'"></td>
+            <td ng-bind="weekly.audit ? '已审核':'未审核'"></td>
             <td>
-                <div class="comment" style="border:0;cursor:pointer" ng-click="comments((wpagenumber-1)*pagemax + $index)">评价</div>
+                <div class="comment" style="border:0;cursor:pointer;margin-left: 50px" ng-click="comments((wpagenumber-1)*pagemax + $index)">审核</div>
                 <div class="detail" style="border:0;cursor:pointer" ng-click="details((wpagenumber-1)*pagemax + $index)">详情</div>
             </td>
         </tr>
@@ -98,6 +92,42 @@
         <textarea class="first-pop-textarea" ng-model="comment"></textarea>
 
         <button class="pop-submit" ng-click="submit()">保存</button>
+        <button class="pop-cancel"  ng-click="close()">取消</button>
+
+    </form>
+</div>
+
+<div class="back" id="backgroud_popup" ng-style="{display:detailshow}"></div>
+
+<div class="pop-window" id="popup" ng-style="{display:detailshow}">
+    <div class="pop-header">
+        <label class="pop-title">编辑周报</label>
+    </div>
+    <form class="pop-form">
+        <label class='must-input first-pop-star'>*</label>
+        <label class="pop-label first-pop-label">工作名称</label>
+        <input class="pop-input first-pop-input" ng-model="job" ng-style="editOrNot" ng-readonly="readOnly"/>
+
+        <label class='must-input second-pop-star'>*</label>
+        <label class="pop-label second-pop-label">完成情况</label>
+        <div class="first-pop-radio">
+            <input type="radio"  ng-if="showSave==='block'" class="pop-radio" ng-checked="done" ng-click="doneInit(1)">
+                <label class="pop-radio-label" ng-if="showSave==='block'">完成</label>
+            </input>
+            <input type="radio"  ng-if="showSave==='block'" class="pop-radio" ng-checked="!done" ng-click="doneInit(0)">
+                <label class="pop-radio-label" ng-if="showSave==='block'">完成中</label>
+            </input>
+            <label class="pop-radio pop-radio-label" ng-if="showSave==='none'">{{finishStatus}}</label>
+        </div>
+
+        <label class='must-input third-pop-star'>*</label>
+        <label class="pop-label third-pop-label">工作内容</label>
+        <textarea class="first-pop-textarea" ng-model="detail"  ng-style="editOrNot" ng-readonly="readOnly"></textarea>
+
+        <label class='must-input fourth-pop-star'>*</label>
+        <label class="pop-label fourth-pop-label">总结反思</label>
+        <textarea class="second-pop-textarea"ng-model="review"  ng-style="editOrNot" ng-readonly="readOnly"></textarea>
+
         <button class="pop-cancel"  ng-click="close()">取消</button>
 
     </form>

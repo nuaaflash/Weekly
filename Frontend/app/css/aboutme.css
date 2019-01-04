@@ -1,0 +1,25 @@
+.first-userinfo-label{
+    position:absolute;
+    top:308px;
+    left:48px;
+}
+
+.first-userinfo-value{
+    position:absolute;
+    top:44px;
+    left:126px;
+}
+
+.userinfo-label{
+	font-family: MicrosoftYaHei;
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	color: #333333;
+}
+
+.userinfo-value{
+    width: 160px;
+    height: 30px;
+    border: solid 1px #e5e5e5;
+}

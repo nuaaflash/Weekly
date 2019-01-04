@@ -23,21 +23,12 @@
         <td></td><td></td><td></td>
     </tr>
     <tr class="content" ng-repeat="weekly in weeklys | startFrom : start | limitTo: pagemax ">
-        <!--<td>-->
-            <!--<label>-->
-                <!--<input type="checkbox" name="ck" ng-click="ck($index)">-->
-            <!--</label>-->
-        <!--</td>-->
         <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
-        <td ng-bind="weekly.worker_id"></td>
+        <td ng-bind="weekly.Wnumber"></td>
         <td ng-bind="weekly.job"></td>
-        <td ng-bind="weekly.detail"></td>
-         <td>
-            <label>
-                <input type="checkbox" ng-checked="weekly.done" ng-click="donef($index)">
-            </label>
-        </td>
-        <td ng-bind="weekly.review"></td>
+        <td ng-bind="weekly.detail.length <= 10 ? weekly.detail : weekly.detail.substr(0, 10)+'......'"></td>
+        <td ng-bind="weekly.done ? '已完成':'未完成'"></td>
+        <td ng-bind="weekly.review.length <= 8 ? weekly.review : weekly.review.substr(0, 8)+'......'"></td>
         <td>
 
             <div class="edit" style="border:0;cursor:pointer" ng-click="edit((pagenumber-1)*pagemax + $index)">编辑</div>
@@ -85,6 +76,9 @@
         <label class='must-input fourth-pop-star'>*</label>
         <label class="pop-label fourth-pop-label">总结反思</label>
         <textarea class="second-pop-textarea"ng-model="review"  ng-style="editOrNot" ng-readonly="readOnly"></textarea>
+
+        <label class="pop-label fifth-pop-label" ng-if="operType === 'view'">评价</label>
+        <textarea class="third-pop-textarea" ng-if="operType === 'view'" ng-model="comment" ng-style="editOrNot" ng-readonly="readOnly"></textarea>
 
         <button class="pop-submit" ng-click="submit()" ng-style="{'display': showSave}">保存</button>
         <button class="pop-cancel"  ng-click="close()">{{closeTag}}</button>

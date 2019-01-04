@@ -67,7 +67,7 @@
 
 .fourth-pop-star{
     position:absolute;
-    top:312px;
+    top:212px;
     left:40px;
 }
 
@@ -98,6 +98,12 @@
 }
 
 .fourth-pop-label{
+    position:absolute;
+    top:208px;
+    left:48px;
+}
+
+.fifth-pop-label{
     position:absolute;
     top:308px;
     left:48px;
@@ -146,17 +152,27 @@
     top:90px;
     left:126px;
 
-	width: 397px;
-	height: 202px;
+	width: 297px;
+	height: 98px;
 	border: solid 1px #e5e5e5;
 }
 
 .second-pop-textarea{
 	position:absolute;
+    top:208px;
+    left:126px;
+
+	width: 297px;
+	height: 101px;
+	border: solid 1px #e5e5e5;
+}
+
+.third-pop-textarea{
+	position:absolute;
     top:308px;
     left:126px;
 
-	width: 397px;
+	width: 197px;
 	height: 101px;
 	border: solid 1px #e5e5e5;
 }

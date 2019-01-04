@@ -39,7 +39,7 @@ def Search(Wnumber):
     cursor = db.cursor()
 
     # SQL查找语句
-    sql = "select password,LWnumber,userName,photo from user where Wnumber = '%s'" % (Wnumber)
+    sql = "select * from user where Wnumber = '%s'" % (Wnumber)
 
     try:
         # 执行sql语句
