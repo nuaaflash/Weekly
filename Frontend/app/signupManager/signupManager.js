@@ -36,12 +36,14 @@ angular.module('myApp.signupManager', ['ngRoute'])
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    var lwnumber = userInfo.Wnumber;
     // 获取注册请求列表
     $http({
         method: "POST",
         url: "http://0.0.0.0:5000/getSignups",
         dataType: 'JSON',
-        data:{},
+        data:{'wnumber':lwnumber},
     }).
     success(function(data, status) {
         $scope.workers = [].concat(data);
@@ -102,21 +104,23 @@ angular.module('myApp.signupManager', ['ngRoute'])
         var pop = document.getElementById('popup');
         var back_of_pop = document.getElementById('backgroud_popup');
 
-        // 读取当前用户缓存
-        var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-        var lwnumber = userInfo.Wnumber;
         $http({
             method: "POST",
             url: "http://0.0.0.0:5000/agreeSignup",
             dataType: 'JSON',
             data:{
-                    "lwnumber":lwnumber,
                     "wnumber": $scope.Wnumber,
                     "userid": $scope.userid
                 },
         }).
         success(function(data, status) {
-            $scope.works.splice($scope.thisline,1);
+            $scope.workers.splice($scope.thisline,1);
+            $scope.sum = $scope.workers.length;
+            if($scope.sum === 0){
+                $scope.start = 0;
+            }
+            $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+
             alert('已同意！');
         }).
         error(function(data, status) {
@@ -137,6 +141,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
     };
     // 拒绝注册
     $scope.deny = function($index){
+        $index = $index-1;
         $http({
             method: "POST",
             url: "http://0.0.0.0:5000/denySignup",
@@ -146,7 +151,14 @@ angular.module('myApp.signupManager', ['ngRoute'])
                 },
         }).
         success(function(data, status) {
-            $scope.works.splice($index,1);
+            $scope.workers.splice($index,1);
+             // 更新总数
+            $scope.sum = $scope.workers.length;
+            if($scope.sum === 0){
+                $scope.start = 0;
+            }
+            $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+
             alert('已拒绝！');
         }).
         error(function(data, status) {
@@ -159,40 +171,15 @@ angular.module('myApp.signupManager', ['ngRoute'])
     $scope.agree = function($index){
         debugger;
         $scope.show = "block";
-        $scope.name = $scope.workers[$index].name;
-        $scope.userid = $scope.workers[$index].userid;
-        $scope.thisline = $index;
+        $scope.name = $scope.workers[$index-1].name;
+        $scope.userid = $scope.workers[$index-1].userid;
+        $scope.thisline = $index-1;
     };  
-    //删除一行
-    $scope.dele =function($index){
-        $scope.works.splice($index,1);
-        // 更新总数
-        $scope.sum = $scope.works.length;
-        if($scope.sum === 0){
-            $scope.start = 0;
-        }
-        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-    };
-    //改变每行chekbox的状态
-    $scope.ck = function($index){
-        $scope.works[$index].flag=!$scope.works[$index].flag;
-    };
+   
     //改变完成情况
     $scope.doneInit = function(){
         $scope.done = !$scope.done;
     };
 
-    //全选
-    var qq = true;
-    $scope.qx = function(){
-        //获取属性
-        var ck = $("input[name=ck]");
-        for (var i=0;i<ck.length;i++) {
-            ck[i].checked=qq;
-            //给每个数组中的ck赋值
-            $scope.works[i].flag=qq;
-        }
-        qq=!qq;
-    };
 
 }]);

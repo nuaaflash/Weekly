@@ -49,17 +49,19 @@ class Login(Resource):
             db_name = db_userinfo[1]
             db_photo = db_userinfo[4]
             if(db_lwnum != 0):
-                db_leader = DB_user.Search(db_userinfo[3])[1]
+                db_leader = DB_user.Search(db_lwnum)[1]
             else:
                 db_leader = '无'
 
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):
                 userInfo = {}
                 userInfo['Wnumber'] = wnumber
-                if(db_lwnum == 0):
-                    userInfo['type'] = 'leader'
+
+                if(DB_user.CheckSub(wnumber) != []):
+                    userInfo['hasSub'] = True
                 else:
-                    userInfo['type'] = 'worker'
+                    userInfo['hasSub'] = False
+
                 userInfo['name'] = db_name
                 userInfo['photo'] = db_photo
                 userInfo['pleader'] = db_leader
@@ -76,15 +78,17 @@ class GetSignUps(Resource):
 
     def post(self):
         userlist = []
+        args = parser.parse_args()
+        wnumber = int(args['wnumber'])
         try:
-            db_userlist = DB_user.SignUpSearch()
+            db_userlist = DB_user.SignUpSearch(wnumber)
             for user in db_userlist:
                 userinfo = {}
-                userinfo['lwnumber'] = user[0]
+                userinfo['lwnumber'] = user[3]
                 userinfo['password'] = user[1]
-                userinfo['name'] = user[2]
-                userinfo['userid'] = user[6]
-                if(user[3] == -1):
+                userinfo['name'] = user[1]
+                userinfo['userid'] = user[5]
+                if(user[2] == -1):
                     userinfo['status'] = '待审核'
                 else:
                     userinfo['status'] = '已通过'
@@ -99,9 +103,8 @@ class AgreeSignUp(Resource):
         try:
             args = parser.parse_args()
             wnumber = int(args['wnumber'])
-            lwnumber = int(args['lwnumber'])
             userid = int(args['userid'])
-            if(DB_user.SignUpAgree(userid, wnumber, lwnumber)):
+            if(DB_user.SignUpAgree(userid, wnumber)):
                 return True,201
             else:
                 return False,500

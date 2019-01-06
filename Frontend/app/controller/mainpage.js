@@ -4,10 +4,7 @@ angular.module('myApp.mainPage', [])
 
 .controller('mainPageCtrl',  ["$http", "$scope",function($http, $scope) {
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if( userInfo && userInfo.type === 'leader'){
-        gotomanagerpage();
-    }
-    else if(userInfo && userInfo.type === 'worker'){
+    if(userInfo && userInfo.Wnumber != -1){
         gotouserpage();
     }
     else{
@@ -32,10 +29,7 @@ angular.module('myApp.mainPage', [])
             if(data){
                 // alert("用户名或密码错误！");
                 sessionStorage.setItem('userInfo', JSON.stringify(data));
-                if(data.type === 'leader'){
-                    gotomanagerpage();
-                }
-                else if(data.type === 'worker'){
+                if(data.Wnumber != -1){
                     gotouserpage();
                 }
                 else{
@@ -98,11 +92,6 @@ angular.module('myApp.mainPage', [])
                 }
                 else if(status === 202){
                     alert("领导工号不存在！");
-                    // 清空表单
-                    $scope.password = '';
-                    $scope.newusername = '';
-                    $scope.lwnumber = '';
-                    $scope.retype_password = '';
                     goto1st();
                 }
                 else{
@@ -121,37 +110,13 @@ function gotouserpage(){
     var mainpage = document.getElementById("mainpage");
     mainpage.style.display = "none";
 
-    var userpage = document.getElementById("userview");
-    userpage.style.display = "block";
-
-    var adminpage = document.getElementById("adminview");
-    adminpage.style.display = "none";
-
-    var newurls = window.location.href.split('/#?/');
-
-    debugger;
-    window.location.href = newurls[0] + '/#?/' + 'myWeekly';
-
-    if(sessionStorage.getItem('status') !== 'login'){
-        window.history.go(0);
-        sessionStorage.setItem('status','login');
-    }
-}
-
-function gotomanagerpage(){
-    var mainpage = document.getElementById("mainpage");
-    mainpage.style.display = "none";
-
-    var userpage = document.getElementById("userview");
-    userpage.style.display = "none";
-
-    var adminpage = document.getElementById("adminview");
+    var adminpage = document.getElementById("userview");
     adminpage.style.display = "block";
 
     var newurls = window.location.href.split('/#?/');
 
     debugger;
-    window.location.href = newurls[0] + '/#?/' + 'weeklyManager';
+    window.location.href = newurls[0] + '/#?/' + 'myWeekly';
 
     if(sessionStorage.getItem('status') !== 'login'){
         window.history.go(0);
@@ -166,7 +131,7 @@ function logout(){
     var userpage = document.getElementById("userview");
     userpage.style.display = "none";
 
-    var adminpage = document.getElementById("adminview");
+    var adminpage = document.getElementById("userview");
     adminpage.style.display = "none";
 
     var newurls = window.location.href.split('/#?/');

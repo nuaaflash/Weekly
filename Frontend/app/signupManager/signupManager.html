@@ -2,23 +2,21 @@
     <tr class="head">
         <td>序号</td>
         <td>员工姓名</td>
-        <td>注册邮箱</td>
         <td>注册状态</td>
         <td>操作</td>
     </tr>
     <tr class="content" ng-if="workers.length == 0">
-        <td></td><td></td>
+        <td></td>
         <td>无数据</td>
         <td></td><td></td>
     </tr>
     <tr class="content" ng-repeat="worker in workers | startFrom : start | limitTo: pagemax ">
         <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
         <td ng-bind="worker.name"></td>
-        <td ng-bind="worker.lwnumber"></td>
         <td ng-bind="worker.status"></td>
         <td>
-            <div class="deny" style="border:0;cursor:pointer" ng-click="deny($index)">拒绝注册</div>
-            <div class="agree" style="border:0;cursor:pointer" ng-click="agree($index)">通过注册</div>
+            <div class="deny" style="border:0;cursor:pointer" ng-click="deny((pagenumber-1)*pagemax + $index+1)">拒绝注册</div>
+            <div class="agree" style="border:0;cursor:pointer" ng-click="agree((pagenumber-1)*pagemax + $index+1)">通过注册</div>
         </td>
     </tr>
 </table>
