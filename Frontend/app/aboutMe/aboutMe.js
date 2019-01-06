@@ -14,5 +14,5 @@ angular.module('myApp.aboutMe', ['ngRoute','angularFileUpload'])
     $scope.wnumber = userInfo.Wnumber;
     $scope.name = userInfo.name;
     $scope.pleader = userInfo.pleader;
-    $scope.email = userInfo.email;
+    $scope.lwnumber = userInfo.lwnumber;
 }]);

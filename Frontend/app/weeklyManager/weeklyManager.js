@@ -59,7 +59,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     // 初始化users
     $http({
         method: "POST",
-        url: "http://106.15.200.206:4396/getSubWorkers",
+        url: "http://0.0.0.0:5000/getSubWorkers",
         dataType: 'JSON',
         data:{"lwnumber":lwnumber},
     }).
@@ -138,7 +138,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         // 调用服务查询该工号用户的周报
         $http({
             method: "POST",
-            url: "http://106.15.200.206:4396/getWeekly",
+            url: "http://0.0.0.0:5000/getWeekly",
             dataType: 'JSON',
             data:{"Wnumber":Wnumber},
         }).
@@ -179,7 +179,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
 
     }
     
-    // 查看周报
+    // 评论周报
     $scope.comments = function($index){
         $scope.index = $index;
         var thisWeekly = $scope.weeklys[$index];
@@ -209,7 +209,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         if($scope.operType === 'comments'){
             $http({
                 method: "POST",
-                url: "http://106.15.200.206:4396/commentWeekly",
+                url: "http://0.0.0.0:5000/commentWeekly",
                 dataType: 'JSON',
                 data:{"comment":$scope.comment,"weeklyid":$scope.weeklyid},
             }).

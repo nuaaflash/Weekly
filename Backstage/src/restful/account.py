@@ -14,10 +14,9 @@ from database import DB_user
 parser = reqparse.RequestParser()
 parser.add_argument('wnumber')
 parser.add_argument('password')
-parser.add_argument('email')
+parser.add_argument('lwnumber')
 parser.add_argument('name')
 parser.add_argument('userid')
-parser.add_argument('lwnumber')
 
 class Signup(Resource):
 
@@ -25,14 +24,11 @@ class Signup(Resource):
         args = parser.parse_args()
         name = args['name']
         password = args['password']
-        email = args['email']
-        # db_passwd = DB_user.Search(wnumber)
-        # if (db_passwd != None):
-        #     db_passwd = db_passwd[0]
-        #     print(db_passwd)
-        #     return False, 200
-        # else:
-        if(DB_user.insert(email,password,name)):
+        lwnumber = int(args['lwnumber'])
+        print(DB_user.Search(lwnumber))
+        if(DB_user.Search(lwnumber) == None):
+            return False,202
+        elif(DB_user.insert(lwnumber,password,name) == True):
             return True, 201
         else:
             return False,200
@@ -42,21 +38,20 @@ class Signup(Resource):
 class Login(Resource):
     def post(self):
         args = parser.parse_args()
-        wnumber = args['wnumber']
+        wnumber = int(args['wnumber'])
         password = args['password']
         print(password)
         # 查询数据库
         db_userinfo = DB_user.Search(wnumber)
         if(db_userinfo != None):
-            db_passwd = db_userinfo[1]
-            db_lwnum = db_userinfo[4]
-            db_name = db_userinfo[2]
-            db_photo = db_userinfo[5]
+            db_passwd = db_userinfo[0]
+            db_lwnum = int(db_userinfo[3])
+            db_name = db_userinfo[1]
+            db_photo = db_userinfo[4]
             if(db_lwnum != 0):
-                db_leader = DB_user.Search(db_userinfo[4])[2]
+                db_leader = DB_user.Search(db_userinfo[3])[1]
             else:
                 db_leader = '无'
-            db_email = db_userinfo[0]
 
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):
                 userInfo = {}
@@ -68,7 +63,7 @@ class Login(Resource):
                 userInfo['name'] = db_name
                 userInfo['photo'] = db_photo
                 userInfo['pleader'] = db_leader
-                userInfo['email'] = db_email
+                userInfo['lwnumber'] = db_lwnum
                 return userInfo, 200
             else:
                 return None, 200
@@ -85,7 +80,7 @@ class GetSignUps(Resource):
             db_userlist = DB_user.SignUpSearch()
             for user in db_userlist:
                 userinfo = {}
-                userinfo['email'] = user[0]
+                userinfo['lwnumber'] = user[0]
                 userinfo['password'] = user[1]
                 userinfo['name'] = user[2]
                 userinfo['userid'] = user[6]

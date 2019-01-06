@@ -43,7 +43,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
     debugger;
     $http({
             method: "POST",
-            url: "http://106.15.200.206:4396/getWeekly",
+            url: "http://0.0.0.0:5000/getWeekly",
             dataType: 'JSON',
             data:{"Wnumber":userInfo.Wnumber},
         }).
@@ -200,7 +200,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         if($scope.operType === 'add'){
             $http({
                 method: "POST",
-                url: "http://106.15.200.206:4396/addWeekly",
+                url: "http://0.0.0.0:5000/addWeekly",
                 dataType: 'JSON',
                 data:{"Wnumber":userInfo.Wnumber,"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review},
             }).
@@ -234,7 +234,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         else if($scope.operType === 'edit'){
             $http({
                 method: "POST",
-                url: "http://106.15.200.206:4396/editWeekly",
+                url: "http://0.0.0.0:5000/editWeekly",
                 dataType: 'JSON',
                 data:{"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review,"weeklyid":$scope.weeklyid},
             }).
@@ -272,7 +272,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         $scope.weeklyid = thisWeekly.weeklyid;
         $http({
             method: "POST",
-            url: "http://106.15.200.206:4396/deleteWeekly",
+            url: "http://0.0.0.0:5000/deleteWeekly",
             dataType: 'JSON',
             data:{"weeklyid":$scope.weeklyid},
         }).

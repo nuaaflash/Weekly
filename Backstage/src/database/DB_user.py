@@ -2,7 +2,7 @@
 import pymysql
 from database import DBConnection
 
-def insert(email,password,userName,Wnumber=-1,LWnumber=-1):
+def insert(LWnumber,password,userName,Wnumber=-1):
 
     flag = False
     # 打开数据库连接
@@ -12,9 +12,9 @@ def insert(email,password,userName,Wnumber=-1,LWnumber=-1):
     cursor = db.cursor()
 
     #SQL插入语句
-    sql = "insert into user(email,password,userName,Wnumber,LWnumber)\
-          values('%s','%s','%s','%d','%d')" % \
-          (email,password,userName,Wnumber,LWnumber)
+    sql = "insert into user(password,userName,Wnumber,LWnumber)\
+          values('%s','%s','%d','%d')" % \
+          (password,userName,Wnumber,LWnumber)
 
     try:
         #执行sql语句
@@ -31,7 +31,7 @@ def insert(email,password,userName,Wnumber=-1,LWnumber=-1):
     return flag
 
 def Search(Wnumber):
-    result = 0
+    result = False
     # 打开数据库连接
     db = DBConnection.connection()
 
@@ -39,7 +39,7 @@ def Search(Wnumber):
     cursor = db.cursor()
 
     # SQL查找语句
-    sql = "select * from user where Wnumber = '%s'" % (Wnumber)
+    sql = "select * from user where Wnumber = '%d'" % (Wnumber)
 
     try:
         # 执行sql语句

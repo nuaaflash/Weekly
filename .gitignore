@@ -10,3 +10,4 @@ workspace.xml
 Frontend/package-lock.json
 .idea/*
 Backstage/.idea/*
+package-lock.json

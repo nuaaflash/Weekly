@@ -14,7 +14,7 @@
     <tr class="content" ng-repeat="worker in workers | startFrom : start | limitTo: pagemax ">
         <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
         <td ng-bind="worker.name"></td>
-        <td ng-bind="worker.email"></td>
+        <td ng-bind="worker.lwnumber"></td>
         <td ng-bind="worker.status"></td>
         <td>
             <div class="deny" style="border:0;cursor:pointer" ng-click="deny($index)">拒绝注册</div>

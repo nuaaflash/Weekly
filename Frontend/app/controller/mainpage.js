@@ -22,7 +22,7 @@ angular.module('myApp.mainPage', [])
 
         $http({
             method: "POST",
-            url: "http://106.15.200.206:4396/login",
+            url: "http://0.0.0.0:5000/login",
             dataType: 'JSON',
             data:{"wnumber":$scope.wnumber,"password":$scope.password},
           }).
@@ -72,7 +72,7 @@ angular.module('myApp.mainPage', [])
 
 
         debugger;
-        //alert("用户名"+$scope.username+"密码"+$scope.password+"邮箱"+$scope.email);
+        //alert("用户名"+$scope.username+"密码"+$scope.password+"邮箱"+$scope.lwnumber);
         if($scope.password !== $scope.retype_password){
             alert("两次输入密码不一致！");
         }
@@ -80,21 +80,30 @@ angular.module('myApp.mainPage', [])
             
             $http({
                 method: "POST",
-                url: "http://106.15.200.206:4396/signup",
+                url: "http://0.0.0.0:5000/signup",
                 dataType: 'JSON',
-                data:{"name":$scope.newusername,"password":$scope.password,"email":$scope.email}
+                data:{"name":$scope.newusername,"password":$scope.password,"lwnumber":$scope.lwnumber}
               }).
               success(function(data, status) {
                //$scope.status = status;
                 console.log(data);
-                if(data){
+                if(status === 201){
                     alert("注册成功！请等待工号分配！");
                     // 清空表单
                     $scope.password = '';
                     $scope.newusername = '';
-                    $scope.email = '';
+                    $scope.lwnumber = '';
                     $scope.retype_password = '';
                     gotologinpage();
+                }
+                else if(status === 202){
+                    alert("领导工号不存在！");
+                    // 清空表单
+                    $scope.password = '';
+                    $scope.newusername = '';
+                    $scope.lwnumber = '';
+                    $scope.retype_password = '';
+                    goto1st();
                 }
                 else{
                     alert("注册失败，请检查网络！");
@@ -220,6 +229,6 @@ function main_cancle(){
     // 清空表单
     $scope.password = '';
     $scope.newusername = '';
-    $scope.email = '';
+    $scope.lwnumber = '';
     $scope.retype_password = '';
 }
