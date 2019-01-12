@@ -7,7 +7,7 @@ from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import *
 
-from database import DB_user
+from Backstage.src.database import DB_user
 
 
 
@@ -48,15 +48,16 @@ class Login(Resource):
         # 查询数据库
         db_userinfo = DB_user.Search(wnumber)
         if(db_userinfo != None):
-            db_passwd = db_userinfo[1]
-            db_lwnum = db_userinfo[4]
-            db_name = db_userinfo[2]
-            db_photo = db_userinfo[5]
+            db_passwd = db_userinfo[0]
+            db_lwnum = db_userinfo[3]
+            db_name = db_userinfo[1]
+            db_photo = db_userinfo[4]
             if(db_lwnum != 0):
-                db_leader = DB_user.Search(db_userinfo[4])[2]
+                db_leader = DB_user.Search(db_userinfo[3])[1]
             else:
                 db_leader = '无'
-            db_email = db_userinfo[0]
+            db_email = db_userinfo[2]
+            #print(db_passwd,db_name,wnumber,db_lwnum,db_photo)
 
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):
                 userInfo = {}

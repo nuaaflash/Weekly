@@ -8,7 +8,8 @@ angular.module('myApp', [
     'myApp.myWeekly',
     'myApp.aboutMe',
     'myApp.version',
-    'myApp.mainPage'
+    'myApp.mainPage',
+    'myApp.addTask'
 ])
 
 .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {

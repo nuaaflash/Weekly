@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('myApp.weeklyManager', ['ngRoute'])
+angular.module('myApp.addTask', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/weeklyManager', {
-    templateUrl: 'weeklyManager/weeklyManager.html',
-    controller: 'weeklyManagerCtrl'
+  $routeProvider.when('/addTask', {
+    templateUrl: 'addTask/addTask.html',
+    controller: 'addTaskCtrl'
   });
 }])
 
@@ -27,7 +27,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
 
 })
 
-.controller('weeklyManagerCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
+.controller('addTaskCtrl', ["$scope","FileUploader", "$http", function($scope,FileUploader,$http){//创建控制
     //定义数组
     $scope.users=[];
     $scope.done = false;
@@ -40,7 +40,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     $scope.pagemax = 6;
     $scope.weeklycheck = 'notchecked';
 
-    
+
     $scope.weeklys=[];
     $scope.weeklystart = 0;
     $scope.weeklyend = 0;
@@ -82,6 +82,21 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         $scope.userlistshow = 'block';
         $scope.weeklyshow = 'none';
     };
+
+    //新增任务
+    $scope.addTask = function($index){
+        debugger;
+        // 改变窗口样式
+        $scope.editOrNot = {
+        };
+        $scope.readOnly = false;
+        $scope.show = "block";
+        $scope.showSave = "block";
+        $scope.closeTag = "取消";
+        $scope.operType = 'add';
+        alert($scope.RW);
+    };
+
     // 上一页
     $scope.lastpage = function(usermode = true){
         if(usermode){
@@ -112,7 +127,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     // 校验
     var validatePop=function () {
         var notFilled = [];
-        if(!$scope.comment || $scope.comment === ""){
+        if(!$scope.content || $scope.content === ""){
             notFilled.push("评论");
         }
         debugger;
@@ -135,28 +150,34 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         $scope.userlistshow = 'none';
         $scope.weeklyshow = 'block';
         var Wnumber = $scope.users[$index].Wnumber;
+        $scope.RW = Wnumber;
         // 调用服务查询该工号用户的周报
+        $scope.weeklys = [];
         $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/getWeekly",
+            url: "http://127.0.0.1:5000/getTask",
             dataType: 'JSON',
             data:{"Wnumber":Wnumber},
         }).
         success(function(data, status) {
-            $scope.weeklys = []
             for(var i = 0;i < data.weeklys.length;i ++){
                 var sql_weekly = data.weeklys[i];
-                var completion = (sql_weekly[5] === 1);
+                //var completion = (sql_weekly[5] === 1);
                 var weekly = {
-                    "flag":false,
-                    "Wnumber":sql_weekly[0],
-                    "job":sql_weekly[1],
-                    "detail":sql_weekly[4],
-                    "done":completion,
-                    "audit":sql_weekly[6],
-                    "review":sql_weekly[7],
-                    "weeklyid":sql_weekly[8],
-                    "comment":sql_weekly[9]};
+//                    "flag":false,
+//                    "Wnumber":sql_weekly[0],
+//                    "job":sql_weekly[1],
+//                    "detail":sql_weekly[4],
+//                    "done":completion,
+//                    "audit":sql_weekly[6],
+//                    "review":sql_weekly[7],
+//                    "weeklyid":sql_weekly[8],
+//                    "comment":sql_weekly[9]};
+                      "name":sql_weekly[1],
+                      "content":sql_weekly[2],
+                      "PWnumber":sql_weekly[3],
+                      "RWnumber":sql_weekly[4],
+                      "done":true}
                 $scope.weeklys.push(weekly);
             }
             // 更新总数
@@ -167,7 +188,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
             $scope.weeklyend = $scope.weeklysum < $scope.pagemax*$scope.wpagenumber ? $scope.weeklysum:$scope.pagemax*$scope.wpagenumber;
         }).
         error(function(data, status) {
-          console.log("status");
+          alert("status");
         });
         debugger;
         // 更新总数
@@ -178,7 +199,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         $scope.weeklyend = $scope.weeklysum < $scope.pagemax*$scope.wpagenumber ? $scope.weeklysum:$scope.pagemax*$scope.wpagenumber;
 
     }
-    
+
     // 查看周报
     $scope.comments = function($index){
         $scope.index = $index;
@@ -200,21 +221,21 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
 
      //提交
      $scope.submit =function(){
-        if(!validatePop()){
+        /*if(!validatePop()){
             return false;
-        }
+        }*/
         var pop = document.getElementById('popup');
         var back_of_pop = document.getElementById('backgroud_popup');
-        
-        if($scope.operType === 'comments'){
+        debugger;
+        if(1){
             $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/commentWeekly",
+                url: "http://127.0.0.1:5000/addTask",
                 dataType: 'JSON',
-                data:{"comment":$scope.comment,"weeklyid":$scope.weeklyid},
+                data:{"N":$scope.name,"P":lwnumber,"R":$scope.RW,"content":$scope.content},
             }).
             success(function(data, status) {
-                alert('已评论！')
+                alert(data,status);
                 $scope.weeklys[$scope.index].comment = $scope.comment;
                 $scope.weeklys[$scope.index].audit = 1;
                 $scope.close();
@@ -224,7 +245,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
                 $scope.close();
             });
             // 替换进数组
-            // $scope.weeklys.splice($scope.index,1,weekly); 
+            // $scope.weeklys.splice($scope.index,1,weekly);
         }
 
     };
@@ -283,7 +304,7 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         }
         $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
     };
-    
+
     //改变完成情况
     $scope.doneInit = function(){
         $scope.done = !$scope.done;

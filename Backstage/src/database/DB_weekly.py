@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pymysql
 import datetime
-from database import DBConnection
+from Backstage.src.database import DBConnection
 
 def insert(Wnumber,Pname,content,completion,review,audit=0):
     # Wnumber = int(Wnumber)

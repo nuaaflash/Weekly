@@ -7,7 +7,7 @@ from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
 from flask_cors import *
 
-from database import DB_weekly
+from Backstage.src.database import DB_weekly
 
 parser = reqparse.RequestParser()
 parser.add_argument('Wnumber')

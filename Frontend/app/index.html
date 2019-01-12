@@ -92,7 +92,11 @@
           <div ng-class="aboutMe" ng-click="selectThis('aboutMe')">
               <img src="images/aboutme.png" class="sidebarIcon">
               <a href="#?/aboutMe" ng-class="aboutMeLabel">个人中心</a>
-            </div>
+          </div>
+            <div ng-class="addTask" ng-click="selectThis('addTask')" >
+            <img src="images/mine.png" class="sidebarIcon">
+                <a href="#?/addTask" ng-class="addTaskLabel">发布任务</a>
+          </div>
         </div>
         <div class="base"></div>
         <div ng-view class="view"></div>
@@ -160,6 +164,7 @@
   <script src="myWeekly/myWeekly.js"></script>
   <script src="aboutMe/aboutMe.js"></script>
   <script src="signupManager/signupManager.js"></script>
+  <script src="addTask/addTask.js"></script>
   <script src="components/version/version.js"></script>
   <script src="components/version/version-directive.js"></script>
   <script src="components/version/interpolate-filter.js"></script>

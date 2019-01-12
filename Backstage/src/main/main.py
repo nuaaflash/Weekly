@@ -2,7 +2,7 @@
 import sys
 sys.path.append("..")
 
-from restful import weekly,account
+from Backstage.src.restful import weekly,account,task
 
 from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
@@ -26,6 +26,8 @@ api.add_resource(account.GetSignUps, '/getSignups')
 api.add_resource(account.AgreeSignUp, '/agreeSignup')
 api.add_resource(account.DenySignUp, '/denySignup')
 api.add_resource(account.GetSubWorker, '/getSubWorkers')
+api.add_resource(task.AddTask, '/addTask')
+api.add_resource(task.GetTask, '/getTask')
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0', port='4396')
+    app.run(debug=True,host='127.0.0.1', port='5000')
