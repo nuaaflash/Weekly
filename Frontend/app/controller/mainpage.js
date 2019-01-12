@@ -50,25 +50,25 @@ angular.module('myApp.mainPage', [])
               console.log(data);
               alert("网络错误！");
          });
-        
+
     }
 
     document.onkeydown = keyDown;
     //回车
-    function keyDown(e) {	
-        var e =e||event;	
-        var key=e.keyCode||e.which||e.charCode; 	
-        if(key==0xD){ 
+    function keyDown(e) {
+        var e =e||event;
+        var key=e.keyCode||e.which||e.charCode;
+        if(key==0xD){
             // 判断是否按下回车键
             // 按下回车登陆
-            $scope.login();	
+            $scope.login();
         }
     }
 
 
     // 注册
     $scope.signup = function(){
-       
+
 
 
         debugger;
@@ -77,7 +77,7 @@ angular.module('myApp.mainPage', [])
             alert("两次输入密码不一致！");
         }
         else{
-            
+
             $http({
                 method: "POST",
                 url: "http://127.0.0.1:5000/signup",
