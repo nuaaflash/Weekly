@@ -3,7 +3,7 @@ import pymysql
 import datetime
 from Backstage.src.database import DBConnection
 
-def insert(Wnumber,Pname,content,completion,review,audit=0):
+def insert(Wnumber,Pname,content,completion,review,audit=0,TaskID=0):
     # Wnumber = int(Wnumber)
     # 打开数据库连接
     db = DBConnection.connection()
@@ -15,9 +15,9 @@ def insert(Wnumber,Pname,content,completion,review,audit=0):
     dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     #SQL插入语句
-    sql = "insert into weekly (Wnumber,Fdate,Ndate,Pname,content,completion,review,audit) \
-          values('%d','%s','%s','%s','%s','%d','%s','%d')" % \
-          (Wnumber,dt,dt,Pname,content,completion,review,audit)
+    sql = "insert into weekly (Wnumber,Fdate,Ndate,Pname,content,completion,review,audit,TaskID) \
+          values('%d','%s','%s','%s','%s','%d','%s','%d','%d')" % \
+          (Wnumber,dt,dt,Pname,content,completion,review,audit,TaskID)
 
     try:
         #执行sql语句

@@ -17,6 +17,7 @@ parser.add_argument('completion')
 parser.add_argument('review')
 parser.add_argument('weeklyid')
 parser.add_argument('comment')
+parser.add_argument('TID')
 
 class AddWeekly(Resource):
     # def get(self):
@@ -29,7 +30,7 @@ class AddWeekly(Resource):
         content = args['content']
         completionBool = args['completion']
         review = args['review']
-
+        TaskID = args['TID']
 
         if completionBool == 'True':
             completion = 1
@@ -39,7 +40,7 @@ class AddWeekly(Resource):
 
         print(completion)
         # 插入数据库
-        DB_weekly.insert(Wnumber, Pname, content, completion, review)
+        DB_weekly.insert(Wnumber, Pname, content, completion, review,TaskID)
         #return Pname
 
 class GetWeekly(Resource):

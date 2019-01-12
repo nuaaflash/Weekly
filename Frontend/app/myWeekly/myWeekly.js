@@ -38,30 +38,36 @@ angular.module('myApp.myWeekly', ['ngRoute'])
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
+    $scope.weeklyshow = "none";
+    $scope.taskshow = "block";
     // 读取当前用户缓存
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     debugger;
     $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/getWeekly",
+            url: "http://127.0.0.1:5000/getTask",
             dataType: 'JSON',
             data:{"Wnumber":userInfo.Wnumber},
         }).
         success(function(data, status) {
             for(var i = 0;i < data.weeklys.length;i ++){
                 var sql_weekly = data.weeklys[i];
-                var completion = (sql_weekly[5] === 1);
+                //var completion = (sql_weekly[5] === 1);
                 var weekly = {
-                    "flag":false,
-                    "Wnumber":userInfo.Wnumber,
-                    "job":sql_weekly[1],
-                    "detail":sql_weekly[4],
-                    "done":completion,
-                    "audit":sql_weekly[6],
-                    "review":sql_weekly[7],
-                    "weeklyid":sql_weekly[8],
-                    "comment":sql_weekly[9]
-                };
+//                    "flag":false,
+//                    "Wnumber":sql_weekly[0],
+//                    "job":sql_weekly[1],
+//                    "detail":sql_weekly[4],
+//                    "done":completion,
+//                    "audit":sql_weekly[6],
+//                    "review":sql_weekly[7],
+//                    "weeklyid":sql_weekly[8],
+//                    "comment":sql_weekly[9]};
+                      "name":sql_weekly[1],
+                      "content":sql_weekly[2],
+                      "PWnumber":sql_weekly[3],
+                      "RWnumber":sql_weekly[4],
+                      "done":true}
                 $scope.weeklys.push(weekly);
             }
             // 更新总数
@@ -177,6 +183,11 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             return false;
         }
     };
+
+    $scope.back = function(){
+        $scope.weeklyshow = "none";
+        $scope.taskshow = "block";
+    };
     //提交
     $scope.submit =function(){
         if(!validatePop()){
@@ -264,6 +275,11 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         $scope.readOnly = false;
         $scope.index = -1;
 
+    };
+
+    $scope.showWeekly = function($index){
+        $scope.weeklyshow = "block";
+        $scope.taskshow = "none";
     };
     //删除一行
     $scope.dele =function($index){
