@@ -4,10 +4,7 @@ angular.module('myApp.mainPage', [])
 
 .controller('mainPageCtrl',  ["$http", "$scope",function($http, $scope) {
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if( userInfo && userInfo.type === 'leader'){
-        gotomanagerpage();
-    }
-    else if(userInfo && userInfo.type === 'worker'){
+    if(userInfo && userInfo.Wnumber != -1){
         gotouserpage();
     }
     else{
@@ -22,7 +19,7 @@ angular.module('myApp.mainPage', [])
 
         $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/login",
+            url: "http://0.0.0.0:5000/login",
             dataType: 'JSON',
             data:{"wnumber":$scope.wnumber,"password":$scope.password},
           }).
@@ -32,10 +29,7 @@ angular.module('myApp.mainPage', [])
             if(data){
                 // alert("用户名或密码错误！");
                 sessionStorage.setItem('userInfo', JSON.stringify(data));
-                if(data.type === 'leader'){
-                    gotomanagerpage();
-                }
-                else if(data.type === 'worker'){
+                if(data.Wnumber != -1){
                     gotouserpage();
                 }
                 else{
@@ -50,51 +44,55 @@ angular.module('myApp.mainPage', [])
               console.log(data);
               alert("网络错误！");
          });
-
+        
     }
 
     document.onkeydown = keyDown;
     //回车
-    function keyDown(e) {
-        var e =e||event;
-        var key=e.keyCode||e.which||e.charCode;
-        if(key==0xD){
+    function keyDown(e) {	
+        var e =e||event;	
+        var key=e.keyCode||e.which||e.charCode; 	
+        if(key==0xD){ 
             // 判断是否按下回车键
             // 按下回车登陆
-            $scope.login();
+            $scope.login();	
         }
     }
 
 
     // 注册
     $scope.signup = function(){
-
+       
 
 
         debugger;
-        //alert("用户名"+$scope.username+"密码"+$scope.password+"邮箱"+$scope.email);
+        //alert("用户名"+$scope.username+"密码"+$scope.password+"邮箱"+$scope.lwnumber);
         if($scope.password !== $scope.retype_password){
             alert("两次输入密码不一致！");
         }
         else{
-
+            
             $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/signup",
+                url: "http://0.0.0.0:5000/signup",
                 dataType: 'JSON',
-                data:{"name":$scope.newusername,"password":$scope.password,"email":$scope.email}
+                data:{"name":$scope.newusername,"password":$scope.password,"lwnumber":$scope.lwnumber}
               }).
               success(function(data, status) {
                //$scope.status = status;
                 console.log(data);
-                if(data){
+                if(status === 201){
                     alert("注册成功！请等待工号分配！");
                     // 清空表单
                     $scope.password = '';
                     $scope.newusername = '';
-                    $scope.email = '';
+                    $scope.lwnumber = '';
                     $scope.retype_password = '';
                     gotologinpage();
+                }
+                else if(status === 202){
+                    alert("领导工号不存在！");
+                    goto1st();
                 }
                 else{
                     alert("注册失败，请检查网络！");
@@ -112,37 +110,13 @@ function gotouserpage(){
     var mainpage = document.getElementById("mainpage");
     mainpage.style.display = "none";
 
-    var userpage = document.getElementById("userview");
-    userpage.style.display = "block";
-
-    var adminpage = document.getElementById("adminview");
-    adminpage.style.display = "none";
-
-    var newurls = window.location.href.split('/#?/');
-
-    debugger;
-    window.location.href = newurls[0] + '/#?/' + 'myWeekly';
-
-    if(sessionStorage.getItem('status') !== 'login'){
-        window.history.go(0);
-        sessionStorage.setItem('status','login');
-    }
-}
-
-function gotomanagerpage(){
-    var mainpage = document.getElementById("mainpage");
-    mainpage.style.display = "none";
-
-    var userpage = document.getElementById("userview");
-    userpage.style.display = "none";
-
-    var adminpage = document.getElementById("adminview");
+    var adminpage = document.getElementById("userview");
     adminpage.style.display = "block";
 
     var newurls = window.location.href.split('/#?/');
 
     debugger;
-    window.location.href = newurls[0] + '/#?/' + 'weeklyManager';
+    window.location.href = newurls[0] + '/#?/' + 'myWeekly';
 
     if(sessionStorage.getItem('status') !== 'login'){
         window.history.go(0);
@@ -157,7 +131,7 @@ function logout(){
     var userpage = document.getElementById("userview");
     userpage.style.display = "none";
 
-    var adminpage = document.getElementById("adminview");
+    var adminpage = document.getElementById("userview");
     adminpage.style.display = "none";
 
     var newurls = window.location.href.split('/#?/');
@@ -220,6 +194,6 @@ function main_cancle(){
     // 清空表单
     $scope.password = '';
     $scope.newusername = '';
-    $scope.email = '';
+    $scope.lwnumber = '';
     $scope.retype_password = '';
 }

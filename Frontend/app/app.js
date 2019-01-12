@@ -17,10 +17,7 @@ angular.module('myApp', [
     $locationProvider.hashPrefix('?');
     // 设置view路由默认值
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    if(userInfo && userInfo.type=== 'leader'){
-        $routeProvider.otherwise({redirectTo: '/weeklyManager'});
-    }
-    else if(userInfo && userInfo.type === 'worker'){
+    if(userInfo && userInfo.Wnumber != -1){
         $routeProvider.otherwise({redirectTo: '/myWeekly'});
     }
     else{
@@ -35,22 +32,16 @@ angular.module('myApp', [
     // 设置默认选中的标签名 方便js调整样式 设置默认样式
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     $scope.photo = userInfo.photo;
-    if(userInfo && userInfo.type === 'worker'){
-        $scope.selectOne = 'myWeekly';
-        $scope.myWeekly = 'sideButtonSelected';
-        $scope.myWeeklyLabel = 'sideButtonLabelSelected';
-        $scope.aboutMe = 'sideButton';
-        $scope.aboutMeLabel = 'sideButtonLabel';
-    }
-    else if(userInfo && userInfo.type === 'leader'){
-        $scope.selectOne = 'weeklyManager';
-        $scope.weeklyManager = 'sideButtonSelected';
-        $scope.weeklyManagerLabel = 'sideButtonLabelSelected';
-        $scope.signupManager = 'sideButton';
-        $scope.signupManagerLabel = 'sideButtonLabel';
-        $scope.aboutMe = 'sideButton';
-        $scope.aboutMeLabel = 'sideButtonLabel';
-     }
+    $scope.hasSub = userInfo.hasSub;
+    $scope.selectOne = 'myWeekly';
+    $scope.myWeekly = 'sideButtonSelected';
+    $scope.myWeeklyLabel = 'sideButtonLabelSelected';
+    $scope.weeklyManager = 'sideButton';
+    $scope.weeklyManagerLabel = 'sideButtonLabel';
+    $scope.signupManager = 'sideButton';
+    $scope.signupManagerLabel = 'sideButtonLabel';
+    $scope.aboutMe = 'sideButton';
+    $scope.aboutMeLabel = 'sideButtonLabel';
      // 设置用户名
     debugger;
      $scope.username = userInfo && userInfo.name ? userInfo.name:"";

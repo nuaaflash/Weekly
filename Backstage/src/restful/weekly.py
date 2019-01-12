@@ -98,8 +98,6 @@ class DeleteWeekly(Resource):
             return False,500
 
 class CommentWeekly(Resource):
-    # def get(self):
-    #     return users
 
     def post(self):
         args = parser.parse_args()
