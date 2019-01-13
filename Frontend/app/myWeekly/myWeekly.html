@@ -1,6 +1,5 @@
 <div ng-style="{display:taskshow}">
     <div class="buttons">
-        <button  ng-click="showWeekly()" class="btn Lable"><img src="../images/add.png" class="Icon">增加</button>
         <button  ng-click="dlt()" class="btn Lable" style="display: none"><img src="../images/export.png" class="Icon">导出</button>
     </div>
     <table>
@@ -14,20 +13,18 @@
             <td>接受人工号</td>
             <td>任务名称</td>
             <td>任务详情</td>
-            <td>完成情况</td>
             <td>操作</td>
         </tr>
-        <tr class="content" ng-if="weeklys.length == 0">
+        <tr class="content" ng-if="tasks.length == 0">
             <td></td><td></td><td></td>
             <td>无数据</td>
             <td></td><td></td><td></td>
         </tr>
-        <tr class="content" ng-repeat="weekly in weeklys | startFrom : start | limitTo: pagemax ">
+        <tr class="content" ng-repeat="task in tasks | startFrom : start | limitTo: pagemax ">
             <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
-            <td ng-bind="weekly.RWnumber"></td>
-            <td ng-bind="weekly.name"></td>
-            <td ng-bind="weekly.content.length <= 10 ? weekly.content : weekly.content.substr(0, 10)+'......'"></td>
-            <td ng-bind="weekly.done ? '已完成':'未完成'"></td>
+            <td ng-bind="task.RWnumber"></td>
+            <td ng-bind="task.name"></td>
+            <td ng-bind="task.content.length <= 10 ? task.content : task.content.substr(0, 10)+'......'"></td>
             <td>
                 <div class="seeweekly" style="border:0;cursor:pointer" ng-click="showWeekly((pagenumber-1)*pagemax + $index)">查看次任务的周报</div>
             </td>
@@ -38,6 +35,9 @@
 <div ng-style="{display:weeklyshow}">
     <div class="buttons">
         <button  ng-click="back()" class="btn Lable"><img src="../images/export.png" class="Icon">返回</button>
+    </div>
+    <div class="buttons">
+        <button  ng-click="add()" class="btn Lable"><img src="../images/export.png" class="Icon">新增周报</button>
     </div>
     <table>
         <tr class="head">

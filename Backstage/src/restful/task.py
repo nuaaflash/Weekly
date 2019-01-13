@@ -15,6 +15,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('P')
 parser.add_argument('R')
 parser.add_argument('N')
+parser.add_argument('L')
 parser.add_argument('content')
 parser.add_argument('Wnumber')
 
@@ -48,6 +49,20 @@ class GetTask(Resource):
         taskInfo = {}
         try:
             taskInfo['weeklys'] = DB_task.taskSearch(Wnumber)
+            return taskInfo, 200
+        except:
+            return taskInfo, 500
+
+class GetTask2(Resource):
+
+    def post(self):
+        args = parser.parse_args()
+        Wnumber = int(args['Wnumber'])
+        lwnumber = int(args['L'])
+        taskInfo = {}
+        try:
+            taskInfo['weeklys'] = DB_task.taskSearch2(Wnumber,lwnumber)
+            print(taskInfo)
             return taskInfo, 200
         except:
             return taskInfo, 500

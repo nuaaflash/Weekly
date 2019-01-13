@@ -30,8 +30,8 @@ class AddWeekly(Resource):
         content = args['content']
         completionBool = args['completion']
         review = args['review']
-        TaskID = args['TID']
-
+        TaskID = int(args['TID'])
+        print(TaskID)
         if completionBool == 'True':
             completion = 1
         else:
@@ -50,11 +50,32 @@ class GetWeekly(Resource):
     def post(self):
         args = parser.parse_args()
         Wnumber = int(args['Wnumber'])
+        TID = int(args['TID'])
+        print(TID)
         weeklyInfo = {}
         try:
-            weeklyInfo['weeklys'] = DB_weekly.WeeklySearch(Wnumber)
+            weeklyInfo['weeklys'] = DB_weekly.WeeklySearch(Wnumber,TID)
+            print(weeklyInfo)
             return weeklyInfo, 200
         except:
+
+            return weeklyInfo, 500
+
+class GetWeekly2(Resource):
+    # def get(self):
+    #     return users
+
+    def post(self):
+        args = parser.parse_args()
+        Wnumber = int(args['Wnumber'])
+        print(Wnumber)
+        weeklyInfo = {}
+        try:
+            weeklyInfo['weeklys'] = DB_weekly.WeeklySearch2(Wnumber)
+            print(weeklyInfo)
+            return weeklyInfo, 200
+        except:
+
             return weeklyInfo, 500
 
 class EditWeekly(Resource):

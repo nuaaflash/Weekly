@@ -13,11 +13,13 @@ from Backstage.src.database import DB_user
 
 parser = reqparse.RequestParser()
 parser.add_argument('wnumber')
+parser.add_argument('Wnumber')
 parser.add_argument('password')
 parser.add_argument('email')
 parser.add_argument('name')
 parser.add_argument('userid')
 parser.add_argument('lwnumber')
+parser.add_argument('status')
 
 class Signup(Resource):
 
@@ -42,7 +44,7 @@ class Signup(Resource):
 class Login(Resource):
     def post(self):
         args = parser.parse_args()
-        wnumber = args['wnumber']
+        wnumber = int(args['wnumber'])
         password = args['password']
         print(password)
         # 查询数据库
@@ -58,14 +60,15 @@ class Login(Resource):
                 db_leader = '无'
             db_email = db_userinfo[2]
             #print(db_passwd,db_name,wnumber,db_lwnum,db_photo)
+            print(db_passwd)
 
             if(db_passwd == password):#(users[userid] == password):(db_passwd == password):
                 userInfo = {}
                 userInfo['Wnumber'] = wnumber
-                if(db_lwnum == 0):
-                    userInfo['type'] = 'leader'
+                if (DB_user.CheckSub(wnumber) != []):
+                    userInfo['hasSub'] = True
                 else:
-                    userInfo['type'] = 'worker'
+                    userInfo['hasSub'] = False
                 userInfo['name'] = db_name
                 userInfo['photo'] = db_photo
                 userInfo['pleader'] = db_leader
@@ -82,15 +85,17 @@ class GetSignUps(Resource):
 
     def post(self):
         userlist = []
+        args = parser.parse_args()
+        wnumber = int(args['wnumber'])
         try:
-            db_userlist = DB_user.SignUpSearch()
+            db_userlist = DB_user.SignUpSearch(wnumber)
             for user in db_userlist:
                 userinfo = {}
-                userinfo['email'] = user[0]
-                userinfo['password'] = user[1]
-                userinfo['name'] = user[2]
-                userinfo['userid'] = user[6]
-                if(user[3] == -1):
+                #userinfo['email'] = user[0]
+                userinfo['password'] = user[0]
+                userinfo['name'] = user[1]
+                userinfo['userid'] = user[5]
+                if(user[2] == -1):
                     userinfo['status'] = '待审核'
                 else:
                     userinfo['status'] = '已通过'

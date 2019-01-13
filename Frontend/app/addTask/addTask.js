@@ -177,7 +177,7 @@ angular.module('myApp.addTask', ['ngRoute'])
                       "content":sql_weekly[2],
                       "PWnumber":sql_weekly[3],
                       "RWnumber":sql_weekly[4],
-                      "done":true}
+                      "TID":sql_weekly[0]}
                 $scope.weeklys.push(weekly);
             }
             // 更新总数
@@ -236,7 +236,7 @@ angular.module('myApp.addTask', ['ngRoute'])
             }).
             success(function(data, status) {
                 alert(data,status);
-                $scope.weeklys[$scope.index].comment = $scope.comment;
+                //$scope.weeklys[$scope.index].comment = $scope.comment;
                 $scope.weeklys[$scope.index].audit = 1;
                 $scope.close();
             }).

@@ -38,14 +38,23 @@
     <div class="buttons">
         <button  ng-click="back()" class="btn Lable"><img src="../images/export.png" class="Icon">返回</button>
     </div>
+    <div class="buttons">
+        <button  ng-click="add()" class="btn Lable"><img src="../images/export.png" class="Icon">新增周报</button>
+    </div>
     <table>
         <tr class="head">
+            <!--<td>-->
+                <!--<label>-->
+                    <!--<input type="checkbox" ng-click="qx()"/>-->
+                <!--</label>-->
+            <!--</td>-->
             <td>序号</td>
             <td>工号</td>
             <td>工作名称</td>
             <td>工作内容</td>
             <td>完成情况</td>
-            <td>审核情况</td>
+            <td>总结反思</td>
+            <td>对应任务ID</td>
             <td>操作</td>
         </tr>
         <tr class="content" ng-if="weeklys.length == 0">
@@ -53,27 +62,20 @@
             <td>无数据</td>
             <td></td><td></td><td></td>
         </tr>
-        <tr class="content" ng-repeat="weekly in weeklys | startFrom : weeklystart | limitTo: pagemax ">
-            <td ng-bind="(wpagenumber-1)*pagemax + $index+1"></td>
+        <tr class="content" ng-repeat="weekly in weeklys | startFrom : start | limitTo: pagemax ">
+            <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
             <td ng-bind="weekly.Wnumber"></td>
             <td ng-bind="weekly.job"></td>
             <td ng-bind="weekly.detail.length <= 10 ? weekly.detail : weekly.detail.substr(0, 10)+'......'"></td>
             <td ng-bind="weekly.done ? '已完成':'未完成'"></td>
-            <td ng-bind="weekly.audit ? '已审核':'未审核'"></td>
+            <td ng-bind="weekly.review.length <= 8 ? weekly.review : weekly.review.substr(0, 8)+'......'"></td>
+            <td ng-bind="weekly.TaskID"></td>
             <td>
                 <div class="comment" style="border:0;cursor:pointer;margin-left: 50px" ng-click="comments((wpagenumber-1)*pagemax + $index)">审核</div>
                 <div class="detail" style="border:0;cursor:pointer" ng-click="details((wpagenumber-1)*pagemax + $index)">详情</div>
             </td>
         </tr>
     </table>
-    <div class="bottoms">
-        <div class="pagetag pagelabel">{{wpagenumber}}</div>
-        <div class="lines-of-page">{{pagemax}}行/页</div>
-        <div class="this-page-line">本页为{{wpagenumber == 1?(weeklysum == 0? 0:1):weeklystart+1}}~{{weeklyend}}条记录，总记录{{weeklysum}}条</div>
-        <button  ng-click="nextpage(false)" class="btnNextPage Lable" ng-if="wpagenumber * pagemax < weeklysum">下一页 ></button>
-        <button  ng-click="lastpage(false)" class="btnLastPage Lable" ng-if="wpagenumber != 1 && wpagenumber * pagemax < weeklysum">上一页 <</button>
-        <button  ng-click="lastpage(false)" class="btnNextPage Lable" ng-if="wpagenumber != 1 && wpagenumber * pagemax >= weeklysum">上一页 <</button>
-    </div>
 </div>
 
 <div class="back" id="backgroud_popup" ng-style="{display:show}"></div>

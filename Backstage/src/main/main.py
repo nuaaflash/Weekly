@@ -17,6 +17,7 @@ api = Api(app)
 # 设置路由
 api.add_resource(weekly.AddWeekly, '/addWeekly')
 api.add_resource(weekly.GetWeekly, '/getWeekly')
+api.add_resource(weekly.GetWeekly2, '/getWeekly2')
 api.add_resource(weekly.EditWeekly,'/editWeekly')
 api.add_resource(weekly.CommentWeekly,'/commentWeekly')
 api.add_resource(weekly.DeleteWeekly,'/deleteWeekly')
@@ -28,6 +29,7 @@ api.add_resource(account.DenySignUp, '/denySignup')
 api.add_resource(account.GetSubWorker, '/getSubWorkers')
 api.add_resource(task.AddTask, '/addTask')
 api.add_resource(task.GetTask, '/getTask')
+api.add_resource(task.GetTask2, '/getTaskByP&R')
 
 if __name__ == '__main__':
     app.run(debug=True,host='127.0.0.1', port='5000')

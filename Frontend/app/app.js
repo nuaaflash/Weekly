@@ -9,7 +9,7 @@ angular.module('myApp', [
     'myApp.aboutMe',
     'myApp.version',
     'myApp.mainPage',
-    'myApp.addTask'
+    'myApp.addTask',
 ])
 
 .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {

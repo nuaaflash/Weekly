@@ -134,41 +134,52 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     $scope.seeweekly = function($index){
         $scope.userlistshow = 'none';
         $scope.weeklyshow = 'block';
+        var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+        var lwnumber = userInfo.Wnumber;
         var Wnumber = $scope.users[$index].Wnumber;
         // 调用服务查询该工号用户的周报
+        $scope.weeklys = [];
         $http({
-            method: "POST",
-            url: "http://127.0.0.1:5000/getWeekly",
-            dataType: 'JSON',
-            data:{"Wnumber":Wnumber},
-        }).
-        success(function(data, status) {
-            $scope.weeklys = []
-            for(var i = 0;i < data.weeklys.length;i ++){
-                var sql_weekly = data.weeklys[i];
-                var completion = (sql_weekly[5] === 1);
-                var weekly = {
-                    "flag":false,
-                    "Wnumber":sql_weekly[0],
-                    "job":sql_weekly[1],
-                    "detail":sql_weekly[4],
-                    "done":completion,
-                    "audit":sql_weekly[6],
-                    "review":sql_weekly[7],
-                    "weeklyid":sql_weekly[8],
-                    "comment":sql_weekly[9]};
-                $scope.weeklys.push(weekly);
-            }
-            // 更新总数
-            $scope.weeklysum = $scope.weeklys.length;
-            if($scope.weeklysum === 0){
-                $scope.start = 0;
-            }
-            $scope.weeklyend = $scope.weeklysum < $scope.pagemax*$scope.wpagenumber ? $scope.weeklysum:$scope.pagemax*$scope.wpagenumber;
-        }).
-        error(function(data, status) {
-          console.log("status");
-        });
+                method: "POST",
+                url: "http://127.0.0.1:5000/getWeekly2",
+                dataType: 'JSON',
+                data:{"Wnumber":Wnumber},
+            }).
+            success(function(data, status) {
+                for(var i = 0;i < data.weeklys.length;i ++){
+                    var sql_weekly = data.weeklys[i];
+                    var completion = (sql_weekly[5] === 1);
+                    var weekly = {
+                        "flag":false,
+                        "Wnumber":userInfo.Wnumber,
+                        "job":sql_weekly[1],
+                        "detail":sql_weekly[4],
+                        "done":completion,
+                        "audit":sql_weekly[6],
+                        "review":sql_weekly[7],
+                        "weeklyid":sql_weekly[8],
+                        "comment":sql_weekly[9],
+                        "TaskID":sql_weekly[10]
+                    };
+                    $scope.weeklys.push(weekly);
+                }
+                debugger;
+                // 更新总数
+                $scope.sum = $scope.weeklys.length;
+                if($scope.sum === 0){
+                    $scope.start = 0;
+                }
+                $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+                // // 新建后的记录不在本页则翻页
+                // if($scope.sum > $scope.end){
+                //     $scope.nextpage();
+                // }
+            }).
+            error(function(data, status) {
+              console.log(status);
+              debugger;
+              alert("1asd56a");
+            });
         debugger;
         // 更新总数
         $scope.weeklysum = $scope.weeklys.length;

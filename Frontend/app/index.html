@@ -88,6 +88,10 @@
             <img src="images/manager.png" class="sidebarIcon">
             <a href="#?/weeklyManager" ng-class="weeklyManagerLabel">周报管理</a>
           </div>
+          <div ng-if="hasSub" ng-class="weeklyManager" ng-click="selectThis('weeklyManager')">
+            <img src="images/manager.png" class="sidebarIcon">
+            <a href="#?/addTask" ng-class="weeklyManagerLabel">分配任务</a>
+          </div>
           <div ng-if="hasSub" ng-class="signupManager" ng-click="selectThis('signupManager')" >
             <img src="images/mine.png" class="sidebarIcon">
             <a href="#?/signupManager" ng-class="signupManagerLabel">注册管理</a>
@@ -119,6 +123,7 @@
   <script src="weeklyManager/weeklyManager.js"></script>
   <script src="myWeekly/myWeekly.js"></script>
   <script src="aboutMe/aboutMe.js"></script>
+  <script src="addTask/addTask.js"></script>
   <script src="signupManager/signupManager.js"></script>
   <script src="components/version/version.js"></script>
   <script src="components/version/version-directive.js"></script>

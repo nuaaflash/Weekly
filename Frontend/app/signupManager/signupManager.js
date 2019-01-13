@@ -36,16 +36,18 @@ angular.module('myApp.signupManager', ['ngRoute'])
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
+    var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    var lwnumber = userInfo.Wnumber;
     // 获取注册请求列表
     $http({
         method: "POST",
         url: "http://127.0.0.1:5000/getSignups",
         dataType: 'JSON',
-        data:{},
+        data:{'wnumber':lwnumber},
     }).
     success(function(data, status) {
+       // alert(data[1].name);
         $scope.workers = [].concat(data);
-
         // 更新总数
         $scope.sum = $scope.workers.length;
         if($scope.sum === 0){
@@ -159,9 +161,11 @@ angular.module('myApp.signupManager', ['ngRoute'])
     $scope.agree = function($index){
         debugger;
         $scope.show = "block";
-        $scope.name = $scope.workers[$index].name;
+        $scope.name = $scope.workers[$index-1].name;
+        //alert($scope.workers[$index].name);
         $scope.userid = $scope.workers[$index].userid;
         $scope.thisline = $index;
+
     };  
     //删除一行
     $scope.dele =function($index){
