@@ -42,6 +42,8 @@ angular.module('myApp', [
     $scope.signupManagerLabel = 'sideButtonLabel';
     $scope.aboutMe = 'sideButton';
     $scope.aboutMeLabel = 'sideButtonLabel';
+    $scope.taskManager = 'sideButton';
+    $scope.taskManagerLabel = 'sideButtonLabel';
      // 设置用户名
     debugger;
      $scope.username = userInfo && userInfo.name ? userInfo.name:"";

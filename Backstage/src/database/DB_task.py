@@ -1,6 +1,6 @@
 import pymysql
 import datetime
-from Backstage.src.database import DBConnection
+from database import DBConnection
 
 def insert(Tname,Tcontent,PWnumber,RWnumber):
     # Wnumber = int(Wnumber)

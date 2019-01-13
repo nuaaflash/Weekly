@@ -2,7 +2,7 @@
 import sys
 sys.path.append("..")
 
-from Backstage.src.restful import weekly,account,task
+from restful import weekly,account,task
 
 from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pymysql
-from Backstage.src.database import DBConnection
+from database import DBConnection
 
 def insert(LWnumber,password,userName,Wnumber=-1):
 
