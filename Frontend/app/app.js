@@ -9,6 +9,7 @@ angular.module('myApp', [
     'myApp.aboutMe',
     'myApp.version',
     'myApp.mainPage',
+    'myApp.search',
     'myApp.addTask',
 ])
 

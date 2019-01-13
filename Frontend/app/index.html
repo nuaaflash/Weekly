@@ -73,10 +73,12 @@
           </div>
           <!-- <button class="border-btn btn-text" onclick="logout()">管理员<img src="images/down.png" class="btn-icon"/></button> -->
       </div>
-      <div class="searchbar">
-          <img src="images/search.png" class="icon"/>
-          <span class="searchtips">查找姓名/周报/日期/......</span>
+      <div class="searchbar" ng-controller='searchCtrl'>
+          <button ng-click='search()' style="border:none;background-color: #ffffff;"><img src="images/search.png" class="icon"/></button>
+          <input ng-class="(keyword != null && keyword.length != 0)? 'searchkeyword':'searchtips'" ng-model="keyword" type="text" placeholder="查找姓名/周报/日期/......" style="border:none;width: 1000px;background-color: #ffffff;">
+          <!-- <button class="s-icon" type="submit"><img src="{% static 'img/icons/search.png' %}"/></button> -->
       </div>
+
       <div class="content">
         <div class="sidebar">
           <!-- 以#开头的情况下 url中有匹配的href则跳转到匹配的 没有则按url（含默认前缀和默认路由）加上href跳转 -->
@@ -120,6 +122,7 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="app.js"></script>
   <script src="controller/mainpage.js"></script>
+  <script src="controller/search.js"></script>
   <script src="weeklyManager/weeklyManager.js"></script>
   <script src="myWeekly/myWeekly.js"></script>
   <script src="aboutMe/aboutMe.js"></script>
