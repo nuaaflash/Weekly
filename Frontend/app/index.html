@@ -77,7 +77,7 @@
           <button ng-click='search(0)' style="border:none;background-color: #ffffff;">
             <img src="images/search.png" class="icon"/>
           </button>
-          <input ng-class="(keyword != null && keyword.length != 0)? 'searchkeyword':'searchtips'" ng-model="keyword" type="text" placeholder="查找工号/姓名/周报/任务/......" style="border:none;width: 1000px;background-color: #ffffff;">
+          <input ng-class="(keyword != null && keyword.length != 0)? 'searchkeyword':'searchtips'" ng-model="keyword" type="text" placeholder="查找工号/姓名......" style="border:none;width: 1000px;background-color: #ffffff;">
           <!-- <button class="s-icon" type="submit"><img src="{% static 'img/icons/search.png' %}"/></button> -->
       </div>
 
@@ -102,11 +102,11 @@
           </div>
           <div ng-class="searchCenter" ng-click="selectThis('searchCenter')">
             <img src="images/search.png" class="sidebarIcon">
-            <a id="searchCenter"  href="#?/searchCenter" ng-class="searchCenterLabel" ng-click="selectThis('searchCenter')">搜索中心</a>
+            <a id="searchCenter"  href="#?/searchCenter" ng-class="searchCenterLabel" ng-click="selectThis('searchCenter')">查找同事</a>
           </div>
           <div ng-class="aboutMe" ng-click="selectThis('aboutMe')">
               <img src="images/aboutme.png" class="sidebarIcon">
-              <a href="#?/aboutMe" ng-class="aboutMeLabel">个人中心</a>
+              <a id='aboutMe' href="#?/aboutMe" ng-class="aboutMeLabel">个人中心</a>
             </div>
         </div>
         <div class="base"></div>

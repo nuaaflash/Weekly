@@ -44,10 +44,7 @@ angular.module('myApp.searchCenter', ['ngRoute','angularFileUpload'])
          $scope.usershow = "block";
          $scope.searchshow = "none";
          var userInfo = data;
-         $scope.wnumber = userInfo.Wnumber;
-         $scope.name = userInfo.name;
-         $scope.pleader = userInfo.pleader;
-         $scope.lwnumber = userInfo.lwnumber;
+         $scope.users = userInfo.users;
          alert('搜索成功！')
 
        }).
@@ -57,6 +54,7 @@ angular.module('myApp.searchCenter', ['ngRoute','angularFileUpload'])
        });
     }
     else{
+      
       debugger;
       $http({
         method: "POST",
@@ -67,8 +65,27 @@ angular.module('myApp.searchCenter', ['ngRoute','angularFileUpload'])
       success(function(data, status) {
        //$scope.status = status;
        sessionStorage.setItem('searchResult',JSON.stringify(data));
-       var searchCenterHref = document.getElementById("searchCenter");
-       searchCenterHref.click();
+      // 如果当前页面已经是搜索结果页 则需要刷新搜索结果
+      
+      if($scope.$parent.selectOne === 'searchCenter'){
+        console.log($scope.$parent.$$childTail)
+        $scope.$parent.$$childTail.usershow = "block";
+        $scope.$parent.$$childTail.searchshow = "none";
+        var userInfo = data;
+        $scope.$parent.$$childTail.users = userInfo.users;
+      }
+      else{
+        var searchCenterHref = document.getElementById("searchCenter");
+        searchCenterHref.click();
+      }
+
+       
+
+
+
+       // 改变侧边栏样式
+       $scope.$parent.selectThis('searchCenter');
+
        alert('搜索成功！');
      }).
       error(function(data, status) {
@@ -78,17 +95,17 @@ angular.module('myApp.searchCenter', ['ngRoute','angularFileUpload'])
     }
   }
 
-  document.onkeydown = keyDown;
-  //回车
-  function keyDown(e) {	
-      var e =e||event;	
-      var key=e.keyCode||e.which||e.charCode; 	
-      if(key==0xD){ 
-          // 判断是否按下回车键
-          // 按下回车搜索
-          $scope.search();
-      }
-  } 
+  // document.onkeydown = keyDown;
+  // //回车
+  // function keyDown(e) {	
+  //     var e =e||event;	
+  //     var key=e.keyCode||e.which||e.charCode; 	
+  //     if(key==0xD){ 
+  //         // 判断是否按下回车键
+  //         // 按下回车搜索
+  //         $scope.search();
+  //     }
+  // } 
 
 
 }]);
