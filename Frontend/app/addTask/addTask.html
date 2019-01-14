@@ -16,7 +16,7 @@
             <td ng-bind="user.name"></td>
             <td ng-bind="user.Wnumber"></td>
             <td>
-                <div class="seeweekly" style="border:0;cursor:pointer;margin-left: 50px" ng-click="seeweekly((pagenumber-1)*pagemax + $index)">分配任务</div>
+                <div class="seetask" style="border:0;cursor:pointer;margin-left: 50px" ng-click="seetask((pagenumber-1)*pagemax + $index)">分配任务</div>
             </td>
         </tr>
     </table>
@@ -30,9 +30,10 @@
     </div>
 </div>
 
-<div ng-style="{display:weeklyshow}">
+<div ng-style="{display:taskshow}">
     <div class="buttons">
         <button  ng-click="back()" class="btn Lable"><img src="../images/export.png" class="Icon">返回</button>
+        <button  ng-click="addTask()" class="btn Lable"><img src="../images/add.png" class="Icon">新增</button>
     </div>
     <table>
         <tr class="head">
@@ -41,35 +42,27 @@
             <td>任务名称</td>
             <td>任务详情</td>
             <td>完成情况</td>
-            <td>操作</td>
         </tr>
-        <tr class="content" ng-if="weeklys.length == 0">
+        <tr class="content" ng-if="tasks.length == 0">
             <td></td><td></td><td></td>
             <td>无数据</td>
             <td></td><td></td><td></td>
         </tr>
-        <tr class="content" ng-repeat="weekly in weeklys | startFrom : weeklystart | limitTo: pagemax ">
+        <tr class="content" ng-repeat="task in tasks | startFrom : taskstart | limitTo: pagemax ">
             <td ng-bind="(wpagenumber-1)*pagemax + $index+1"></td>
-            <td ng-bind="weekly.RWnumber"></td>
-            <td ng-bind="weekly.name"></td>
-            <td ng-bind="weekly.content.length <= 10 ? weekly.content : weekly.content.substr(0, 10)+'......'"></td>
-            <td ng-bind="weekly.done ? '已完成':'未完成'"></td>
-            <td>
-                <div class="comment" style="border:0;cursor:pointer;margin-left: 50px" ng-click="comments((wpagenumber-1)*pagemax + $index)">审核</div>
-                <div class="detail" style="border:0;cursor:pointer" ng-click="details((wpagenumber-1)*pagemax + $index)">详情</div>
-            </td>
-            <div class="buttons">
-                <button  ng-click="addTask()" class="btn Lable"><img src="../images/add.png" class="Icon">新增</button>
-            </div>
+            <td ng-bind="task.RWnumber"></td>
+            <td ng-bind="task.name"></td>
+            <td ng-bind="task.content.length <= 10 ? task.content : task.content.substr(0, 10)+'......'"></td>
+            <td ng-bind="task.done ? '已完成':'未完成'"></td>
         </tr>
     </table>
     <div class="bottoms">
         <div class="pagetag pagelabel">{{wpagenumber}}</div>
         <div class="lines-of-page">{{pagemax}}行/页</div>
-        <div class="this-page-line">本页为{{wpagenumber == 1?(weeklysum == 0? 0:1):weeklystart+1}}~{{weeklyend}}条记录，总记录{{weeklysum}}条</div>
-        <button  ng-click="nextpage(false)" class="btnNextPage Lable" ng-if="wpagenumber * pagemax < weeklysum">下一页 ></button>
-        <button  ng-click="lastpage(false)" class="btnLastPage Lable" ng-if="wpagenumber != 1 && wpagenumber * pagemax < weeklysum">上一页 <</button>
-        <button  ng-click="lastpage(false)" class="btnNextPage Lable" ng-if="wpagenumber != 1 && wpagenumber * pagemax >= weeklysum">上一页 <</button>
+        <div class="this-page-line">本页为{{wpagenumber == 1?(tasksum == 0? 0:1):taskstart+1}}~{{taskend}}条记录，总记录{{tasksum}}条</div>
+        <button  ng-click="nextpage(false)" class="btnNextPage Lable" ng-if="wpagenumber * pagemax < tasksum">下一页 ></button>
+        <button  ng-click="lastpage(false)" class="btnLastPage Lable" ng-if="wpagenumber != 1 && wpagenumber * pagemax < tasksum">上一页 <</button>
+        <button  ng-click="lastpage(false)" class="btnNextPage Lable" ng-if="wpagenumber != 1 && wpagenumber * pagemax >= tasksum">上一页 <</button>
     </div>
 </div>
 
@@ -95,37 +88,4 @@
 </div>
 
 <div class="back" id="backgroud_popup" ng-style="{display:detailshow}"></div>
-
-<div class="pop-window" id="popup" ng-style="{display:detailshow}">
-    <div class="pop-header">
-        <label class="pop-title">编辑周报</label>
-    </div>
-    <form class="pop-form">
-        <label class='must-input first-pop-star'>*</label>
-        <label class="pop-label first-pop-label">工作名称</label>
-        <input class="pop-input first-pop-input" ng-model="job" ng-style="editOrNot" ng-readonly="readOnly"/>
-
-        <label class='must-input second-pop-star'>*</label>
-        <label class="pop-label second-pop-label">完成情况</label>
-        <div class="first-pop-radio">
-            <input type="radio"  ng-if="showSave==='block'" class="pop-radio" ng-checked="done" ng-click="doneInit(1)">
-                <label class="pop-radio-label" ng-if="showSave==='block'">完成</label>
-            </input>
-            <input type="radio"  ng-if="showSave==='block'" class="pop-radio" ng-checked="!done" ng-click="doneInit(0)">
-                <label class="pop-radio-label" ng-if="showSave==='block'">完成中</label>
-            </input>
-            <label class="pop-radio pop-radio-label" ng-if="showSave==='none'">{{finishStatus}}</label>
-        </div>
-
-        <label class='must-input third-pop-star'>*</label>
-        <label class="pop-label third-pop-label">工作内容</label>
-        <textarea class="first-pop-textarea" ng-model="detail"  ng-style="editOrNot" ng-readonly="readOnly"></textarea>
-
-        <label class='must-input fourth-pop-star'>*</label>
-        <label class="pop-label fourth-pop-label">总结反思</label>
-        <textarea class="second-pop-textarea"ng-model="review"  ng-style="editOrNot" ng-readonly="readOnly"></textarea>
-
-        <button class="pop-cancel"  ng-click="close()">取消</button>
-
-    </form>
 </div>

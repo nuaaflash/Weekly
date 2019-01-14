@@ -38,17 +38,17 @@ angular.module('myApp.addTask', ['ngRoute'])
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
-    $scope.weeklycheck = 'notchecked';
+    $scope.taskcheck = 'notchecked';
 
 
-    $scope.weeklys=[];
-    $scope.weeklystart = 0;
-    $scope.weeklyend = 0;
-    $scope.weeklysum = 0;
+    $scope.tasks=[];
+    $scope.taskstart = 0;
+    $scope.taskend = 0;
+    $scope.tasksum = 0;
     $scope.wpagenumber = 1;
     // 初始化样式
     $scope.userlistshow = 'block';
-    $scope.weeklyshow = 'none';
+    $scope.taskshow = 'none';
      var uploader= new FileUploader({
         url:"F:\\",
         autoUpload: true
@@ -80,7 +80,7 @@ angular.module('myApp.addTask', ['ngRoute'])
     $scope.back = function(){
         debugger;
         $scope.userlistshow = 'block';
-        $scope.weeklyshow = 'none';
+        $scope.taskshow = 'none';
     };
 
     //新增任务
@@ -94,7 +94,6 @@ angular.module('myApp.addTask', ['ngRoute'])
         $scope.showSave = "block";
         $scope.closeTag = "取消";
         $scope.operType = 'add';
-        alert($scope.RW);
     };
 
     // 上一页
@@ -106,7 +105,7 @@ angular.module('myApp.addTask', ['ngRoute'])
         }
         else{
             debugger;
-            $scope.weeklystart -= $scope.pagemax;
+            $scope.taskstart -= $scope.pagemax;
             $scope.wpagenumber -= 1;
         }
     };
@@ -119,16 +118,19 @@ angular.module('myApp.addTask', ['ngRoute'])
             $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
         }
         else{
-            $scope.weeklystart += $scope.pagemax;
+            $scope.taskstart += $scope.pagemax;
             $scope.wpagenumber += 1;
-            $scope.weeklyend = $scope.weeklysum < $scope.pagemax*$scope.wpagenumber ? $scope.weeklysum:$scope.pagemax*$scope.wpagenumber;
+            $scope.taskend = $scope.tasksum < $scope.pagemax*$scope.wpagenumber ? $scope.tasksum:$scope.pagemax*$scope.wpagenumber;
         }
     };
     // 校验
     var validatePop=function () {
         var notFilled = [];
+        if(!$scope.name || $scope.name === ""){
+            notFilled.push("任务名称");
+        }
         if(!$scope.content || $scope.content === ""){
-            notFilled.push("评论");
+            notFilled.push("任务内容");
         }
         debugger;
         if(notFilled.length === 0){
@@ -145,14 +147,14 @@ angular.module('myApp.addTask', ['ngRoute'])
         }
     }
 
-    // 查看周报
-    $scope.seeweekly = function($index){
+    // 查看并分配任务
+    $scope.seetask = function($index){
         $scope.userlistshow = 'none';
-        $scope.weeklyshow = 'block';
+        $scope.taskshow = 'block';
         var Wnumber = $scope.users[$index].Wnumber;
         $scope.RW = Wnumber;
-        // 调用服务查询该工号用户的周报
-        $scope.weeklys = [];
+        // 调用服务查询该工号用户的任务
+        $scope.tasks = [];
         $http({
             method: "POST",
             url: "http://127.0.0.1:5000/getTask",
@@ -161,62 +163,25 @@ angular.module('myApp.addTask', ['ngRoute'])
         }).
         success(function(data, status) {
             for(var i = 0;i < data.tasks.length;i ++){
-                var sql_weekly = data.tasks[i];
-                //var completion = (sql_weekly[5] === 1);
-                var weekly = {
-//                    "flag":false,
-//                    "Wnumber":sql_weekly[0],
-//                    "job":sql_weekly[1],
-//                    "detail":sql_weekly[4],
-//                    "done":completion,
-//                    "audit":sql_weekly[6],
-//                    "review":sql_weekly[7],
-//                    "weeklyid":sql_weekly[8],
-//                    "comment":sql_weekly[9]};
-                      "name":sql_weekly[1],
-                      "content":sql_weekly[2],
-                      "PWnumber":sql_weekly[3],
-                      "RWnumber":sql_weekly[4],
-                      "TID":sql_weekly[0]}
-                $scope.weeklys.push(weekly);
+                var sql_task = data.tasks[i];
+                var task = {
+                      "name":sql_task[1],
+                      "content":sql_task[2],
+                      "PWnumber":sql_task[3],
+                      "RWnumber":sql_task[4],
+                      "TID":sql_task[0]}
+                $scope.tasks.push(task);
             }
             // 更新总数
-            $scope.weeklysum = $scope.weeklys.length;
-            if($scope.weeklysum === 0){
-                $scope.start = 0;
+            $scope.tasksum = $scope.tasks.length;
+            if($scope.tasksum === 0){
+                $scope.weeeklystart = 0;
             }
-            $scope.weeklyend = $scope.weeklysum < $scope.pagemax*$scope.wpagenumber ? $scope.weeklysum:$scope.pagemax*$scope.wpagenumber;
+            $scope.taskend = $scope.tasksum < $scope.pagemax*$scope.wpagenumber ? $scope.tasksum:$scope.pagemax*$scope.wpagenumber;
         }).
         error(function(data, status) {
           alert("status");
         });
-        debugger;
-        // 更新总数
-        $scope.weeklysum = $scope.weeklys.length;
-        if($scope.weeklysum === 0){
-            $scope.weeeklystart = 0;
-        }
-        $scope.weeklyend = $scope.weeklysum < $scope.pagemax*$scope.wpagenumber ? $scope.weeklysum:$scope.pagemax*$scope.wpagenumber;
-
-    }
-
-    // 查看周报
-    $scope.comments = function($index){
-        $scope.index = $index;
-        var thisWeekly = $scope.weeklys[$index];
-        // 回填数据
-        $scope.job = thisWeekly.job;
-        $scope.weeklyid = thisWeekly.weeklyid;
-        $scope.comment = thisWeekly.comment;
-        debugger;
-        // 改变窗口样式
-        $scope.editOrNot = {
-        };
-        $scope.readOnly = false;
-        $scope.show = "block";
-        $scope.showSave = "block";
-        $scope.closeTag = "取消";
-        $scope.operType = 'comments'
     }
 
      //提交
@@ -235,63 +200,29 @@ angular.module('myApp.addTask', ['ngRoute'])
                 data:{"N":$scope.name,"P":lwnumber,"R":$scope.RW,"content":$scope.content},
             }).
             success(function(data, status) {
-                alert(data,status);
-                //$scope.weeklys[$scope.index].comment = $scope.comment;
-                $scope.weeklys[$scope.index].audit = 1;
+                var task = {
+                    "name":$scope.name,
+                    "content":$scope.content,
+                    "PWnumber":lwnumber,
+                    "RWnumber":$scope.RW}
+                $scope.tasks.push(task);
                 $scope.close();
             }).
             error(function(data, status) {
-                alert('评论失败，请检查网络！');
+                alert('分配任务失败，请检查网络！');
                 $scope.close();
             });
-            // 替换进数组
-            // $scope.weeklys.splice($scope.index,1,weekly);
         }
 
-    };
-
-    // 查看周报
-    $scope.details = function($index){
-        var thisWeekly = $scope.weeklys[$index];
-        // 回填数据
-        $scope.job = thisWeekly.job;
-        $scope.detail = thisWeekly.detail;
-        $scope.done = thisWeekly.done;
-        $scope.review = thisWeekly.review;
-        $scope.detailshow = "block";
-        // 改变窗口样式
-        $scope.editOrNot = {
-            "outline":"none",
-            "border-style":"none"
-        };
-         $scope.readOnly = true;
-
-         $scope.showSave = "none";
-         $scope.closeTag = "关闭";
-
-         $scope.finishStatus = thisWeekly.done? '已完成':'完成中';
     };
 
     // 关闭弹窗
     $scope.close = function(){
         if($scope.show === "block"){
             // 关闭窗口 清除数据
-            $scope.comment = "";
+            $scope.name = "";
+            $scope.content = "";
             $scope.show = "none";
-        }
-        else if($scope.detailshow === "block"){
-            $scope.detailshow = "none";
-            // 关闭窗口 清除数据
-            $scope.job = "";
-            $scope.detail = "";
-            $scope.done = false;
-            $scope.review = "";
-            $scope.show = "none";
-            // 改变窗口样式
-            $scope.editOrNot = {
-            };
-            $scope.readOnly = false;
-            $scope.index = -1;
         }
     };
     //删除一行
