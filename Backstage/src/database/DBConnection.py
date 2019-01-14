@@ -8,5 +8,7 @@ def connection():
         port=3306,
         user="root",
         password="St110010",
-        db="Weekly")
+        db="Weekly",
+        use_unicode=True,
+        charset='utf8mb4',)
     return db

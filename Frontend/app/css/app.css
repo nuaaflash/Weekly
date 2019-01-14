@@ -9,7 +9,7 @@ html,body{
     height: 100%;
     width: 100%;
     background-color: #f5f8fc;
-    overflow: hidden;
+	overflow-x: hidden;
 }
 
 .topbar {
@@ -257,13 +257,9 @@ html,body{
 
 
 .searchCenterTitle{
-	width: 132px;
-	height: 15px;
 	font-family: zcoolwenyiti;
-	font-size: 22px;
+	font-size: 20px;
 	font-weight: normal;
 	font-stretch: normal;
-	line-height: 36px;
-	letter-spacing: 0px;
 	color: #2a3245;
 }

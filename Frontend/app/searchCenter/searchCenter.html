@@ -10,8 +10,23 @@
 </div>
 
 <div ng-style="{display:usershow}">
-    <div style="margin-left:20px;margin-top:20px;">
-        <span class="searchCenterTitle">搜索结果</span>
+    <div style="margin-left:35px;margin-top:35px;">
+        <span class="searchCenterTitle">相关员工</span>
+        <table>
+            <tr class="head">
+                <td>工号</td>
+                <td>姓名</td>
+                <td>直接主管</td>
+            </tr>
+            <tr ng-repeat="user in users" class="content">
+                <td ng-bind="user.Wnumber"></td>
+                <td ng-bind="user.name"></td>
+                <td ng-bind="user.pleader"></td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin-left:35px;margin-top:35px;">
+        <span class="searchCenterTitle">相关任务</span>
         <table>
             <tr class="head">
                 <td>工号</td>
@@ -19,10 +34,25 @@
                 <td>直接主管</td>
             </tr>
             <tr class="content">
-                <td ng-bind="wnumber"></td>
+                <!-- <td ng-bind="wnumber"></td>
                 <td ng-bind="name"></td>
-                <td ng-bind="pleader"></td>
+                <td ng-bind="pleader"></td> -->
             </tr>
         </table>
     </div>
+    <div style="margin-left:35px;margin-top:35px;">
+            <span class="searchCenterTitle">相关周报</span>
+            <table>
+                <tr class="head">
+                    <td>工号</td>
+                    <td>姓名</td>
+                    <td>直接主管</td>
+                </tr>
+                <tr class="content">
+                    <!-- <td ng-bind="wnumber"></td>
+                    <td ng-bind="name"></td>
+                    <td ng-bind="pleader"></td> -->
+                </tr>
+            </table>
+        </div>
 </div>

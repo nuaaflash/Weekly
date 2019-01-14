@@ -22,20 +22,29 @@ parser.add_argument('lwnumber')
 parser.add_argument('status')
 parser.add_argument('keyword')
 
+def common_decode(strs):
+    strs = str(strs)
+    if('x' in strs):
+        strs = strs.split('b\'')[1].split('\'')[0]
+        strTobytes = []
+        for i in strs.split('x'):
+            if i != '':
+               num = int(i,16)
+               strTobytes.append(num)
+        unicode_str = bytes(strTobytes)
+        
+        return unicode_str.decode('utf-8')
+    else:
+        return strs
+
 class Signup(Resource):
 
     def post(self):
         args = parser.parse_args()
         name = args['name']
         password = args['password']
-        email = args['email']
-        # db_passwd = DB_user.Search(wnumber)
-        # if (db_passwd != None):
-        #     db_passwd = db_passwd[0]
-        #     print(db_passwd)
-        #     return False, 200
-        # else:
-        if(DB_user.insert(email,password,name)):
+        lwnumber = int(args['lwnumber'])
+        if(DB_user.insert(lwnumber,password,name)):
             return True, 201
         else:
             return False,200
@@ -53,7 +62,7 @@ class Login(Resource):
         if(db_userinfo != None):
             db_passwd = db_userinfo[0]
             db_lwnum = db_userinfo[3]
-            db_name = db_userinfo[1]
+            db_name = common_decode(db_userinfo[1])
             db_photo = db_userinfo[4]
             if(db_lwnum != 0):
                 db_leader = DB_user.Search(db_userinfo[3])[1]
@@ -82,31 +91,36 @@ class Login(Resource):
 
 class SearchWorker(Resource):
     def post(self):
-        args = parser.parse_args()
-        wnumber = int(args['keyword'])
-        # 查询数据库
-        db_userinfo = DB_user.Search_Like(wnumber)
-        if(db_userinfo != None):
-            db_lwnum = db_userinfo[3]
-            db_name = db_userinfo[1]
-            db_photo = db_userinfo[4]
-            if(db_lwnum != 0):
-                db_leader = DB_user.Search(db_userinfo[3])[1]
-            else:
-                db_leader = '无'
 
-            userInfo = {}
-            userInfo['Wnumber'] = db_userinfo[2]
-            if (DB_user.CheckSub(wnumber) != []):
-                userInfo['hasSub'] = True
+        try:
+            args = parser.parse_args()
+            keyword = args['keyword']
+            result = DB_user.Search_Like(keyword)
+            if(result != []):
+                users = []
+                for db_userinfo in result:
+                    db_lwnum = db_userinfo[3]
+                    db_name = common_decode(db_userinfo[1])
+                    db_photo = db_userinfo[4]
+                    
+                    if(db_lwnum != 0):
+                        db_leader = DB_user.Search(db_userinfo[3])[1]
+                    else:
+                        db_leader = '无'
+                    
+                    userInfo = {}
+                    userInfo['Wnumber'] = db_userinfo[2]
+                    userInfo['name'] = db_name
+                    userInfo['photo'] = db_photo
+                    userInfo['pleader'] = db_leader
+                    users.append(userInfo)
+                data = {}
+                data['users'] = users
+                return data, 200
             else:
-                userInfo['hasSub'] = False
-            userInfo['name'] = db_name
-            userInfo['photo'] = db_photo
-            userInfo['pleader'] = db_leader
-            return userInfo, 200
-        else:
-            return "User Not Found", 200
+                return False, 500
+        except:
+            return 500,False
 
 class GetSignUps(Resource):
     # def get(self):
@@ -122,7 +136,8 @@ class GetSignUps(Resource):
                 userinfo = {}
                 #userinfo['email'] = user[0]
                 userinfo['password'] = user[0]
-                userinfo['name'] = user[1]
+                userinfo['name'] = common_decode(user[1])
+                print(userinfo['name'])
                 userinfo['userid'] = user[5]
                 if(user[2] == -1):
                     userinfo['status'] = '待审核'
@@ -170,7 +185,7 @@ class GetSubWorker(Resource):
                 users = []
                 for db_user in result:
                     user = {}
-                    user['name'] = db_user[0]
+                    user['name'] = common_decode(db_user[0])
                     user['Wnumber'] = db_user[1]
                     users.append(user)
                 return users, 200

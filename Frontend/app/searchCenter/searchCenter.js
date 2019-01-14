@@ -13,14 +13,15 @@ angular.module('myApp.searchCenter', ['ngRoute','angularFileUpload'])
   var searchResult = sessionStorage.getItem('searchResult');
   if(searchResult != null){
     searchResult = JSON.parse(searchResult);
+    $scope.users = searchResult.users;
     $scope.searchfont = 'searchtips';
     $scope.usershow = "block";
     $scope.searchshow = "none";
     console.log(searchResult);
-    $scope.wnumber = searchResult.Wnumber;
-    $scope.name = searchResult.name;
-    $scope.pleader = searchResult.pleader;
-    $scope.lwnumber = searchResult.lwnumber;
+    // $scope.wnumber = searchResult.Wnumber;
+    // $scope.name = searchResult.name;
+    // $scope.pleader = searchResult.pleader;
+    // $scope.lwnumber = searchResult.lwnumber;
     sessionStorage.removeItem('searchResult')
   }
   else{
