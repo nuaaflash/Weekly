@@ -4,7 +4,7 @@
             <td>序号</td>
             <td>姓名</td>
             <td>工号</td>
-            <td>审核状态</td>
+            <!-- <td>审核状态</td> -->
             <td>操作</td>
         </tr>
         <tr class="content" ng-if="users.length == 0">
@@ -16,9 +16,9 @@
             <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
             <td ng-bind="user.name"></td>
             <td ng-bind="user.Wnumber"></td>
-            <td>
+            <!-- <td>
                 <div ng-class="weeklycheck" style="margin-left: 30px">存在未审核的周报</div>
-            </td>
+            </td> -->
             <td>
                 <div class="seetask" style="border:0;cursor:pointer;margin-left: 50px" ng-click="seetask((pagenumber-1)*pagemax + $index)">查看任务</div>
             </td>
