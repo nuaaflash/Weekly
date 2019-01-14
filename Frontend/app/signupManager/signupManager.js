@@ -118,7 +118,7 @@ angular.module('myApp.signupManager', ['ngRoute'])
                 },
         }).
         success(function(data, status) {
-            $scope.works.splice($scope.thisline,1);
+            $scope.workers.splice($scope.thisline,1);
             alert('已同意！');
         }).
         error(function(data, status) {
@@ -144,18 +144,16 @@ angular.module('myApp.signupManager', ['ngRoute'])
             url: "http://127.0.0.1:5000/denySignup",
             dataType: 'JSON',
             data:{
-                    "userid": $scope.workers[$index].userid
+                    "userid": $scope.workers[$index-1].userid
                 },
         }).
         success(function(data, status) {
-            $scope.works.splice($index,1);
+            $scope.workers.splice($index-1,1);
             alert('已拒绝！');
         }).
         error(function(data, status) {
             alert('操作失败');
         });
-        // 同意后关闭弹窗
-        $scope.close();
     };
     // 同意注册
     $scope.agree = function($index){
@@ -163,8 +161,8 @@ angular.module('myApp.signupManager', ['ngRoute'])
         $scope.show = "block";
         $scope.name = $scope.workers[$index-1].name;
         //alert($scope.workers[$index].name);
-        $scope.userid = $scope.workers[$index].userid;
-        $scope.thisline = $index;
+        $scope.userid = $scope.workers[$index-1].userid;
+        $scope.thisline = $index-1;
 
     };  
     //删除一行

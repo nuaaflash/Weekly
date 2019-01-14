@@ -11,7 +11,7 @@ def insert(LWnumber,password,userName,Wnumber=-1):
     # 使用cursor()方法创建一个游标对象cursor
     cursor = db.cursor()
 
-    userName = userName.encode('utf-8')
+    # userName = userName.encode('utf-8')
 
     #SQL插入语句
     sql = "insert into user(password,userName,Wnumber,LWnumber)\
@@ -68,17 +68,17 @@ def Search_Like(keyword):
     cursor_name = db.cursor()
 
     # SQL查找语句
-    sql = "select * from user where Wnumber like '%"+ keyword +"%'"
+    sql = "select * from user where Wnumber like '%"+ keyword +"%' and Wnumber != '-1'"
     print(keyword)
-    sql_name = "select * from user where userName like '%"+ keyword +"%'"
+    sql_name = "select * from user where userName like '%"+ keyword +"%' and Wnumber != '-1'"
 
     try:
-        # # 执行sql语句
-        # cursor.execute(sql)
-        # # 获取所有记录列表
-        # result = cursor.fetchall()
-        # for row in result:
-        #     list.append(row)
+        # 执行sql语句
+        cursor.execute(sql)
+        # 获取所有记录列表
+        result = cursor.fetchall()
+        for row in result:
+            list.append(row)
 
         # 执行sql语句
         cursor_name.execute(sql_name)
@@ -174,7 +174,7 @@ def SignUpSearch(lwnumber):
     db.close()
     return list
 
-def SignUpAgree(userid, Wnumber):
+def SignUpAgree(userid, Wnumber, lwnumber):
     # 打开数据库连接
     db = DBConnection.connection()
 
@@ -182,8 +182,8 @@ def SignUpAgree(userid, Wnumber):
     cursor = db.cursor()
 
     # SQL更新语句
-    sql = "update user set Wnumber='%d' where userid='%d' " % \
-          (Wnumber,userid)
+    sql = "update user set Wnumber='%d' and LWnumber = '%d' where userid='%d' " % \
+          (Wnumber,lwnumber,userid)
 
     try:
         # 执行sql语句
