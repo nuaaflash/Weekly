@@ -73,9 +73,11 @@
           </div>
           <!-- <button class="border-btn btn-text" onclick="logout()">管理员<img src="images/down.png" class="btn-icon"/></button> -->
       </div>
-      <div class="searchbar" ng-controller='searchCtrl'>
-          <button ng-click='search()' style="border:none;background-color: #ffffff;"><img src="images/search.png" class="icon"/></button>
-          <input ng-class="(keyword != null && keyword.length != 0)? 'searchkeyword':'searchtips'" ng-model="keyword" type="text" placeholder="查找姓名/周报/任务/......" style="border:none;width: 1000px;background-color: #ffffff;">
+      <div class="searchbar" ng-controller='searchCenterCtrl'>
+          <button ng-click='search(0)' style="border:none;background-color: #ffffff;">
+            <img src="images/search.png" class="icon"/>
+          </button>
+          <input ng-class="(keyword != null && keyword.length != 0)? 'searchkeyword':'searchtips'" ng-model="keyword" type="text" placeholder="查找工号/姓名/周报/任务/......" style="border:none;width: 1000px;background-color: #ffffff;">
           <!-- <button class="s-icon" type="submit"><img src="{% static 'img/icons/search.png' %}"/></button> -->
       </div>
 
@@ -97,6 +99,10 @@
           <div ng-if="hasSub" ng-class="signupManager" ng-click="selectThis('signupManager')" >
             <img src="images/mine.png" class="sidebarIcon">
             <a href="#?/signupManager" ng-class="signupManagerLabel">注册管理</a>
+          </div>
+          <div ng-class="searchCenter" ng-click="selectThis('searchCenter')">
+            <img src="images/search.png" class="sidebarIcon">
+            <a id="searchCenter"  href="#?/searchCenter" ng-class="searchCenterLabel" ng-click="selectThis('searchCenter')">搜索中心</a>
           </div>
           <div ng-class="aboutMe" ng-click="selectThis('aboutMe')">
               <img src="images/aboutme.png" class="sidebarIcon">
@@ -122,9 +128,9 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="app.js"></script>
   <script src="controller/mainpage.js"></script>
-  <script src="controller/search.js"></script>
   <script src="weeklyManager/weeklyManager.js"></script>
   <script src="myWeekly/myWeekly.js"></script>
+  <script src="searchCenter/searchCenter.js"></script>
   <script src="aboutMe/aboutMe.js"></script>
   <script src="addTask/addTask.js"></script>
   <script src="signupManager/signupManager.js"></script>

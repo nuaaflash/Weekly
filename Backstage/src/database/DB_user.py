@@ -54,6 +54,30 @@ def Search(Wnumber):
     db.close()
     return result
 
+def Search_Like(Wnumber):
+    result = False
+    # 打开数据库连接
+    db = DBConnection.connection()
+
+    # 使用cursor()方法创建一个游标对象cursor
+    cursor = db.cursor()
+
+    # SQL查找语句
+    sql = "select * from user where Wnumber like '%"+ str(Wnumber) +"%'"
+
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        # 获取所有记录列表
+        result = cursor.fetchone()
+    except:
+        # 如果发生错误则回滚
+        db.rollback()
+
+    # 关闭数据库连接
+    db.close()
+    return result
+
 def CheckSub(LWnumber):
     list = []
     # 打开数据库连接

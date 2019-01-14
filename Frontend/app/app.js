@@ -9,7 +9,7 @@ angular.module('myApp', [
     'myApp.aboutMe',
     'myApp.version',
     'myApp.mainPage',
-    'myApp.search',
+    'myApp.searchCenter',
     'myApp.addTask',
 ])
 
@@ -45,6 +45,8 @@ angular.module('myApp', [
     $scope.aboutMeLabel = 'sideButtonLabel';
     $scope.taskManager = 'sideButton';
     $scope.taskManagerLabel = 'sideButtonLabel';
+    $scope.searchCenter = 'sideButton';
+    $scope.searchCenterLabel = 'sideButtonLabel';
      // 设置用户名
     debugger;
      $scope.username = userInfo && userInfo.name ? userInfo.name:"";

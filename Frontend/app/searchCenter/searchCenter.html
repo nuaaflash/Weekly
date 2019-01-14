@@ -1,0 +1,28 @@
+<div ng-style="{display:searchshow}" >
+    <div style="margin-left:200px;margin-top:200px;">
+        <span style="margin-left:400px;" class="searchCenterTitle">搜索中心</span>
+        <div class="searchbar" style="width:850px;border:solid;border-color: bisque">
+            <button ng-click='search(1)' style="border:none;background-color: #ffffff;"><img src="images/search.png" class="icon"/></button>
+            <input ng-class="(keyword != null && keyword.length != 0)? 'searchkeyword':'searchtips'" ng-model="keyword" type="text" placeholder="查找工号/姓名/周报/任务/......" style="border:none;width: 800px;background-color: #ffffff;">
+            <!-- <button class="s-icon" type="submit"><img src="{% static 'img/icons/search.png' %}"/></button> -->
+        </div>
+    </div>
+</div>
+
+<div ng-style="{display:usershow}">
+    <div style="margin-left:20px;margin-top:20px;">
+        <span class="searchCenterTitle">搜索结果</span>
+        <table>
+            <tr class="head">
+                <td>工号</td>
+                <td>姓名</td>
+                <td>直接主管</td>
+            </tr>
+            <tr class="content">
+                <td ng-bind="wnumber"></td>
+                <td ng-bind="name"></td>
+                <td ng-bind="pleader"></td>
+            </tr>
+        </table>
+    </div>
+</div>

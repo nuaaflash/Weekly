@@ -20,6 +20,7 @@ parser.add_argument('name')
 parser.add_argument('userid')
 parser.add_argument('lwnumber')
 parser.add_argument('status')
+parser.add_argument('keyword')
 
 class Signup(Resource):
 
@@ -76,6 +77,34 @@ class Login(Resource):
                 return userInfo, 200
             else:
                 return None, 200
+        else:
+            return "User Not Found", 200
+
+class SearchWorker(Resource):
+    def post(self):
+        args = parser.parse_args()
+        wnumber = int(args['keyword'])
+        # 查询数据库
+        db_userinfo = DB_user.Search_Like(wnumber)
+        if(db_userinfo != None):
+            db_lwnum = db_userinfo[3]
+            db_name = db_userinfo[1]
+            db_photo = db_userinfo[4]
+            if(db_lwnum != 0):
+                db_leader = DB_user.Search(db_userinfo[3])[1]
+            else:
+                db_leader = '无'
+
+            userInfo = {}
+            userInfo['Wnumber'] = db_userinfo[2]
+            if (DB_user.CheckSub(wnumber) != []):
+                userInfo['hasSub'] = True
+            else:
+                userInfo['hasSub'] = False
+            userInfo['name'] = db_name
+            userInfo['photo'] = db_photo
+            userInfo['pleader'] = db_leader
+            return userInfo, 200
         else:
             return "User Not Found", 200
 

@@ -214,7 +214,6 @@ angular.module('myApp.myWeekly', ['ngRoute'])
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         var TID = $scope.tasks[$index].TID;
         $scope.addWeeklyTID = TID;
-        alert($scope.addWeeklyTID);
         debugger;
         $http({
                 method: "POST",
