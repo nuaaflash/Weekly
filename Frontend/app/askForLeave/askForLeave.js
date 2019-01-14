@@ -30,8 +30,7 @@ angular.module('myApp.askForLeave', ['ngRoute'])
 
 .controller('askForLeaveCtrl', ["$scope", "$http", function($scope,$http){//创建控制
     // 定义数组
-    $scope.weeklys=[];
-    $scope.tasks=[];
+    $scope.askings=[];
     $scope.done = false;
     $scope.show = "none";
     $scope.pagenumber = 1;
@@ -39,37 +38,24 @@ angular.module('myApp.askForLeave', ['ngRoute'])
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
-    $scope.show = "block";
     // 读取当前用户缓存
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     debugger;
     $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/getTask",
+            url: "http://127.0.0.1:5000/searchAsking",
             dataType: 'JSON',
             data:{"Wnumber":userInfo.Wnumber},
         }).
         success(function(data, status) {
-            for(var i = 0;i < data.tasks.length;i ++){
-                var sql_weekly = data.tasks[i];
-                var task = {
-                      "name":sql_weekly[1],
-                      "content":sql_weekly[2],
-                      "PWnumber":sql_weekly[3],
-                      "RWnumber":sql_weekly[4],
-                      "TID":sql_weekly[0]}
-                $scope.tasks.push(task);
-            }
+            $scope.askings = data;
+            $scope.chooseTime(data.partOfDay)
             // 更新总数
-            $scope.sum = $scope.tasks.length;
+            $scope.sum = $scope.askings.length;
             if($scope.sum === 0){
                 $scope.start = 0;
             }
             $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-            // // 新建后的记录不在本页则翻页
-            // if($scope.sum > $scope.end){
-            //     $scope.nextpage();
-            // }
         }).
         error(function(data, status) {
           console.log(status);
@@ -78,13 +64,13 @@ angular.module('myApp.askForLeave', ['ngRoute'])
     // 编辑周报
     $scope.edit = function($index){
         $scope.index = $index;
-        var thisWeekly = $scope.weeklys[$index];
+        var thisasking = $scope.askings[$index];
         // 回填数据
-        $scope.job = thisWeekly.job;
-        $scope.detail = thisWeekly.detail;
-        $scope.done = thisWeekly.done;
-        $scope.review = thisWeekly.review;
-        $scope.weeklyid = thisWeekly.weeklyid;
+        $scope.job = thisasking.job;
+        $scope.detail = thisasking.detail;
+        $scope.done = thisasking.done;
+        $scope.review = thisasking.review;
+        $scope.askingid = thisasking.askingid;
         $scope.show = "block";
         // 改变窗口样式
         $scope.editOrNot = {
@@ -97,13 +83,13 @@ angular.module('myApp.askForLeave', ['ngRoute'])
 
     // 查看周报
     $scope.details = function($index){
-        var thisWeekly = $scope.weeklys[$index];
+        var thisasking = $scope.askings[$index];
         // 回填数据
-        $scope.job = thisWeekly.job;
-        $scope.detail = thisWeekly.detail;
-        $scope.done = thisWeekly.done;
-        $scope.review = thisWeekly.review;
-        $scope.comment = thisWeekly.comment?thisWeekly.comment:'暂无评价';
+        $scope.job = thisasking.job;
+        $scope.detail = thisasking.detail;
+        $scope.done = thisasking.done;
+        $scope.review = thisasking.review;
+        $scope.comment = thisasking.comment?thisasking.comment:'暂无评价';
         $scope.show = "block";
         $scope.operType = 'view'
         // 改变窗口样式
@@ -116,7 +102,7 @@ angular.module('myApp.askForLeave', ['ngRoute'])
          $scope.showSave = "none";
          $scope.closeTag = "关闭";
 
-         $scope.finishStatus = thisWeekly.done? '已完成':'完成中';
+         $scope.finishStatus = thisasking.done? '已完成':'完成中';
     };
 
     //添加的方法
@@ -129,7 +115,14 @@ angular.module('myApp.askForLeave', ['ngRoute'])
         $scope.show = "block";
         $scope.showSave = "block";
         $scope.closeTag = "取消";
-        $scope.operType = 'add'
+        $scope.operType = 'add';
+        var time = new Date();        
+        var day = time.getDate() < 10 ? '0' + time.getDate() : time.getDate();        
+        var month = time.getMonth() + 1;      
+        month = month < 10 ? '0' + month : month;
+        var today = time.getFullYear() + "-" + (month) + "-" + (day);       
+        $scope.askingdate = today;
+        $scope.chooseTime(1);
     };
     // 上一页
     $scope.lastpage = function(){
@@ -147,17 +140,8 @@ angular.module('myApp.askForLeave', ['ngRoute'])
     // 校验
     var validatePop=function () {
         var notFilled = [];
-        if(!$scope.job || $scope.job === ""){
-            notFilled.push("工作名称");
-        }
-        if(!$scope.detail || $scope.detail === ""){
-            notFilled.push("工作内容");
-        }
-        // if($scope.done === ""){
-        //     notFilled.push("完成情况");
-        // }
-        if(!$scope.review || $scope.review === ""){
-            notFilled.push("总结反思");
+        if(!$scope.reason || $scope.reason === ""){
+            notFilled.push("请假原因");
         }
         debugger;
         if(notFilled.length === 0){
@@ -175,7 +159,7 @@ angular.module('myApp.askForLeave', ['ngRoute'])
     };
 
     $scope.back = function(){
-        $scope.weeklyshow = "none";
+        $scope.askingshow = "none";
         $scope.taskshow = "block";
     };
     //提交
@@ -193,57 +177,51 @@ angular.module('myApp.askForLeave', ['ngRoute'])
         };
         $scope.readOnly = false;
         $scope.index = -1;
-
     };
 
-    $scope.showWeekly = function($index){
-        $scope.weeklyshow = "block";
+    $scope.showAsking = function($index){
+        $scope.askingshow = "block";
         $scope.taskshow = "none";
-        $scope.weeklys = [];    
+        $scope.askings = [];    
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         var TID = $scope.tasks[$index].TID;
-        $scope.addWeeklyTID = TID;
+        $scope.addaskingTID = TID;
         debugger;
         $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/getWeekly",
+                url: "http://127.0.0.1:5000/getasking",
                 dataType: 'JSON',
                 data:{"Wnumber":userInfo.Wnumber,"TID":TID},
             }).
             success(function(data, status) {
-                for(var i = 0;i < data.weeklys.length;i ++){
-                    var sql_weekly = data.weeklys[i];
-                    var completion = (sql_weekly[5] === 1);
-                    var weekly = {
+                for(var i = 0;i < data.askings.length;i ++){
+                    var sql_asking = data.askings[i];
+                    var completion = (sql_asking[5] === 1);
+                    var asking = {
                         "flag":false,
                         "Wnumber":userInfo.Wnumber,
-                        "job":sql_weekly[1],
-                        "detail":sql_weekly[4],
+                        "job":sql_asking[1],
+                        "detail":sql_asking[4],
                         "done":completion,
-                        "audit":sql_weekly[6],
-                        "review":sql_weekly[7],
-                        "weeklyid":sql_weekly[8],
-                        "comment":sql_weekly[9],
-                        "TID":sql_weekly[10]
+                        "audit":sql_asking[6],
+                        "review":sql_asking[7],
+                        "askingid":sql_asking[8],
+                        "comment":sql_asking[9],
+                        "TID":sql_asking[10]
                     };
-                    $scope.weeklys.push(weekly);
+                    $scope.askings.push(asking);
                 }
                 debugger;
                 // 更新总数
-                $scope.sum = $scope.weeklys.length;
+                $scope.sum = $scope.askings.length;
                 if($scope.sum === 0){
                     $scope.start = 0;
                 }
                 $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-                // // 新建后的记录不在本页则翻页
-                // if($scope.sum > $scope.end){
-                //     $scope.nextpage();
-                // }
             }).
             error(function(data, status) {
               console.log(status);
               debugger;
-              alert("1asd56a");
             });
     };
 
@@ -253,36 +231,45 @@ angular.module('myApp.askForLeave', ['ngRoute'])
         }
         var pop = document.getElementById('popup');
         var back_of_pop = document.getElementById('backgroud_popup');
-        console.log($scope);
-        //创建对象
-        console.log($scope.sjob);
+        // 转换选择的时间
+        var date = new Date($scope.askingdate);
+        var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();        
+        var month = date.getMonth() + 1;      
+        month = month < 10 ? '0' + month : month;
+        var dates = date.getFullYear() + "-" + (month) + "-" + (day);
+        // 转换选择的时段
+        var partOfDay = 3;
+        if($scope.morning){
+            partOfDay = 1;
+        }
+        else if($scope.afternoon){
+            partOfDay = 2;
+        }
+        else if($scope.wholeday){
+            partOfDay = 3;
+        }
         // 读取当前用户缓存
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-        var weekly = {"flag":false,
-                    "Wnumber":userInfo.Wnumber,
-                    "job":$scope.job,
-                    "detail":$scope.detail,
-                    "done":$scope.done,
-                    "review":$scope.review,
-                    "comment":null
-                };
         if($scope.operType === 'add'){
             $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/addWeekly",
+                url: "http://127.0.0.1:5000/addasking",
                 dataType: 'JSON',
-                data:{"Wnumber":userInfo.Wnumber,"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review,"TID":$scope.addWeeklyTID},
+                data:{
+                    "Wnumber":userInfo.Wnumber,
+                    "Date":dates,
+                    "PartOfDay":partOfDay,
+                }
             }).
             success(function(data, status) {
-            //$scope.status = status;
-            //alert(data);
+                alert("添加成功！");
             }).
             error(function(data, status) {
               console.log(status);
-              alert(data);
+              alert('网络错误！');
             });
             //放进数组
-            $scope.weeklys.push(weekly);
+            $scope.askings.push(asking);
             // 关闭窗口 清除数据
             $scope.job = "";
             $scope.detail = "";
@@ -290,7 +277,7 @@ angular.module('myApp.askForLeave', ['ngRoute'])
             $scope.review = "";
             $scope.show = "none";
             // 更新总数
-            $scope.sum = $scope.weeklys.length;
+            $scope.sum = $scope.askings.length;
             if($scope.sum === 0){
                 $scope.start = 0;
             }
@@ -303,9 +290,9 @@ angular.module('myApp.askForLeave', ['ngRoute'])
         else if($scope.operType === 'edit'){
             $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/editWeekly",
+                url: "http://127.0.0.1:5000/editasking",
                 dataType: 'JSON',
-                data:{"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review,"weeklyid":$scope.weeklyid},
+                data:{"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review,"askingid":$scope.askingid},
             }).
             success(function(data, status) {
                 alert('修改成功！')
@@ -314,7 +301,7 @@ angular.module('myApp.askForLeave', ['ngRoute'])
               console.log('修改失败，请检查网络！');
             });
             // 替换进数组
-            $scope.weeklys.splice($scope.index,1,weekly);
+            $scope.askings.splice($scope.index,1,asking);
             $scope.close();
         }
 
@@ -323,8 +310,8 @@ angular.module('myApp.askForLeave', ['ngRoute'])
     //删除一行
     $scope.dele =function($index){
         // 从数据库删除
-        var thisWeekly = $scope.weeklys[$index];
-        $scope.weeklyid = thisWeekly.weeklyid;
+        var thisasking = $scope.askings[$index];
+        $scope.askingid = thisasking.askingid;
         $http({
             method: "POST",
             url: "http://127.0.0.1:5000/deleteWeekly",
@@ -338,43 +325,19 @@ angular.module('myApp.askForLeave', ['ngRoute'])
           console.log('删除失败，请检查网络！');
         });
         // 从数组删除
-        $scope.weeklys.splice($index,1);
+        $scope.askings.splice($index,1);
         // 更新总数
-        $scope.sum = $scope.weeklys.length;
+        $scope.sum = $scope.askings.length;
         if($scope.sum === 0){
             $scope.start = 0;
         }
         $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
     };
-    //改变完成情况
-    $scope.doneInit = function(code){
-        $scope.done = (code === 1);
-    };
-    //改变完成情况
-    $scope.donef = function($index){
-        $scope.weeklys[$index].done=!$scope.weeklys[$index].done;
-    };
-    //批量删除
-    $scope.plsc = function(){
-        //反着遍历
-        for (var i = $scope.weeklys.length-1;i>=0;i--) {
-            if ($scope.weeklys[i].flag) {
-                $scope.weeklys.splice(i,1);
-            }
-        }
-    };
 
-    //全选
-    var qq = true;
-    $scope.qx = function(){
-        //获取属性
-        var ck = $("input[name=ck]");
-        for (var i=0;i<ck.length;i++) {
-            ck[i].checked=qq;
-            //给每个数组中的ck赋值
-            $scope.weeklys[i].flag=qq;
-        }
-        qq=!qq;
-    };
+    $scope.chooseTime = function(partOfDay){
+        $scope.morning = (partOfDay == 1);
+        $scope.afternoon = (partOfDay == 2);
+        $scope.wholeday = (partOfDay == 3);
+    }
 
 }]);

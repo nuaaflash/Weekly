@@ -2,7 +2,7 @@
 import sys
 sys.path.append("..")
 
-from restful import weekly,account,task
+from restful import weekly, account, task, asking
 
 from flask import Flask
 from flask_restful import reqparse, abort, Api, Resource
@@ -31,6 +31,8 @@ api.add_resource(account.GetSubWorker, '/getSubWorkers')
 api.add_resource(task.AddTask, '/addTask')
 api.add_resource(task.GetTask, '/getTask')
 api.add_resource(task.GetTask2, '/getTaskByP&R')
+api.add_resource(asking.SearchAsking, '/searchAsking')
+api.add_resource(asking.AddAsking, '/addasking')
 
 if __name__ == '__main__':
     app.run(debug=True,host='127.0.0.1', port='5000')

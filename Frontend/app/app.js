@@ -11,7 +11,8 @@ angular.module('myApp', [
     'myApp.mainPage',
     'myApp.searchCenter',
     'myApp.addTask',
-    'myApp.approveAsking'
+    'myApp.approveAsking',
+    'myApp.askForLeave'
 ])
 
 .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
