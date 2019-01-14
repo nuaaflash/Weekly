@@ -51,8 +51,8 @@ angular.module('myApp.myWeekly', ['ngRoute'])
             data:{"Wnumber":userInfo.Wnumber},
         }).
         success(function(data, status) {
-            for(var i = 0;i < data.weeklys.length;i ++){
-                var sql_weekly = data.weeklys[i];
+            for(var i = 0;i < data.tasks.length;i ++){
+                var sql_weekly = data.tasks[i];
                 //var completion = (sql_weekly[5] === 1);
                 var task = {
 //                    "flag":false,
@@ -210,6 +210,7 @@ angular.module('myApp.myWeekly', ['ngRoute'])
     $scope.showWeekly = function($index){
         $scope.weeklyshow = "block";
         $scope.taskshow = "none";
+        $scope.weeklys = [];    
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         var TID = $scope.tasks[$index].TID;
         $scope.addWeeklyTID = TID;

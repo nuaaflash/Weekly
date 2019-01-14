@@ -48,7 +48,7 @@ class GetTask(Resource):
         Wnumber = int(args['Wnumber'])
         taskInfo = {}
         try:
-            taskInfo['weeklys'] = DB_task.taskSearch(Wnumber)
+            taskInfo['tasks'] = DB_task.taskSearch(Wnumber)
             return taskInfo, 200
         except:
             return taskInfo, 500
@@ -61,7 +61,7 @@ class GetTask2(Resource):
         lwnumber = int(args['L'])
         taskInfo = {}
         try:
-            taskInfo['weeklys'] = DB_task.taskSearch2(Wnumber,lwnumber)
+            taskInfo['tasks'] = DB_task.taskSearch2(Wnumber,lwnumber)
             print(taskInfo)
             return taskInfo, 200
         except:

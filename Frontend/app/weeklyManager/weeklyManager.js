@@ -40,19 +40,23 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     $scope.pagemax = 6;
     $scope.weeklycheck = 'notchecked';
 
-    
+    // weekly表格相关变量
     $scope.weeklys=[];
     $scope.weeklystart = 0;
     $scope.weeklyend = 0;
     $scope.weeklysum = 0;
     $scope.wpagenumber = 1;
+    // task表格相关变量
+    $scope.tasks=[];
+    $scope.taskstart = 0;
+    $scope.taskend = 0;
+    $scope.tasksum = 0;
+    $scope.tpagenumber = 1;
     // 初始化样式
     $scope.userlistshow = 'block';
     $scope.weeklyshow = 'none';
-     var uploader= new FileUploader({
-        url:"F:\\",
-        autoUpload: true
-      });
+    $scope.taskshow = 'none';
+
     // 读取当前用户缓存
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     var lwnumber = userInfo.Wnumber;
@@ -79,8 +83,15 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
     //返回到用户列表
     $scope.back = function(){
         debugger;
-        $scope.userlistshow = 'block';
-        $scope.weeklyshow = 'none';
+        if($scope.weeklyshow == "block"){
+            $scope.taskshow = 'block';
+            $scope.weeklyshow = 'none';
+        }
+        else{
+            $scope.userlistshow = 'block';
+            $scope.taskshow = 'none';
+        }
+
     };
     // 上一页
     $scope.lastpage = function(usermode = true){
@@ -130,20 +141,70 @@ angular.module('myApp.weeklyManager', ['ngRoute'])
         }
     }
 
-    // 查看周报
-    $scope.seeweekly = function($index){
+    // 查看任务
+    $scope.seetask = function($index){
         $scope.userlistshow = 'none';
-        $scope.weeklyshow = 'block';
+        $scope.taskshow = 'block';
+        $scope.weeklyshow = 'none';
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         var lwnumber = userInfo.Wnumber;
         var Wnumber = $scope.users[$index].Wnumber;
         // 调用服务查询该工号用户的周报
+        $scope.tasks = [];
+        $http({
+                method: "POST",
+                url: "http://127.0.0.1:5000/getTask",
+                dataType: 'JSON',
+                data:{"Wnumber":Wnumber},
+            }).
+            success(function(data, status) {
+                console.log(data);
+                for(var i = 0;i < data.tasks.length;i ++){
+                    var sql_task = data.tasks[i];
+                    var completion = (sql_task[5] === 1);
+                    var task = {
+                        "name":sql_task[1],
+                        "detail":sql_task[2],
+                        "Wnumber":sql_task[4],
+                        "TaskID":sql_task[0],
+                        "done":0
+                    };
+                    $scope.tasks.push(task);
+                }
+                debugger;
+                 // 更新总数
+                $scope.tasksum = $scope.tasks.length;
+                if($scope.tasksum === 0){
+                    $scope.taskstart = 0;
+                }
+                $scope.taskend = $scope.tasksum < $scope.pagemax*$scope.tpagenumber ? $scope.tasksum:$scope.pagemax*$scope.tpagenumber;
+            }).
+            error(function(data, status) {
+              console.log(status);
+              debugger;
+              alert("1asd56a");
+            });
+        debugger;
+       
+    }
+
+    // 查看周报
+    $scope.seeweekly = function($index){
+        $scope.userlistshow = 'none';
+        $scope.taskshow = 'none';
+        $scope.weeklyshow = 'block';
+        var Wnumber = $scope.tasks[$index].Wnumber;
+        var TaskID = $scope.tasks[$index].TaskID;
+        // 调用服务查询该工号用户的周报
         $scope.weeklys = [];
         $http({
                 method: "POST",
-                url: "http://127.0.0.1:5000/getWeekly2",
+                url: "http://127.0.0.1:5000/getWeekly",
                 dataType: 'JSON',
-                data:{"Wnumber":Wnumber},
+                data:{
+                    "Wnumber":Wnumber,
+                    "TID":TaskID
+                },
             }).
             success(function(data, status) {
                 for(var i = 0;i < data.weeklys.length;i ++){
