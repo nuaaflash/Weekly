@@ -11,6 +11,7 @@ angular.module('myApp', [
     'myApp.mainPage',
     'myApp.searchCenter',
     'myApp.addTask',
+    'myApp.approveAsking'
 ])
 
 .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
@@ -47,6 +48,10 @@ angular.module('myApp', [
     $scope.taskManagerLabel = 'sideButtonLabel';
     $scope.searchCenter = 'sideButton';
     $scope.searchCenterLabel = 'sideButtonLabel';
+    $scope.approveAsking = 'sideButton';
+    $scope.approveAskingLabel = 'sideButtonLabel';
+    $scope.askForLeave = 'sideButton';
+    $scope.askForLeaveLabel = 'sideButtonLabel';
      // 设置用户名
     debugger;
      $scope.username = userInfo && userInfo.name ? userInfo.name:"";

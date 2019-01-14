@@ -96,6 +96,14 @@
             <img src="images/manager.png" class="sidebarIcon">
             <a href="#?/addTask" ng-class="taskManagerLabel">分配任务</a>
           </div>
+          <div ng-if="hasSub" ng-class="approveAsking" ng-click="selectThis('approveAsking')">
+            <img src="images/manager.png" class="sidebarIcon">
+            <a href="#?/approveAsking" ng-class="approveAskingLabel">请假审核</a>
+          </div>
+          <div ng-if="hasSub" ng-class="askForLeave" ng-click="selectThis('askForLeave')">
+            <img src="images/manager.png" class="sidebarIcon">
+            <a href="#?/askForLeave" ng-class="askForLeaveLabel">请假申请</a>
+          </div>
           <div ng-if="hasSub" ng-class="signupManager" ng-click="selectThis('signupManager')" >
             <img src="images/mine.png" class="sidebarIcon">
             <a href="#?/signupManager" ng-class="signupManagerLabel">注册管理</a>
@@ -133,6 +141,8 @@
   <script src="searchCenter/searchCenter.js"></script>
   <script src="aboutMe/aboutMe.js"></script>
   <script src="addTask/addTask.js"></script>
+  <script src="approveAsking/approveAsking.js"></script>
+  <script src="askForLeave/askForLeave.js"></script>
   <script src="signupManager/signupManager.js"></script>
   <script src="components/version/version.js"></script>
   <script src="components/version/version-directive.js"></script>
