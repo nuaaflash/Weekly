@@ -66,10 +66,10 @@ angular.module('myApp.askForLeave', ['ngRoute'])
         $scope.index = $index;
         var thisasking = $scope.askings[$index];
         // 回填数据
-        $scope.job = thisasking.job;
-        $scope.detail = thisasking.detail;
-        $scope.done = thisasking.done;
-        $scope.review = thisasking.review;
+        $scope.askingdate = thisasking.date;
+        $scope.reason = thisasking.reason;
+        $scope.chooseTime(thisasking.partOfDayNum);
+        $scope.partOfDayLabel = this.partOfDay;
         $scope.askingid = thisasking.askingid;
         $scope.show = "block";
         // 改变窗口样式
@@ -83,13 +83,14 @@ angular.module('myApp.askForLeave', ['ngRoute'])
 
     // 查看周报
     $scope.details = function($index){
+        $scope.index = $index;
         var thisasking = $scope.askings[$index];
         // 回填数据
-        $scope.job = thisasking.job;
-        $scope.detail = thisasking.detail;
-        $scope.done = thisasking.done;
-        $scope.review = thisasking.review;
-        $scope.comment = thisasking.comment?thisasking.comment:'暂无评价';
+        $scope.askingdate = thisasking.date;
+        $scope.reason = thisasking.reason;
+        $scope.chooseTime(thisasking.partOfDayNum);
+        $scope.partOfDayLabel = thisasking.partOfDay;
+        $scope.askingid = thisasking.askingid;
         $scope.show = "block";
         $scope.operType = 'view'
         // 改变窗口样式
@@ -158,19 +159,12 @@ angular.module('myApp.askForLeave', ['ngRoute'])
         }
     };
 
-    $scope.back = function(){
-        $scope.askingshow = "none";
-        $scope.taskshow = "block";
-    };
-    //提交
+    
 
     // 关闭弹窗
     $scope.close = function(){
         // 关闭窗口 清除数据
-        $scope.job = "";
-        $scope.detail = "";
-        $scope.done = false;
-        $scope.review = "";
+        $scope.reason = "";
         $scope.show = "none";
         // 改变窗口样式
         $scope.editOrNot = {
@@ -225,6 +219,7 @@ angular.module('myApp.askForLeave', ['ngRoute'])
             });
     };
 
+    //提交
     $scope.submit =function(){
         if(!validatePop()){
             return false;
@@ -259,10 +254,28 @@ angular.module('myApp.askForLeave', ['ngRoute'])
                     "Wnumber":userInfo.Wnumber,
                     "Date":dates,
                     "PartOfDay":partOfDay,
+                    "Reason":$scope.reason,
                 }
             }).
             success(function(data, status) {
-                alert("添加成功！");
+                if(data){
+                    alert("添加成功！");
+                    
+                    $scope.askings = data;
+                    $scope.chooseTime(data.partOfDay)
+                    // 更新总数
+                    $scope.sum = $scope.askings.length;
+                    if($scope.sum === 0){
+                        $scope.start = 0;
+                    }
+                    $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+        
+                    $scope.close();
+                }
+                else{
+                    alert('该日期和时段已有请假！');
+                    $scope.close();
+                }
             }).
             error(function(data, status) {
               console.log(status);
@@ -292,17 +305,31 @@ angular.module('myApp.askForLeave', ['ngRoute'])
                 method: "POST",
                 url: "http://127.0.0.1:5000/editasking",
                 dataType: 'JSON',
-                data:{"Pname":$scope.job,"content":$scope.detail,"completion":$scope.done,"review":$scope.review,"askingid":$scope.askingid},
+                data:{
+                    "Wnumber":userInfo.Wnumber,
+                    "Date":dates,
+                    "PartOfDay":partOfDay,
+                    "Reason":$scope.reason,
+                    "askingid":$scope.askingid,
+                }
             }).
             success(function(data, status) {
-                alert('修改成功！')
+                alert('修改成功！');
+
+                $scope.askings = data;
+                    $scope.chooseTime(data.partOfDay)
+                    // 更新总数
+                    $scope.sum = $scope.askings.length;
+                    if($scope.sum === 0){
+                        $scope.start = 0;
+                    }
+                    $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+        
+                    $scope.close();
             }).
             error(function(data, status) {
               console.log('修改失败，请检查网络！');
             });
-            // 替换进数组
-            $scope.askings.splice($scope.index,1,asking);
-            $scope.close();
         }
 
     };
@@ -314,24 +341,24 @@ angular.module('myApp.askForLeave', ['ngRoute'])
         $scope.askingid = thisasking.askingid;
         $http({
             method: "POST",
-            url: "http://127.0.0.1:5000/deleteWeekly",
+            url: "http://127.0.0.1:5000/deleteasking",
             dataType: 'JSON',
-            data:{"weeklyid":$scope.weeklyid},
+            data:{"askingid":$scope.askingid,'Wnumber':thisasking.wnumber},
         }).
         success(function(data, status) {
-            alert('删除成功！')
+            alert('删除成功！');
+            $scope.askings = data;
+            $scope.chooseTime(data.partOfDay)
+            // 更新总数
+            $scope.sum = $scope.askings.length;
+            if($scope.sum === 0){
+                $scope.start = 0;
+            }
+            $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;    
         }).
         error(function(data, status) {
           console.log('删除失败，请检查网络！');
         });
-        // 从数组删除
-        $scope.askings.splice($index,1);
-        // 更新总数
-        $scope.sum = $scope.askings.length;
-        if($scope.sum === 0){
-            $scope.start = 0;
-        }
-        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
     };
 
     $scope.chooseTime = function(partOfDay){

@@ -49,7 +49,7 @@
     <form class="pop-form">
         <label class='must-input first-pop-star'>*</label>
         <label class="pop-label first-pop-label">请假日期</label>
-        <input class="pop-input first-pop-input" ng-model="askingdate" ng-value="askingdate" type="date"/>
+        <input class="pop-input first-pop-input" ng-model="askingdate" ng-value="askingdate" type="date" ng-style="editOrNot" ng-readonly="readOnly"/>
 
         <label class='must-input second-pop-star'>*</label>
         <label class="pop-label second-pop-label">请假时段</label>
@@ -63,6 +63,7 @@
            <input type="radio"  ng-if="showSave==='block'" class="pop-radio" ng-checked="wholeday" ng-click="chooseTime(3)">
                 <label class="pop-radio-label" ng-if="showSave==='block'">全天</label>
             </input>
+            <label class="pop-radio pop-radio-label" ng-if="showSave==='none'">{{partOfDayLabel}}</label>
         </div>
 
         <label class='must-input third-pop-star'>*</label>
