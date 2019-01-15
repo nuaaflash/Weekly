@@ -118,10 +118,16 @@ angular.module('myApp.signupManager', ['ngRoute'])
                 },
         }).
         success(function(data, status) {
-            $scope.workers.splice($scope.thisline,1);
-            alert('已同意！');
-            // 同意后关闭弹窗
-            $scope.close();
+            if(data){
+                $scope.workers.splice($scope.thisline,1);
+                alert('已同意！');
+                // 同意后关闭弹窗
+                $scope.close();
+            }
+            else if(status == 200){
+                alert('工号已存在！');
+                // 同意后关闭弹窗
+            }
         }).
         error(function(data, status) {
             alert('操作失败');

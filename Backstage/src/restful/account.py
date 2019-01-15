@@ -148,10 +148,13 @@ class AgreeSignUp(Resource):
             lwnumber = int(args['lwnumber'])
             print(wnumber)
             userid = int(args['userid'])
-            if(DB_user.SignUpAgree(userid, wnumber, lwnumber)):
-                return True,201
+            if(DB_user.Search(wnumber) == None):
+                if(DB_user.SignUpAgree(userid, wnumber, lwnumber)):
+                    return True,201
+                else:
+                    return False,500
             else:
-                return False,500
+                return False,200
         except:
             return False,500
 
