@@ -144,9 +144,17 @@ angular.module('myApp.askForLeave', ['ngRoute'])
         if(!$scope.reason || $scope.reason === ""){
             notFilled.push("请假原因");
         }
-        debugger;
+        var today = new Date(); 
+        var date = new Date($scope.askingdate);
         if(notFilled.length === 0){
-            return true;
+            if(date <= today){
+                errorInfo = "不能选择今天及以前的日期";
+                alert(errorInfo);
+                return false;
+            }
+            else{
+                return true;
+            }
         }
         else{
             var errorInfo = "请输入";
@@ -154,6 +162,10 @@ angular.module('myApp.askForLeave', ['ngRoute'])
                 errorInfo = errorInfo + notFilled[i] + "、";
             }
             errorInfo = errorInfo + notFilled [notFilled.length - 1];
+
+            if(date <= today){
+                errorInfo  = errorInfo +  "\n\n不能选择今天及以前的日期";
+            }
             alert(errorInfo);
             return false;
         }
@@ -314,18 +326,22 @@ angular.module('myApp.askForLeave', ['ngRoute'])
                 }
             }).
             success(function(data, status) {
-                alert('修改成功！');
-
-                $scope.askings = data;
-                    $scope.chooseTime(data.partOfDay)
-                    // 更新总数
-                    $scope.sum = $scope.askings.length;
-                    if($scope.sum === 0){
-                        $scope.start = 0;
-                    }
-                    $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-        
+                if(data){
+                    alert('修改成功！');
+                    $scope.askings = data;
+                        $scope.chooseTime(data.partOfDay)
+                        // 更新总数
+                        $scope.sum = $scope.askings.length;
+                        if($scope.sum === 0){
+                            $scope.start = 0;
+                        }
+                        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
+                        $scope.close();
+                }
+                else{
+                    alert('该日期已有请假！');
                     $scope.close();
+                }
             }).
             error(function(data, status) {
               console.log('修改失败，请检查网络！');

@@ -73,6 +73,33 @@ def checkDate(date,part_of_day,wnumber):
     else:
         return True
 
+# 检查date有无修改
+def checkEditDate(date,askingid):
+    # 打开数据库连接
+    db = DBConnection.connection()
+
+    # 使用cursor()方法创建一个游标对象cursor
+    cursor = db.cursor()
+
+    # SQL查找语句
+    sql = "select date from askingforleave where askingId  = '%d'" % (askingid)
+
+    try:
+        # 执行sql语句
+        cursor.execute(sql)
+        # 获取所有记录列表
+        result = cursor.fetchone()
+    except:
+        # 如果发生错误则回滚
+        db.rollback()
+
+    # 关闭数据库连接
+    db.close()
+    if(result[0] == date):
+        return True
+    else:
+        return False
+
 def askingSearch(wnumber):
     list = []
     # 打开数据库连接

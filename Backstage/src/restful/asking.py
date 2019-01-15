@@ -85,22 +85,31 @@ class EditAsking(Resource):
         askingid = int(args['askingid'])
 
         try:
-            DB_asking.update(reason,Wnumber,Date,PartOfDay,askingid)
-            results = DB_asking.askingSearch(Wnumber)
-            asking_list = []
-            part_dict = {1:'上午',2:'下午',3:'全天'}
-            for result in results:
-                print(result)
-                asking = {}
-                asking['askingid'] = result[0]
-                asking['reason'] = result[1]
-                asking['date'] = result[2]
-                asking['agree'] = result[3]
-                asking['wnumber'] = result[4]
-                asking['partOfDayNum'] = result[5]
-                asking['partOfDay'] = part_dict[result[5]]
-                asking_list.append(asking)
-            return asking_list,200
+            editable = False
+            # 先检查date有无修改
+            if(DB_asking.checkEditDate(Date,askingid)):
+                editable = True
+            elif(DB_asking.checkDate(Date,1,Wnumber) and DB_asking.checkDate(Date,2,Wnumber)):
+                editable = True
+            if(editable):
+                DB_asking.update(reason,Wnumber,Date,PartOfDay,askingid)
+                results = DB_asking.askingSearch(Wnumber)
+                asking_list = []
+                part_dict = {1:'上午',2:'下午',3:'全天'}
+                for result in results:
+                    print(result)
+                    asking = {}
+                    asking['askingid'] = result[0]
+                    asking['reason'] = result[1]
+                    asking['date'] = result[2]
+                    asking['agree'] = result[3]
+                    asking['wnumber'] = result[4]
+                    asking['partOfDayNum'] = result[5]
+                    asking['partOfDay'] = part_dict[result[5]]
+                    asking_list.append(asking)
+                return asking_list,200
+            else:
+                return False,200
         except:
 
             return False, 500
