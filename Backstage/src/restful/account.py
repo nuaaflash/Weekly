@@ -29,10 +29,16 @@ class Signup(Resource):
         name = args['name']
         password = args['password']
         lwnumber = int(args['lwnumber'])
-        if(DB_user.insert(lwnumber,password,name)):
-            return True, 201
-        else:
-            return False,200
+        try:
+            if(DB_user.Search(lwnumber)) != None:
+                if(DB_user.insert(lwnumber,password,name)):
+                    return True, 201
+                else:
+                    return False,501
+            else:
+                return False,202
+        except:
+            return False,500
 
 
 
@@ -140,6 +146,7 @@ class AgreeSignUp(Resource):
             args = parser.parse_args()
             wnumber = int(args['wnumber'])
             lwnumber = int(args['lwnumber'])
+            print(wnumber)
             userid = int(args['userid'])
             if(DB_user.SignUpAgree(userid, wnumber, lwnumber)):
                 return True,201

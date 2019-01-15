@@ -182,9 +182,10 @@ def SignUpAgree(userid, Wnumber, lwnumber):
     cursor = db.cursor()
 
     # SQL更新语句
-    sql = "update user set Wnumber='%d' and LWnumber = '%d' where userid='%d' " % \
+    sql = "update user set Wnumber='%d' , LWnumber = '%d' where userid='%d' " % \
           (Wnumber,lwnumber,userid)
 
+    print(sql)
     try:
         # 执行sql语句
         cursor.execute(sql)

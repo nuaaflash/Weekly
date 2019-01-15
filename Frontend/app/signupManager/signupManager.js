@@ -118,14 +118,17 @@ angular.module('myApp.signupManager', ['ngRoute'])
                 },
         }).
         success(function(data, status) {
+            alert($scope.Wnumber);
             $scope.workers.splice($scope.thisline,1);
             alert('已同意！');
+            // 同意后关闭弹窗
+            $scope.close();
         }).
         error(function(data, status) {
             alert('操作失败');
+            $scope.close(); 
         });
-        // 同意后关闭弹窗
-        $scope.close();
+
     };
     // 关闭弹窗
     $scope.close = function(){
@@ -160,7 +163,6 @@ angular.module('myApp.signupManager', ['ngRoute'])
         debugger;
         $scope.show = "block";
         $scope.name = $scope.workers[$index-1].name;
-        //alert($scope.workers[$index].name);
         $scope.userid = $scope.workers[$index-1].userid;
         $scope.thisline = $index-1;
 

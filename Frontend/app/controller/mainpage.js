@@ -28,6 +28,7 @@ angular.module('myApp.mainPage', [])
             console.log(data);
             if(data){
                 // alert("用户名或密码错误！");
+                console.log(data)
                 sessionStorage.setItem('userInfo', JSON.stringify(data));
                 if(data.Wnumber != -1){
                     gotouserpage();
