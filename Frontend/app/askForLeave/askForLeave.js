@@ -38,6 +38,7 @@ angular.module('myApp.askForLeave', ['ngRoute'])
     $scope.end = 0;
     $scope.sum = 0;
     $scope.pagemax = 6;
+    $scope.askingtitle = '请假申请';
     // 读取当前用户缓存
     var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     debugger;
@@ -63,6 +64,7 @@ angular.module('myApp.askForLeave', ['ngRoute'])
 
     // 编辑周报
     $scope.edit = function($index){
+        $scope.askingtitle = '修改申请';
         $scope.index = $index;
         var thisasking = $scope.askings[$index];
         // 回填数据
@@ -117,6 +119,7 @@ angular.module('myApp.askForLeave', ['ngRoute'])
         $scope.showSave = "block";
         $scope.closeTag = "取消";
         $scope.operType = 'add';
+        $scope.askingtitle = '请假申请'
         var time = new Date();        
         var day = time.getDate() < 10 ? '0' + time.getDate() : time.getDate();        
         var month = time.getMonth() + 1;      

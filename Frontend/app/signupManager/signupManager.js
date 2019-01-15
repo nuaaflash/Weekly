@@ -118,7 +118,6 @@ angular.module('myApp.signupManager', ['ngRoute'])
                 },
         }).
         success(function(data, status) {
-            alert($scope.Wnumber);
             $scope.workers.splice($scope.thisline,1);
             alert('已同意！');
             // 同意后关闭弹窗
