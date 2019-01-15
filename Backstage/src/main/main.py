@@ -35,6 +35,9 @@ api.add_resource(asking.SearchAsking, '/searchAsking')
 api.add_resource(asking.AddAsking, '/addasking')
 api.add_resource(asking.DeleteAsking, '/deleteasking')
 api.add_resource(asking.EditAsking, '/editasking')
+api.add_resource(asking.SearchSubAsking, '/getsubaskings')
+api.add_resource(asking.DenyAsking,'/denyAsking')
+api.add_resource(asking.AgreeAsking,'/agreeAsking')
 
 if __name__ == '__main__':
     app.run(debug=True,host='127.0.0.1', port='5000')

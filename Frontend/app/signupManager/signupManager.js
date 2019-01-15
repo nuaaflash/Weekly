@@ -165,36 +165,11 @@ angular.module('myApp.signupManager', ['ngRoute'])
         $scope.thisline = $index-1;
 
     };  
-    //删除一行
-    $scope.dele =function($index){
-        $scope.works.splice($index,1);
-        // 更新总数
-        $scope.sum = $scope.works.length;
-        if($scope.sum === 0){
-            $scope.start = 0;
-        }
-        $scope.end = $scope.sum < $scope.pagemax*$scope.pagenumber ? $scope.sum:$scope.pagemax*$scope.pagenumber;
-    };
-    //改变每行chekbox的状态
-    $scope.ck = function($index){
-        $scope.works[$index].flag=!$scope.works[$index].flag;
-    };
+    
     //改变完成情况
     $scope.doneInit = function(){
         $scope.done = !$scope.done;
     };
 
-    //全选
-    var qq = true;
-    $scope.qx = function(){
-        //获取属性
-        var ck = $("input[name=ck]");
-        for (var i=0;i<ck.length;i++) {
-            ck[i].checked=qq;
-            //给每个数组中的ck赋值
-            $scope.works[i].flag=qq;
-        }
-        qq=!qq;
-    };
 
 }]);

@@ -14,7 +14,7 @@
         <tr class="content" ng-if="askings.length == 0">
             <td></td><td></td>
             <td>无数据</td>
-            <td></td><td></td>
+            <td></td><td></td><td></td>
         </tr>
         <tr class="content" ng-repeat="asking in askings | startFrom : start | limitTo: pagemax ">
             <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 
-from database import DB_asking
+from database import DB_asking,DB_user
 
 sys.path.append("..")
 
@@ -37,6 +37,31 @@ class SearchAsking(Resource):
                 asking['wnumber'] = result[4]
                 asking['partOfDayNum'] = result[5]
                 asking['partOfDay'] = part_dict[result[5]]
+                asking_list.append(asking)
+            return asking_list,200
+        except:
+            return False,500
+
+class SearchSubAsking(Resource):
+    def post(self):
+        args = parser.parse_args()
+        Wnumber = int(args['Wnumber'])
+        asking_list = []
+        part_dict = {1:'上午',2:'下午',3:'全天'}
+        # 搜索请假情况
+        try:
+            results = DB_asking.subAskingSearch(Wnumber)
+            for result in results:
+                print(result)
+                asking = {}
+                asking['askingid'] = result[0]
+                asking['reason'] = result[1]
+                asking['date'] = result[2]
+                asking['agree'] = result[3]
+                asking['wnumber'] = result[4]
+                asking['name'] = DB_user.Search(result[4])[1]
+                asking['partOfDayNum'] = result[5]
+                asking['time'] = result[2] +' '+ part_dict[result[5]]
                 asking_list.append(asking)
             return asking_list,200
         except:
@@ -141,4 +166,28 @@ class DeleteAsking(Resource):
                 asking_list.append(asking)
             return asking_list,200
         else:
+            return False,500
+
+class DenyAsking(Resource):
+    def post(self):
+        try:
+            args = parser.parse_args()
+            askingid = int(args['askingid'])
+            if(DB_asking.askingChange(askingid,-1)):
+                return True,201
+            else:
+                return False,500
+        except:
+            return False,500
+
+class AgreeAsking(Resource):
+    def post(self):
+        try:
+            args = parser.parse_args()
+            askingid = int(args['askingid'])
+            if(DB_asking.askingChange(askingid,1)):
+                return True,201
+            else:
+                return False,500
+        except:
             return False,500

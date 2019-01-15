@@ -1,91 +1,34 @@
-<div ng-style="{display:userlistshow}">
-    <table>
-        <tr class="head">
-            <td>序号</td>
-            <td>姓名</td>
-            <td>工号</td>
-            <td>操作</td>
-        </tr>
-        <tr class="content" ng-if="users.length == 0">
-            <td></td><td></td>
-              <td>无数据</td>
-            <td></td><td></td>
-        </tr>
-        <tr class="content" ng-repeat="user in users | startFrom : start | limitTo: pagemax ">
-            <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
-            <td ng-bind="user.name"></td>
-            <td ng-bind="user.Wnumber"></td>
-            <td>
-                <div class="seetask" style="border:0;cursor:pointer;margin-left: 50px" ng-click="seetask((pagenumber-1)*pagemax + $index)">分配任务</div>
-            </td>
-        </tr>
-    </table>
-    <div class="bottoms">
-        <div class="pagetag pagelabel">{{pagenumber}}</div>
-        <div class="lines-of-page">{{pagemax}}行/页</div>
-        <div class="this-page-line">本页为{{pagenumber == 1?(sum == 0? 0:1):start+1}}~{{end}}条记录，总记录{{sum}}条</div>
-        <button  ng-click="nextpage()" class="btnNextPage Lable" ng-if="pagenumber * pagemax < sum">下一页 ></button>
-        <button  ng-click="lastpage()" class="btnLastPage Lable" ng-if="pagenumber != 1 && pagenumber * pagemax < sum">上一页 <</button>
-        <button  ng-click="lastpage()" class="btnNextPage Lable" ng-if="pagenumber != 1 && pagenumber * pagemax >= sum">上一页 <</button>
-    </div>
-</div>
-
-<div ng-style="{display:taskshow}">
-    <div class="buttons">
-        <button  ng-click="back()" class="btn Lable"><img src="../images/export.png" class="Icon">返回</button>
-        <button  ng-click="addTask()" class="btn Lable"><img src="../images/add.png" class="Icon">新增</button>
-    </div>
-    <table>
-        <tr class="head">
-            <td>序号</td>
-            <td>接受人工号</td>
-            <td>任务名称</td>
-            <td>任务详情</td>
-            <td>完成情况</td>
-        </tr>
-        <tr class="content" ng-if="tasks.length == 0">
-            <td></td><td></td><td></td>
-            <td>无数据</td>
-            <td></td><td></td><td></td>
-        </tr>
-        <tr class="content" ng-repeat="task in tasks | startFrom : taskstart | limitTo: pagemax ">
-            <td ng-bind="(wpagenumber-1)*pagemax + $index+1"></td>
-            <td ng-bind="task.RWnumber"></td>
-            <td ng-bind="task.name"></td>
-            <td ng-bind="task.content.length <= 10 ? task.content : task.content.substr(0, 10)+'......'"></td>
-            <td ng-bind="task.done ? '已完成':'未完成'"></td>
-        </tr>
-    </table>
-    <div class="bottoms">
-        <div class="pagetag pagelabel">{{wpagenumber}}</div>
-        <div class="lines-of-page">{{pagemax}}行/页</div>
-        <div class="this-page-line">本页为{{wpagenumber == 1?(tasksum == 0? 0:1):taskstart+1}}~{{taskend}}条记录，总记录{{tasksum}}条</div>
-        <button  ng-click="nextpage(false)" class="btnNextPage Lable" ng-if="wpagenumber * pagemax < tasksum">下一页 ></button>
-        <button  ng-click="lastpage(false)" class="btnLastPage Lable" ng-if="wpagenumber != 1 && wpagenumber * pagemax < tasksum">上一页 <</button>
-        <button  ng-click="lastpage(false)" class="btnNextPage Lable" ng-if="wpagenumber != 1 && wpagenumber * pagemax >= tasksum">上一页 <</button>
-    </div>
-</div>
-
-<div class="back" id="backgroud_popup" ng-style="{display:show}"></div>
-
-<div class="pop-window" id="popup" ng-style="{display:show}">
-    <div class="pop-header">
-        <label class="pop-title">新增任务</label>
-    </div>
-    <form class="pop-form">
-        <label class='must-input first-pop-star'>*</label>
-        <label class="pop-label first-pop-label">任务名称</label>
-        <input class="pop-input first-pop-input" ng-model="name"/>
-
-        <label class='must-input third-pop-star'>*</label>
-        <label class="pop-label third-pop-label">任务描述</label>
-        <textarea class="first-pop-textarea" ng-model="content"></textarea>
-
-        <button class="pop-submit" ng-click="submit()">保存</button>
-        <button class="pop-cancel"  ng-click="close()">取消</button>
-
-    </form>
-</div>
-
-<div class="back" id="backgroud_popup" ng-style="{display:detailshow}"></div>
+<table>
+    <tr class="head">
+        <td>序号</td>
+        <td>员工姓名</td>
+        <td>请假时间</td>
+        <td>原因</td>
+        <td>审核状态</td>
+        <td>操作</td>
+    </tr>
+    <tr class="content" ng-if="askings.length == 0">
+        <td></td><td></td>
+        <td>无数据</td>
+        <td></td><td></td><td></td>
+    </tr>
+    <tr class="content" ng-repeat="asking in askings | startFrom : start | limitTo: pagemax ">
+        <td ng-bind="(pagenumber-1)*pagemax + $index+1"></td>
+        <td ng-bind="asking.name"></td>
+        <td ng-bind="asking.time"></td>
+        <td ng-bind="asking.reason"></td>
+        <td ng-bind="asking.agree == -1 ? '已拒绝':(asking.agree?'已通过':'未审核')"></td>
+        <td>
+            <div class="deny" style="border:0;cursor:pointer" ng-click="deny((pagenumber-1)*pagemax + $index+1)">拒绝请假</div>
+            <div class="agree" style="border:0;cursor:pointer" ng-click="agree((pagenumber-1)*pagemax + $index+1)">通过请假</div>
+        </td>
+    </tr>
+</table>
+<div class="bottoms">
+    <div class="pagetag pagelabel">{{pagenumber}}</div>
+    <div class="lines-of-page">{{pagemax}}行/页</div>
+    <div class="this-page-line">本页为{{pagenumber == 1?(sum == 0? 0:1):start+1}}~{{end}}条记录，总记录{{sum}}条</div>
+    <button  ng-click="nextpage()" class="btnNextPage Lable" ng-if="pagenumber * pagemax < sum">下一页 ></button>
+    <button  ng-click="lastpage()" class="btnLastPage Lable" ng-if="pagenumber != 1 && pagenumber * pagemax < sum">上一页 <</button>
+    <button  ng-click="lastpage()" class="btnNextPage Lable" ng-if="pagenumber != 1 && pagenumber * pagemax >= sum">上一页 <</button>
 </div>

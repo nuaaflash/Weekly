@@ -22,21 +22,6 @@ parser.add_argument('lwnumber')
 parser.add_argument('status')
 parser.add_argument('keyword')
 
-def common_decode(strs):
-    strs = str(strs)
-    if('x' in strs):
-        strs = strs.split('b\'')[1].split('\'')[0]
-        strTobytes = []
-        for i in strs.split('x'):
-            if i != '':
-               num = int(i,16)
-               strTobytes.append(num)
-        unicode_str = bytes(strTobytes)
-        
-        return unicode_str.decode('utf-8')
-    else:
-        return strs
-
 class Signup(Resource):
 
     def post(self):
@@ -62,7 +47,7 @@ class Login(Resource):
         if(db_userinfo != None):
             db_passwd = db_userinfo[0]
             db_lwnum = db_userinfo[3]
-            db_name = common_decode(db_userinfo[1])
+            db_name = db_userinfo[1]
             db_photo = db_userinfo[4]
             if(db_lwnum != 0):
                 db_leader = DB_user.Search(db_userinfo[3])[1]
@@ -100,7 +85,7 @@ class SearchWorker(Resource):
                 users = []
                 for db_userinfo in result:
                     db_lwnum = db_userinfo[3]
-                    db_name = common_decode(db_userinfo[1])
+                    db_name = db_userinfo[1]
                     db_photo = db_userinfo[4]
                     
                     if(db_lwnum != 0):
@@ -136,7 +121,7 @@ class GetSignUps(Resource):
                 userinfo = {}
                 #userinfo['email'] = user[0]
                 userinfo['password'] = user[0]
-                userinfo['name'] = common_decode(user[1])
+                userinfo['name'] = user[1]
                 print(userinfo['name'])
                 userinfo['userid'] = user[5]
                 if(user[2] == -1):
@@ -185,7 +170,7 @@ class GetSubWorker(Resource):
                 users = []
                 for db_user in result:
                     user = {}
-                    user['name'] = common_decode(db_user[0])
+                    user['name'] = db_user[0]
                     user['Wnumber'] = db_user[1]
                     users.append(user)
                 return users, 200
